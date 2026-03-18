@@ -38,6 +38,14 @@ namespace Client.Session
             PrijaviVlasnikGUIController = new PrijaviVlasnikGUIController(FrmPrijaviVlasnik);
             PrijaviVlasnikGUIController.OtvoriFormu();
         }
-        
+
+        public FrmGlavna FrmGlavna { get; set; }
+        public GlavnaFrmController GlavnaFrmController { get; set; }
+        internal void OtvoriGlavnuFrm() //prijaviGui je poziva
+        {
+            FrmGlavna = new FrmGlavna();
+            GlavnaFrmController = new GlavnaFrmController(FrmGlavna);
+            //GlavnaFrmController.OtvoriFormu();  preko App run se inicijalizuje
+        }
     }
 }

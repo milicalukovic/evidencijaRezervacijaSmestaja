@@ -29,9 +29,9 @@ namespace Server
             {
                 while (true) //moze vise zahteva
                 {
-                    Zahtev req = serializer.Receive<Zahtev>();
-                    Odgovor r = ProcessRequest(req);
-                    serializer.Send(r); // odgovor - podaci ako je server uspesno obavio operaciju
+                    Zahtev klZahtev = serializer.Receive<Zahtev>();
+                    Odgovor serverOdg = ProcessRequest(klZahtev);
+                    serializer.Send(serverOdg); // odgovor - podaci ako je server uspesno obavio operaciju
                                         //podaci - null, exception message - info o exceptionu koji se desio
                 }
             }
@@ -53,15 +53,15 @@ namespace Server
             }
         }
 
-        private Odgovor ProcessRequest(Zahtev req) //obrada klijenskog zahteva
+        private Odgovor ProcessRequest(Zahtev klZahtev) //obrada klijenskog zahteva
         {
-            Odgovor r = new Odgovor();
+            Odgovor serverOdg = new Odgovor();
             try
             {
-                switch (req.Operation)
+                switch (klZahtev.Operation)
                 {
                     case Operation.PrijaviVlasnik:
-                        r.Result = Controller.Instance.PrijaviVlasnik(serializer.ReadType<Vlasnik>(req.Argument)); //readtype vraca obj ili null
+                        serverOdg.Result = Controller.Instance.PrijaviVlasnik(serializer.ReadType<Vlasnik>(klZahtev.Argument)); //readtype vraca obj ili null
                         break;
                     
                         //    Controller.Instance.AddPerson(serializer.ReadType<Klijent>(req.Argument)); //readtype vraca obj ili null
@@ -77,10 +77,10 @@ namespace Server
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Debug.WriteLine(r.ExceptionMessage);
-                r.ExceptionMessage = ex.Message;
+                Debug.WriteLine(serverOdg.ExceptionMessage);
+                serverOdg.ExceptionMessage = ex.Message;
             }
-            return r;
+            return serverOdg;
         }
 
         internal void CloseSocket()

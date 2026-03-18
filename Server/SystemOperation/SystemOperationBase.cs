@@ -10,6 +10,8 @@ namespace Server.SystemOperation
 {
     public abstract class SystemOperationBase
     {
+        //Template metod - OpsteIzvrsenjeSO i Izvrsenje odredjene SO
+
         protected GenericDBRepository repository;
 
         public SystemOperationBase()

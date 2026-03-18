@@ -25,8 +25,8 @@ namespace Server
 
         public void Start()
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9999);
-            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["ip"]), int.Parse(ConfigurationManager.AppSettings["port"]));
+            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9000);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["ip"]), int.Parse(ConfigurationManager.AppSettings["port"]));
 
             socket.Bind(endPoint);
             socket.Listen(); //osluskujemo mrezu
@@ -41,15 +41,17 @@ namespace Server
         {
             try
             {
-                Socket klijentskiSoket = socket.Accept(); // klijent poslao zahtev
-                ClientHandler handler = new ClientHandler(klijentskiSoket, this); //prosledjujemo Client Handleru konkretnog klijenta koji se povezao i pokazivac na servera
-                handlers.Add(handler);
+                while (true)
+                {
+                    Socket klijentskiSoket = socket.Accept(); // klijent poslao zahtev
+                    ClientHandler handler = new ClientHandler(klijentskiSoket, this); //prosledjujemo Client Handleru konkretnog klijenta koji se povezao i pokazivac na servera
+                    handlers.Add(handler);
 
 
-                //napraviti nit za svakog handlera da se zahtevi obradjuju na posebnim nitima
-                Thread obradaZahteva = new Thread(handler.HandleRequest);
-                obradaZahteva.Start();
-
+                    //napraviti nit za svakog handlera da se zahtevi obradjuju na posebnim nitima
+                    Thread obradaZahteva = new Thread(handler.HandleRequest);
+                    obradaZahteva.Start();
+                }
             }
             catch (Exception ex)
             {

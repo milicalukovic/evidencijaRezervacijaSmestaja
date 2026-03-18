@@ -34,13 +34,11 @@ namespace Client
             lblLozinka = new Label();
             txtKorisnickoIme = new TextBox();
             txtLozinka = new TextBox();
-            lblNovi = new Label();
-            btnRegistruj = new Button();
             SuspendLayout();
             // 
             // btnPrijavi
             // 
-            btnPrijavi.Location = new Point(358, 219);
+            btnPrijavi.Location = new Point(222, 205);
             btnPrijavi.Name = "btnPrijavi";
             btnPrijavi.Size = new Size(94, 29);
             btnPrijavi.TabIndex = 0;
@@ -51,7 +49,7 @@ namespace Client
             // lblKorisnickoIme
             // 
             lblKorisnickoIme.AutoSize = true;
-            lblKorisnickoIme.Location = new Point(176, 91);
+            lblKorisnickoIme.Location = new Point(119, 81);
             lblKorisnickoIme.Name = "lblKorisnickoIme";
             lblKorisnickoIme.Size = new Size(106, 20);
             lblKorisnickoIme.TabIndex = 1;
@@ -60,7 +58,7 @@ namespace Client
             // lblLozinka
             // 
             lblLozinka.AutoSize = true;
-            lblLozinka.Location = new Point(176, 143);
+            lblLozinka.Location = new Point(119, 133);
             lblLozinka.Name = "lblLozinka";
             lblLozinka.Size = new Size(59, 20);
             lblLozinka.TabIndex = 2;
@@ -68,44 +66,26 @@ namespace Client
             // 
             // txtKorisnickoIme
             // 
-            txtKorisnickoIme.Location = new Point(314, 91);
+            txtKorisnickoIme.Location = new Point(257, 81);
             txtKorisnickoIme.Name = "txtKorisnickoIme";
-            txtKorisnickoIme.Size = new Size(180, 27);
+            txtKorisnickoIme.Size = new Size(155, 27);
             txtKorisnickoIme.TabIndex = 3;
+            txtKorisnickoIme.Text = "tasa@luk.com";
             // 
             // txtLozinka
             // 
-            txtLozinka.Location = new Point(314, 143);
+            txtLozinka.Location = new Point(257, 133);
             txtLozinka.Name = "txtLozinka";
-            txtLozinka.Size = new Size(180, 27);
+            txtLozinka.Size = new Size(155, 27);
             txtLozinka.TabIndex = 4;
-            // 
-            // lblNovi
-            // 
-            lblNovi.AutoSize = true;
-            lblNovi.Location = new Point(358, 266);
-            lblNovi.Name = "lblNovi";
-            lblNovi.Size = new Size(111, 20);
-            lblNovi.TabIndex = 5;
-            lblNovi.Text = "Nemate nalog?";
-            // 
-            // btnRegistruj
-            // 
-            btnRegistruj.Location = new Point(358, 308);
-            btnRegistruj.Name = "btnRegistruj";
-            btnRegistruj.Size = new Size(94, 29);
-            btnRegistruj.TabIndex = 6;
-            btnRegistruj.Text = "registruj se";
-            btnRegistruj.UseVisualStyleBackColor = true;
-            btnRegistruj.Click += btnRegistruj_Click;
+            txtLozinka.Text = "tasa";
+            txtLozinka.UseSystemPasswordChar = true;
             // 
             // FrmPrijaviVlasnik
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(btnRegistruj);
-            Controls.Add(lblNovi);
+            ClientSize = new Size(534, 310);
             Controls.Add(txtLozinka);
             Controls.Add(txtKorisnickoIme);
             Controls.Add(lblLozinka);
@@ -125,15 +105,11 @@ namespace Client
         private Label lblLozinka;
         private TextBox txtKorisnickoIme;
         private TextBox txtLozinka;
-        private Label lblNovi;
-        private Button btnRegistruj;
 
         public Button BtnPrijavi { get => btnPrijavi; set => btnPrijavi = value; }
         public Label LblKorisnickoIme { get => lblKorisnickoIme; set => lblKorisnickoIme = value; }
         public Label LblLozinka { get => lblLozinka; set => lblLozinka = value; }
         public TextBox TxtKorisnickoIme { get => txtKorisnickoIme; set => txtKorisnickoIme = value; }
         public TextBox TxtLozinka { get => txtLozinka; set => txtLozinka = value; }
-        public Label LblRegistracija { get => lblNovi; set => lblNovi = value; }
-        public Button BtnRegistracija { get => btnRegistruj; set => btnRegistruj = value; }
     }
 }

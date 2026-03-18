@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Common.Domain.enums;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -12,13 +13,25 @@ namespace Common.Domain
     public class EvidencijaRez : IDomainObj
     {
         public long Id { get; set; }
-        public DateTime Mesec { get;  set; }
-        public double CenaPoOsobi 
+        public DateOnly Mesec { get;  set; }
+        public decimal SezonskiKoeficijentCene {  get; set; }
+        public decimal ProcenatAvansa {  get; set; }
+        public decimal OsnovnaCenaPoOsobi
         {
             get => SmestajnaJedinica?.CenaPoOsobi ?? 0;
             set { } // čuva se u bazi, ali u domenu se izvlači iz SmestajnaJedinica
         }
-        public double UkupanIznos 
+        public VrstaUsluge OsnovnaVrstaUsluge
+        {
+            get => SmestajnaJedinica?.OsnovnaVrstaUsluge ?? 0;
+            set { } 
+        }
+        public decimal ProcenatPovecanjaPoUsluzi
+        {
+            get => SmestajnaJedinica?.ProcenatPovecanjaPoUsluzi ?? 0;
+            set { } 
+        }
+        public decimal UkupanIznos 
         {
             get => StavkeEvidencije.Sum(s => s.Iznos);
             set { }
@@ -31,85 +44,83 @@ namespace Common.Domain
 
 
         public string TableName => "EvidencijaRez";
+        public string InsertColumns => "mesec, sezonskiKoeficijentCene, procenatAvansa, osnovnaCenaPoOsobi, " +
+            "osnovnaVrstaUsluge, procenatPovecanjaPoUsluzi, ukupanIznos, idVlasnik, idSmestajnaJedinica";
+        public string InsertValues => $"'{Mesec}', '{SezonskiKoeficijentCene}', '{ProcenatAvansa}', '{OsnovnaCenaPoOsobi}', " +
+            $"'{(int)OsnovnaVrstaUsluge}', '{ProcenatPovecanjaPoUsluzi}', '{UkupanIznos}', '{Vlasnik.Id}', '{SmestajnaJedinica.Id}'";
+        public string PrimaryKeyClause => $"id = '{Id}";
+        public string WhereClause { get; set; }
+        public string UpdateSetClause => $"mesec = '{Mesec}', "+
+                                         $"sezonskiKoeficijentCene = '{SezonskiKoeficijentCene}', "+
+                                         $"procenatAvansa = '{ProcenatAvansa}', "+
+                                         $"osnovnaCenaPoOsobi = '{OsnovnaCenaPoOsobi}', " +
+                                         $"osnovnaVrstaUsluge = '{(int)OsnovnaVrstaUsluge}', "+
+                                         $"procenatPovecanjaPoUsluzi = '{ProcenatPovecanjaPoUsluzi}', "+
+                                         $"ukupanIznos = '{UkupanIznos}', "+
+                                         $"idVlasnik = '{Vlasnik.Id}', "+
+                                         $"idSmestajnaJedinica = '{SmestajnaJedinica.Id}'";
 
-        public string KeyWhereClause => "id=@id";
 
-        public List<SqlParameter> GetKeyParameters() => new()
-        {
-            new SqlParameter("@id", Id)
-        };
-
-        public string InsertColumns => "mesec, idVlasnik, idSmestajnaJedinica";
-
-        public string InsertParameters => "@mesec, @idVlasnik, @idSmestajnaJedinica";
-
-        public string UpdateSetClause => "mesec=@mesec, idVlasnik=@idVlasnik, idSmestajnaJedinica=@idSmestajnaJedinica";
-
-        public List<SqlParameter> GetInsertParameters() => new ()
-        {
-            new SqlParameter("@mesec", Mesec),
-            new SqlParameter("@idVlasnik", Vlasnik.Id),
-            new SqlParameter("@idSmestajnaJedinica", SmestajnaJedinica.Id)
-        };
-
-        public List<SqlParameter> GetUpdateParameters()
-        {
-            return GetInsertParameters();
-        }
-        public List<IDomainObj> GetReaderList(SqlDataReader reader)
+        public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
         {
             List<IDomainObj> evidencije = new List<IDomainObj>();
             while (reader.Read())
             {
                 EvidencijaRez evidencija = new EvidencijaRez
                 {
-                    // ako je JOIN: čita e_id, e_cenaPoOsobi...
-                    // ako nije JOIN: čita id, cenaPoOsobi...
-                    Id = reader.ColumnsContains("e_id") ? (long)reader["e_id"] : (long)reader["id"],
-                    Mesec = (DateTime)reader["mesec"],
+                    Id = (long)reader["idEvidencija"],
+                    Mesec = (DateOnly)reader["mesec"],
+                    SezonskiKoeficijentCene = (decimal)reader["sezonskiKoeficijentCene"],
+                    ProcenatAvansa = (decimal)reader["procenatAvansa"],
+                    OsnovnaVrstaUsluge = (VrstaUsluge)(int)reader["e.osnovnaVrstaUsluge"],
+                    OsnovnaCenaPoOsobi = (decimal)reader["e.osnovnaCenaPoOsobi"],
+                    ProcenatPovecanjaPoUsluzi = (decimal)reader["e.procenatPovecanjaPoUsluzi"],
+                    UkupanIznos = (decimal)reader["ukupanIznos"],
                     Vlasnik = new Vlasnik
                     {
-                        Id = (long)reader["idVlasnik"],
-                        Ime = reader.ColumnsContains("v_ime") ? reader["v_ime"]?.ToString() ?? "" : "",
-                        Prezime = reader.ColumnsContains("v_prezime") ? reader["v_prezime"]?.ToString() ?? "" : "",
-                        KorisnickoIme = reader.ColumnsContains("v_korisnickoIme") ? reader["v_korisnickoIme"]?.ToString() ?? "" : ""
-
+                        Id = Convert.ToInt64(reader["idVlasnik"]),
+                        Ime = reader["ime"].ToString().Trim(),
+                        Prezime = reader["prezime"].ToString().Trim(),
+                        KorisnickoIme = reader["korisnickoIme"].ToString().Trim(),
+                        Lozinka = reader["lozinka"].ToString().Trim(),
                     },
                     SmestajnaJedinica = new SmestajnaJedinica
                     {
                         Id = (long)reader["idSmestajnaJedinica"],
-                        Naziv = reader.ColumnsContains("sj_naziv") ? reader["sj_naziv"]?.ToString() ?? "" : "",
-                        Kapacitet = reader.ColumnsContains("sj_kapacitet") ? Convert.ToInt32(reader["sj_kapacitet"]) : 0,
-                        CenaPoOsobi = reader.ColumnsContains("sj_cenaPoOsobi") ? Convert.ToDouble(reader["sj_cenaPoOsobi"]) : 0,
-                        MinOsoba = reader.ColumnsContains("sj_minOsoba") ? Convert.ToInt32(reader["sj_minOsoba"]) : 0,
-                        Tip = new TipSmestaja
+                        Naziv = reader["nazivSmestaj"].ToString().Trim(),
+                        OsnovnaVrstaUsluge = (VrstaUsluge)(int)reader["sj.osnovnaVrstaUsluge"],
+                        CenaPoOsobi = (decimal)reader["sj.cenaPoOsobi"],
+                        ProcenatPovecanjaPoUsluzi = (decimal)reader["sj.procenatPovecanjaPoUsluzi"],
+                        Tip = new TipSmestaja()
                         {
-                            Id = reader.ColumnsContains("idTip") ? (long)reader["idTip"] : 0,
-                            Naziv = reader.ColumnsContains("ts_naziv") ? reader["ts_naziv"]?.ToString() ?? "" : ""
+                            Id = (long)reader["idTip"],
+                            Naziv = reader["nazivTip"].ToString().Trim(),
+                            MinKapacitet = (decimal)reader["minKapacitet"],
+                            MaxKapacitet = (decimal)reader["maxKapacitet"]
                         }
-                    }
+
+                    },
                 };
                 evidencije.Add(evidencija);
             }
             return evidencije;
         }
 
-        public (string WhereClause, List<SqlParameter> Parameters) GetSearchCondition()
-        {
-            throw new NotImplementedException();
-        }
-
         //JOIN (e + v + sj + ts)
         public string SelectColumns =>
-            "e.id AS e_id, e.mesec, e.cenaPoOsobi AS e_cenaPoOsobi, e.idVlasnik, e.idSmestajnaJedinica, " +
-            "v.ime AS v_ime, v.prezime AS v_prezime, v.korisnickoIme AS v_korisnickoIme, " +
-            "sj.naziv AS sj_naziv, sj.kapacitet AS sj_kapacitet, sj.cenaPoOsobi AS sj_cenaPoOsobi, sj.minOsoba AS sj_minOsoba, sj.idTip, " +
-            "ts.naziv AS ts_naziv";
+            " distinct e.id AS idEvidencije, e.mesec, e.sezonskiKoeficijentCene, e.procenatAvansa, " +
+            "e.osnovnaCenaPoOsobi, e.osnovnaVrstaUsluge, e.procenatPovecanjaPoUsluzi, e.ukupanIznos, " +
+            "v.id = idVlasnik, v.ime AS ime, v.prezime AS prezime, v.korisnickoIme AS korisnickoIme, v.lozinka AS lozinka, " +
+            "sj.id = idSmestajnaJedinica, sj.naziv AS nazivSmestaj, sj.cenaPoOsobi, sj.osnovnaVrstaUsluge, sj.procenatPovecanjaPoUsluzi, " +
+            "ts.id = idTip, ts.naziv AS nazivTip, ts.minKapacitet AS minKapacitet, ts.maxKapacitet AS maxKapacitet";
 
         public string JoinClause =>
-            "EvidencijaRez e " +
+            " e " +
             "JOIN Vlasnik v ON v.id = e.idVlasnik " +
             "JOIN SmestajnaJedinica sj ON sj.id = e.idSmestajnaJedinica " +
-            "JOIN TipSmestaja ts ON ts.id = sj.idTip";
+            "JOIN TipSmestaja ts ON ts.id = sj.idTip"+
+            "JOIN StavkaEvidencije se ON se.idEvidencije = e.id"+
+            "JOIN Korisnik k ON k.id = se.idKorisnik";
+
     }
 }

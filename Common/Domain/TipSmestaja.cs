@@ -12,31 +12,17 @@ namespace Common.Domain
 
         public long Id { get; set; }
         public string Naziv { get; set; }
+        public decimal MinKapacitet { get; set; }
+        public decimal MaxKapacitet { get; set; }
+
         public string TableName => "TipSmestaja";
+        public string InsertColumns => "naziv, minKapacitet, maxKapacitet";
+        public string InsertValues => $"'{Naziv}', '{MinKapacitet}', '{MaxKapacitet}'";
+        public string PrimaryKeyClause => "";
+        public string WhereClause { get ; set ; }
+        public string UpdateSetClause => "";
 
-        public string KeyWhereClause => "id=@id";
-
-        public List<SqlParameter> GetKeyParameters() => new()
-        {
-            new SqlParameter("@id", Id)
-        };
-
-        public string InsertColumns => "naziv";
-
-        public string InsertParameters => "@naziv";
-
-        public string UpdateSetClause => "naziv=@naziv";
-        public List<SqlParameter> GetInsertParameters() => new()
-        {
-            new SqlParameter("@naziv",Naziv)
-        };
-
-        public List<SqlParameter> GetUpdateParameters()
-        {
-            return GetInsertParameters();
-        }
-
-        public List<IDomainObj> GetReaderList(SqlDataReader reader)
+        public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
         {
             List<IDomainObj> tipovi = new List<IDomainObj>();
 
@@ -45,20 +31,17 @@ namespace Common.Domain
                 TipSmestaja s = new TipSmestaja
                 {
                     Id = (long)reader["id"],
-                    Naziv = (string)reader["naziv"],
+                    Naziv = reader["naziv"].ToString().Trim(),
+                    MinKapacitet = (decimal)reader["minKapacitet"],
+                    MaxKapacitet = (decimal)reader["maxKapacitet"]
                 };
                 tipovi.Add(s);
             }
 
             return tipovi;
         }
-
-        public (string WhereClause, List<SqlParameter> Parameters) GetSearchCondition()
-        {
-            throw new NotImplementedException();
-        }
-
         public string SelectColumns => "*";
-        public string JoinClause => TableName; 
-    }
+        public string JoinClause => "";
+
+     }
 }

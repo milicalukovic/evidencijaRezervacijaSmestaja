@@ -35,13 +35,9 @@ namespace Client
 
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect("127.0.0.1", 9999);
+            socket.Connect("127.0.0.1", 9000);
             serializer = new JsonNetworkSerializer(socket); //pravi stream readera i writera za komunikaciju
         }
-
-        //scenario: Vlasnik se prijavljuje na sistem
-        //vlasnik = klijent
-        //klijent treba da posalje zahtev serveru za login operaciju
 
         public Odgovor PrijaviVlasnik(Vlasnik vl)
         {
@@ -61,7 +57,7 @@ namespace Client
             //treba nam Vlasnik jer pokusavamo da se prijavimo 
             odgovor.Result = serializer.ReadType<Vlasnik>(odgovor.Result);
 
-            return odgovor; //saljemo sta je odgovor od servera koji cemo dalje proveravati
+            return odgovor; //saljemo sta je odgovor od servera koji cemo dalje proveravati u GUIControlleru
         }
 
         

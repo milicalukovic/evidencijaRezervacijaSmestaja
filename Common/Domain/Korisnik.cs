@@ -13,35 +13,17 @@ namespace Common.Domain
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string BrLicneKarte { get; set; }
+        public string Email { get; set; }
         public string BrTel { get; set; }
 
         public string TableName => "Korisnik";
-        public string KeyWhereClause => "id=@id";
-
-        public List<SqlParameter> GetKeyParameters() => new()
-        {
-            new SqlParameter("@id", Id)
-        };
-
-        public string InsertColumns => "ime, prezime, brLicneKarte, brTel";
-
-        public string InsertParameters => "@ime, @prezime, @brLicneKarte, @brTel";
-
-        public string UpdateSetClause => "ime=@ime, prezime=@prezime, brLicneKarte=@brLicneKarte, brTel=@brTel";
-        public List<SqlParameter> GetInsertParameters() => new()
-        {
-            new SqlParameter("@ime", Ime),
-            new SqlParameter("@prezime", Prezime),
-            new SqlParameter("@brLicneKarte",BrLicneKarte) ,
-            new SqlParameter("@brTel",BrTel)
-        };
-
-        public List<SqlParameter> GetUpdateParameters()
-        {
-            return GetInsertParameters();
-        }
-
-        public List<IDomainObj> GetReaderList(SqlDataReader reader)
+        public string InsertColumns => "ime, prezime, brLicneKarte, email, brTel";
+        public string InsertValues => $"'{Ime}', '{Prezime}', '{BrLicneKarte}', '{Email}', '{BrTel}'";
+        public string PrimaryKeyClause => $"id = '{Id}'";
+        public string WhereClause { get;  set ; }
+        public string UpdateSetClause => "";
+ 
+        public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
         {
             List<IDomainObj> korisnici = new List<IDomainObj>();
 
@@ -51,10 +33,11 @@ namespace Common.Domain
                 Korisnik korisnik = new Korisnik
                 {
                     Id = (long)reader["id"],
-                    Ime = (string)reader["ime"],
-                    Prezime = (string)reader["prezime"],
-                    BrLicneKarte = (string)reader["brLicneKarte"],
-                    BrTel = (string)reader["brTel"]
+                    Ime = reader["ime"].ToString().Trim(),
+                    Prezime = reader["prezime"].ToString().Trim(),
+                    BrLicneKarte = reader["brLicneKarte"].ToString().Trim(),
+                    Email = reader["email"] == DBNull.Value ? "-": reader["email"].ToString().Trim(),
+                    BrTel = reader["brTel"] == DBNull.Value ? "-" : reader["brTel"].ToString().Trim(),
                 };
                 korisnici.Add(korisnik);
             }
@@ -62,14 +45,9 @@ namespace Common.Domain
             return korisnici;
         }
 
-        public (string WhereClause, List<SqlParameter> Parameters) GetSearchCondition()
-        {
-            throw new NotImplementedException();
-        }
-
-
         // da generički repo može da pozove GetAllJoin bez pucanja:
-        public string SelectColumns => "k.id, k.ime, k.prezime, k.brLicneKarte, k.brTel";
-        public string JoinClause => "Korisnik k";
-    }
+        public string SelectColumns => "*";
+        public string JoinClause => "";
+
+        }
 }

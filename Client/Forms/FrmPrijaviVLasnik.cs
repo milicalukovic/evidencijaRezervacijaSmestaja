@@ -1,4 +1,6 @@
 using Client.Session;
+using System.Diagnostics;
+using System.Net.Sockets;
 
 namespace Client
 {
@@ -12,13 +14,19 @@ namespace Client
         {
             Koordinator.Instance.PrijaviVlasnikGUIController.PrijaviVlasnik();
         }
-        private void btnRegistruj_Click(object sender, EventArgs e)
-        {
-            Koordinator.Instance.OtvoriFrmRegistujVlasnik();
-        }
         private void FrmPrijaviVlasnik_Load(object sender, EventArgs e)
         {
+            try
+            {
+                Communication.Instance.Connect();
+                Debug.WriteLine("Konektovani na server");
+            }
+            catch (SocketException ex)
+            {
 
+                Debug.WriteLine(ex.Message);
+                return;
+            }
         }
 
     }

@@ -32,94 +32,63 @@ namespace Server.Repository
         {
             broker.Rollback();
         }
-        public void Add(IDomainObj obj)
+        public void InsertInto(IDomainObj entity)
         {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText =
-                $"INSERT INTO {obj.TableName} ({obj.InsertColumns}) VALUES ({obj.InsertParameters})";
-            cmd.Parameters.AddRange(obj.GetInsertParameters().ToArray());
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = $"INSERT INTO {entity.TableName} ( {entity.InsertColumns} ) VALUES ( {entity.InsertValues} )";
             cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
-        public List<IDomainObj> GetAll(IDomainObj obj)
+
+        public long InsertIntoOutput(IDomainObj entity)
         {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT * FROM {obj.TableName}";
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = $"INSERT INTO {entity.TableName} ( {entity.InsertColumns} ) " +
+                $"OUTPUT INSERTED.id VALUES ( {entity.InsertValues} )";
+            object result = cmd.ExecuteScalar();
+            cmd.Dispose();
+            return Convert.ToInt64(result);
+        }
+
+        public List<IDomainObj> GetAll(IDomainObj entity)
+        {
+            SqlCommand cmd = broker.CreateCommand();
+            cmd.CommandText = $"SELECT {entity.SelectColumns} FROM {entity.TableName}";
             using SqlDataReader reader = cmd.ExecuteReader();
-            return obj.GetReaderList(reader);
+            List<IDomainObj>  lista  = entity.VratiListuSvi(reader);
+            cmd.Dispose();
+            return lista;
         }
-        //klijent ne šalje whereClause string, nego šalje kriterijum (objekat), a server (SO) iz toga sklapa WHERE + parametre
-        public List<IDomainObj> GetByCondition(IDomainObj entity)
+
+        public List<IDomainObj> GetAllByCondition(IDomainObj entity)
         {
-            var (where, parameters) = entity.GetSearchCondition(); // ako domen ne podrzava ovu pretragu, baciće exception
-
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT * FROM {entity.TableName} WHERE {where}";
-            cmd.Parameters.AddRange(parameters.ToArray());
-
+            SqlCommand cmd = broker.CreateCommand();
+            cmd.CommandText = $"SELECT {entity.SelectColumns} FROM {entity.TableName} {entity.JoinClause} WHERE {entity.WhereClause}";
+            Debug.WriteLine(cmd.CommandText);
             using SqlDataReader reader = cmd.ExecuteReader();
-            return entity.GetReaderList(reader);
+            List<IDomainObj> lista = entity.VratiListuSvi(reader);
+            cmd.Dispose();
+            return lista;
         }
 
-        public List<IDomainObj> GetByCondition(IDomainObj entity, string whereClause, List<SqlParameter> parameters)
+        public void Update(IDomainObj entity)
         {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT * FROM {entity.TableName} WHERE {whereClause}";
-            if (parameters != null && parameters.Count > 0)
-                cmd.Parameters.AddRange(parameters.ToArray());
-
-            using SqlDataReader reader = cmd.ExecuteReader();
-            return entity.GetReaderList(reader);
-        }
-        public List<IDomainObj> GetAllJoin(IDomainObj obj)
-        {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT {obj.SelectColumns} FROM {obj.JoinClause}";
-            using SqlDataReader reader = cmd.ExecuteReader();
-            return obj.GetReaderList(reader);
-        }
-
-        public void Update(IDomainObj obj)
-        {
-            using SqlCommand cmd = broker.CreateCommand();
+            SqlCommand cmd = broker.CreateCommand();
             cmd.CommandText =
-                $"UPDATE {obj.TableName} SET {obj.UpdateSetClause} WHERE {obj.KeyWhereClause}";
+                $"UPDATE {entity.TableName} SET {entity.UpdateSetClause} WHERE {entity.PrimaryKeyClause}";
 
-            cmd.Parameters.AddRange(obj.GetUpdateParameters().ToArray());
-            cmd.Parameters.AddRange(obj.GetKeyParameters().ToArray());
-
+            Debug.WriteLine(cmd.CommandText);
             cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
-        public void Delete(IDomainObj obj)
+        public void Delete(IDomainObj entity)
         {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"DELETE FROM {obj.TableName} WHERE {obj.KeyWhereClause}";
-            cmd.Parameters.AddRange(obj.GetKeyParameters().ToArray());
+            SqlCommand cmd = broker.CreateCommand();
+            cmd.CommandText = $"DELETE FROM {entity.TableName} WHERE {entity.PrimaryKeyClause}";
+            Debug.WriteLine(cmd.CommandText);
             cmd.ExecuteNonQuery();
-        }
-        public IDomainObj? GetByKey(IDomainObj obj)
-        {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT * FROM {obj.TableName} WHERE {obj.KeyWhereClause}";
-            cmd.Parameters.AddRange(obj.GetKeyParameters().ToArray());
-
-            using SqlDataReader reader = cmd.ExecuteReader();
-            return obj.GetReaderList(reader).FirstOrDefault();
-        }
-        //kada nam je potrebno da zapamtimo Id koji server sam generise
-        public long AddReturnId(IDomainObj obj)
-        {
-            using SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText =
-                $"INSERT INTO {obj.TableName} ({obj.InsertColumns}) " +
-                $"OUTPUT INSERTED.id " +
-                $"VALUES ({obj.InsertParameters})";
-                                //output inserted.id = Posle INSERT-a, vrati mi vrednost
-                                //kolone id tog reda koji je upravo ubačen
-
-            cmd.Parameters.AddRange(obj.GetInsertParameters().ToArray());
-            return (long)cmd.ExecuteScalar(); //izvršava SQL i uzima prvu kolonu iz prvog reda rezultata tj. inserted.id
-
+            cmd.Dispose();
         }
 
     }

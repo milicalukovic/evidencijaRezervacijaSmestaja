@@ -15,6 +15,10 @@ namespace Client
             ApplicationConfiguration.Initialize();
             // Application.Run(new FrmPrijaviVlasnik());  //ne otvara se direktno vec preko koordinatora koji ce inicijalizovati kontroler i formu
             Koordinator.Instance.OtvoriFrmPrijaviVlasnik();
+            if (Koordinator.Instance.UlogovaniVlasnik != null)
+            {
+                Application.Run(Koordinator.Instance.FrmGlavna);
+            }
         }
     }
 }

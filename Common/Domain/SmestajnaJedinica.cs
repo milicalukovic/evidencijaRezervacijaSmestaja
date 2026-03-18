@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Common.Domain.enums;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,42 +12,21 @@ namespace Common.Domain
     {
         public long Id { get; set; }
         public string Naziv {  get; set; }
-        public int Kapacitet { get; set; }
-        public double CenaPoOsobi {  get; set; }
-        public int MinOsoba { get; set; }
+        public VrstaUsluge OsnovnaVrstaUsluge { get; set;}
+        public decimal CenaPoOsobi {  get; set; }
+        public decimal ProcenatPovecanjaPoUsluzi { get; set; }
+
         public TipSmestaja Tip { get; set; } = new TipSmestaja();
 
         public string TableName =>"SmestajnaJedinica";
+        public string InsertColumns => "naziv, osnovnaVrstaUsluge, cenaPoOsobi, procenatPovecanjaPoUsluzi, idTip";
+        public string InsertValues => $"'{Naziv}', '{(int)OsnovnaVrstaUsluge}'," +
+            $" '{CenaPoOsobi}', '{ProcenatPovecanjaPoUsluzi}', '{Tip.Id}'";
+        public string PrimaryKeyClause => $"id = '{Id}'";
+        public string WhereClause { get; set ; }
+        public string UpdateSetClause => "";
 
-        public string KeyWhereClause => "id=@id";
-
-        public List<SqlParameter> GetKeyParameters() => new()
-        {
-            new SqlParameter("@id", Id)
-        };
-
-        public string InsertColumns => "naziv, kapacitet, cenaPoOsobi, idTip, minOsoba";
-
-        public string InsertParameters => "@naziv, @kapacitet, @cenaPoOsobi, @idTip, @minOsoba";
-
-        public string UpdateSetClause => "naziv=@naziv, kapacitet=@kapacitet, cenaPoOsobi=@cenaPoOsobi, idTip=@idTip, minOsoba=@minOsoba";
-
-        public List<SqlParameter> GetInsertParameters() => new()
-        {
-            new SqlParameter("@naziv", Naziv),
-            new SqlParameter("@kapacitet", Kapacitet),
-            new SqlParameter("@cenaPoOsobi", CenaPoOsobi),
-            new SqlParameter("@idTip", Tip.Id),
-            new SqlParameter("@minOsoba", MinOsoba)
-        };
-
-        public List<SqlParameter> GetUpdateParameters()
-        {
-            return GetInsertParameters();
-        }
-
-
-        public List<IDomainObj> GetReaderList(SqlDataReader reader)
+        public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
         {
             List<IDomainObj> jedinice = new List<IDomainObj>();
 
@@ -56,17 +36,16 @@ namespace Common.Domain
                 SmestajnaJedinica sj = new SmestajnaJedinica
                 {
                     Id = (long)reader["id"],
-                    Naziv = (string)reader["naziv"],
-                    Kapacitet = (int)reader["kapacitet"],
-                    CenaPoOsobi = (double)reader["cenaPoOsobi"],
-                    MinOsoba = (int)reader["minOsoba"],
+                    Naziv = reader["naziv"].ToString().Trim(),
+                    OsnovnaVrstaUsluge = (VrstaUsluge)(int)reader["osnovnaVrstaUsluge"],
+                    CenaPoOsobi = (decimal)reader["cenaPoOsobi"],
+                    ProcenatPovecanjaPoUsluzi = (decimal)reader["procenatPovecanjaPoUsluzi"],
                     Tip=new TipSmestaja()
                     {
                         Id = (long)reader["idTip"],
-                        // kada se pozove GetAllJoin -> postoji tip_naziv
-                        Naziv = reader.ColumnsContains("tip_naziv")
-                            ? reader["tip_naziv"]?.ToString() ?? ""
-                            : ""
+                        Naziv = reader["tip_naziv"].ToString().Trim(),
+                        MinKapacitet = (decimal)reader["minKapacitet"],
+                        MaxKapacitet = (decimal)reader["maxKapacitet"]
                     }
 
                 };
@@ -76,17 +55,13 @@ namespace Common.Domain
             return jedinice;
         }
 
-        public (string WhereClause, List<SqlParameter> Parameters) GetSearchCondition()
-        {
-            throw new NotImplementedException();
-        }
-
         public string SelectColumns =>
-            "sj.id, sj.naziv, sj.kapacitet, sj.cenaPoOsobi, sj.minOsoba, sj.idTip, " +
-            "t.naziv AS tip_naziv";
+            $"sj.id, sj.naziv, sj.osnovnaVrstaUsluge, sj.cenaPoOsobi, sj.procenatPovecanjaPoUsluzi, sj.idTip, " +
+            "t.naziv AS tip_naziv, t.minKapacitet AS minKapacitet, t.maxKapacitet AS maxKapacitet";
 
         public string JoinClause =>
-            "SmestajnaJedinica sj " +
+            " sj " +
             "JOIN TipSmestaja t ON t.id = sj.idTip";
+
     }
 }

@@ -5,38 +5,16 @@ namespace Common.Domain
     public interface IDomainObj  //nasledjuju ga domenski objekti
     {
         string TableName { get; }
+        string InsertColumns { get; }
+        string InsertValues { get; } //kolone koje se upisuju u insert
+        string PrimaryKeyClause { get; } //za where deo upita
+        string WhereClause { get; set; }
+        string UpdateSetClause { get; } //kolone i parametri koji se azuriraju
 
-        // primarni ključ (i za prost i za složen)
-        string KeyWhereClause { get; }   //uslov u WHERE za identifikaciju npr. "id=@id" ili "idEvidencije=@idE AND rb=@rb"
-        List<SqlParameter> GetKeyParameters();  // parametri koji odgovaraju uslovu
+        List<IDomainObj> VratiListuSvi(SqlDataReader reader); //kada se izvrsi upit (executeReader nakon SELECT)
 
-        string InsertColumns { get; } //kolone koje se upisuju u insert
-        string InsertParameters { get; } //parametri koji odg kolonama
-        string UpdateSetClause { get; } //nakon SET u UPDATE, kolone i parametr koji me azuriraju
+        string SelectColumns { get; }  // kolone sa alijasima koje biramo za SELECT
+        string JoinClause { get; }  // JOIN deo
 
-        List<SqlParameter> GetInsertParameters(); //realne vrednosti parametara
-        List<SqlParameter> GetUpdateParameters(); //realne vrednosti
-
-        //SELECT
-        List<IDomainObj> GetReaderList(SqlDataReader reader);
-
-        // JOIN
-        string SelectColumns { get; }  // kolone sa alijasima koje biramo za SELECT: "e.id AS evidencijaId, e.mesec, ..."
-        string JoinClause { get; }  // FROM+JOIN deo : "e JOIN SmestajnaJedinica sj ON ... "
-
-        //imenovani tuple
-        (string WhereClause, List<SqlParameter> Parameters) GetSearchCondition();
-
-    }
-    public static class SqlDataReaderExtensions
-    {
-        public static bool ColumnsContains(this SqlDataReader reader, string columnName)
-        {
-            for (int i = 0; i < reader.FieldCount; i++)
-                if (reader.GetName(i).Equals(columnName, StringComparison.OrdinalIgnoreCase))
-                    return true;
-
-            return false;
-        }
     }
 }

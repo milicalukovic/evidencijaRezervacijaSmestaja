@@ -10,14 +10,15 @@ namespace Server.Repository
 {
     public interface IRepository<T> where T : class
     {
-        void Add(T entity);
+        void InsertInto(T entity);
         List<T> GetAll(T entity);
-        List<T> GetByCondition(T entity);
-        List<T> GetByCondition(T entity, string condition, List<SqlParameter> parameters);
-        List<IDomainObj> GetAllJoin(T entity);
+        List<T> GetAllByCondition(T entity);
+
         void Update(T entity);
         void Delete(T entity);
 
+        long InsertIntoOutput(T entity); //vraca ID
+       
         void OpenConnection();
         void CloseConnection();
         void BeginTransaction();
