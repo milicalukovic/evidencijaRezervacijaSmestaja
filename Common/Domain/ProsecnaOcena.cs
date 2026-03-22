@@ -16,7 +16,7 @@ namespace Common.Domain
 
         public string TableName => "ProsecnaOcena";
         public string InsertColumns => "datumDodeljivanja, idVlasnik, idIzvora, vrednost";
-        public string InsertValues => $"'{DatumDodeljivanja}', '{Vlasnik?.Id}', '{Izvor?.Id}', '{Vrednost}";
+        public string InsertValues => $"'{DatumDodeljivanja}', '{Vlasnik?.Id}', '{Izvor?.Id}', {Vrednost}";
         public string PrimaryKeyClause => "";
         public string WhereClause { get; set; }
 

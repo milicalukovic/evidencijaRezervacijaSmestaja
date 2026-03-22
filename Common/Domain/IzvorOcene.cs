@@ -16,7 +16,7 @@ namespace Common.Domain
         public string InsertColumns => "naziv";
         public string InsertValues => $"'{Naziv}'";
         public string PrimaryKeyClause => "";
-        public string WhereClause { get => $" id = '{Id}"; set { } }
+        public string WhereClause { get => $" id = {Id}"; set { } }
         public string UpdateSetClause => "";
         
         public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
@@ -38,6 +38,9 @@ namespace Common.Domain
         public string SelectColumns => "*";
         public string JoinClause => "";
 
-       
+        public override string ToString()
+        {
+            return Naziv;
+        }
     }
 }

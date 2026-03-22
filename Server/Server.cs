@@ -29,6 +29,7 @@ namespace Server
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["ip"]), int.Parse(ConfigurationManager.AppSettings["port"]));
 
             socket.Bind(endPoint);
+            Debug.WriteLine("Server pokrenut");
             socket.Listen(); //osluskujemo mrezu
 
             Thread nitServera = new Thread(AcceptClient);
@@ -44,6 +45,7 @@ namespace Server
                 while (true)
                 {
                     Socket klijentskiSoket = socket.Accept(); // klijent poslao zahtev
+                    Debug.WriteLine("Klijent se povezao!");
                     ClientHandler handler = new ClientHandler(klijentskiSoket, this); //prosledjujemo Client Handleru konkretnog klijenta koji se povezao i pokazivac na servera
                     handlers.Add(handler);
 
@@ -73,7 +75,7 @@ namespace Server
             handlers.Clear();
             socket.Close();
 
-
+            Debug.WriteLine("Server zaustavljen");
         }
 
         private object _lock = new object(); //sinhronizacija niti, ako je jedna nit obrade zahteva usla u removeClient nijedna druga nit nece uci dok ona ne zavrsi

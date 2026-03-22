@@ -12,7 +12,7 @@ namespace Client
         }
         private void btnPrijavi_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.PrijaviVlasnikGUIController.PrijaviVlasnik();
+            Koordinator.Instance.PrijaviVlasnikController.PrijaviVlasnik();
         }
         private void FrmPrijaviVlasnik_Load(object sender, EventArgs e)
         {

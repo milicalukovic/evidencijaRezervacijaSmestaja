@@ -1,4 +1,7 @@
 ﻿using Common.Domain;
+using Server.SystemOperation.IzvorOceneSO;
+using Server.SystemOperation.SmestajnaJedinicaSO;
+using Server.SystemOperation.TipSmestajaSO;
 using Server.SystemOperation.VlasnikSO;
 using System;
 using System.Collections.Generic;
@@ -30,6 +33,59 @@ namespace Server
             so.ExecuteTemplate();
             return so.Result;
         }
-        
+
+        internal object UbaciIzvorOcene(IzvorOcene izvorOcene)
+        {
+            UbaciIzvorOceneSO so1 = new UbaciIzvorOceneSO(izvorOcene);
+            so1.ExecuteTemplate();
+            return so1.Result;
+        }
+
+        internal object VratiListuSviTipSmestaja(TipSmestaja tipSmestaja)
+        {
+            VratiListuSviTipSmestajaSO so = new VratiListuSviTipSmestajaSO(tipSmestaja);
+            so.ExecuteTemplate();
+            return so.ResultList;
+        }
+
+        internal object VratiListuSviSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
+        {
+            VratiListuSviSmestajnaJedinicaSO so = new VratiListuSviSmestajnaJedinicaSO(smestajnaJedinica);
+            so.ExecuteTemplate();
+            return so.ResultList;
+        }
+
+        internal object KreirajSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
+        {
+            KreirajSmestajnaJedinicaSO so = new KreirajSmestajnaJedinicaSO(smestajnaJedinica);
+            so.ExecuteTemplate() ;
+            return so.Result;
+        }
+
+        internal void PromeniSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
+        {
+            PromeniSmestajnaJedinicaSO so = new PromeniSmestajnaJedinicaSO(smestajnaJedinica);
+            so.ExecuteTemplate() ;
+        }
+
+        internal object VratiListuSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
+        {
+            VratiListuSmestajnaJedinicaSO so = new VratiListuSmestajnaJedinicaSO(smestajnaJedinica);
+            so.ExecuteTemplate() ;
+            return so.ResultList;
+        }
+
+        internal object PretraziSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
+        {
+            PretraziSmestajnaJedinicaSO so = new PretraziSmestajnaJedinicaSO(smestajnaJedinica);
+            so.ExecuteTemplate() ;
+            return so.Result;
+        }
+
+        internal void ObrisiSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
+        {
+            ObrisiSmestajnaJedinicaSO so = new ObrisiSmestajnaJedinicaSO(smestajnaJedinica);
+            so.ExecuteTemplate() ;
+        }
     }
 }

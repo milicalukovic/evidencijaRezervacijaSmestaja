@@ -34,17 +34,19 @@ namespace Server.Repository
         }
         public void InsertInto(IDomainObj entity)
         {
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = broker.CreateCommand();
             cmd.CommandText = $"INSERT INTO {entity.TableName} ( {entity.InsertColumns} ) VALUES ( {entity.InsertValues} )";
+            Debug.WriteLine(cmd.CommandText);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
         }
 
         public long InsertIntoOutput(IDomainObj entity)
         {
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = broker.CreateCommand();
             cmd.CommandText = $"INSERT INTO {entity.TableName} ( {entity.InsertColumns} ) " +
                 $"OUTPUT INSERTED.id VALUES ( {entity.InsertValues} )";
+            Debug.WriteLine(cmd.CommandText);
             object result = cmd.ExecuteScalar();
             cmd.Dispose();
             return Convert.ToInt64(result);
@@ -53,7 +55,8 @@ namespace Server.Repository
         public List<IDomainObj> GetAll(IDomainObj entity)
         {
             SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT {entity.SelectColumns} FROM {entity.TableName}";
+            cmd.CommandText = $"SELECT {entity.SelectColumns} FROM {entity.TableName}  {entity.JoinClause}";
+            Debug.WriteLine(cmd.CommandText);
             using SqlDataReader reader = cmd.ExecuteReader();
             List<IDomainObj>  lista  = entity.VratiListuSvi(reader);
             cmd.Dispose();

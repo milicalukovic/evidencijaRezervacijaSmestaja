@@ -19,7 +19,7 @@ namespace Common.Domain
         public string TableName => "Korisnik";
         public string InsertColumns => "ime, prezime, brLicneKarte, email, brTel";
         public string InsertValues => $"'{Ime}', '{Prezime}', '{BrLicneKarte}', '{Email}', '{BrTel}'";
-        public string PrimaryKeyClause => $"id = '{Id}'";
+        public string PrimaryKeyClause => $"id = {Id}";
         public string WhereClause { get;  set ; }
         public string UpdateSetClause => "";
  

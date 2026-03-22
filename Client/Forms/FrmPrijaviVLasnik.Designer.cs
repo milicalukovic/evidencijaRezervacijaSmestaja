@@ -38,12 +38,13 @@ namespace Client
             // 
             // btnPrijavi
             // 
+            btnPrijavi.BackColor = Color.Tan;
             btnPrijavi.Location = new Point(222, 205);
             btnPrijavi.Name = "btnPrijavi";
             btnPrijavi.Size = new Size(94, 29);
             btnPrijavi.TabIndex = 0;
             btnPrijavi.Text = "prijavi se";
-            btnPrijavi.UseVisualStyleBackColor = true;
+            btnPrijavi.UseVisualStyleBackColor = false;
             btnPrijavi.Click += btnPrijavi_Click;
             // 
             // lblKorisnickoIme

@@ -2,6 +2,7 @@
 using Common.Domain;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -60,6 +61,134 @@ namespace Client
             return odgovor; //saljemo sta je odgovor od servera koji cemo dalje proveravati u GUIControlleru
         }
 
-        
+        internal void OdjaviVlasnik(Vlasnik ulogovaniVlasnik)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = ulogovaniVlasnik,
+                Operation = Operation.OdjaviVlasnik
+            };
+            serializer.Send(klZahtev);
+            socket.Close();
+            Debug.WriteLine("Zaposleni se odjavljuje...");
+            Environment.Exit(0);
+        }
+
+        internal Odgovor UbaciIzvorOcene(IzvorOcene izvor)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = izvor,
+                Operation = Operation.UbaciIzvorOcene,
+            };
+            serializer.Send(klZahtev);
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<IzvorOcene>(serverOdg.Result);
+            return serverOdg;
+            
+        }
+
+        ///////////////////////
+        /// VRATI LISTU SVI
+        ///////////////////////
+        internal Odgovor VratiListuSviTipSmestaja(TipSmestaja tip)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = tip,
+                Operation = Operation.VratiListuSviTipSmestaja,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<List<TipSmestaja>>(serverOdg.Result);
+            return serverOdg;
+        }
+        internal Odgovor VratiListuSviSmestajnaJedinica(SmestajnaJedinica sj)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = sj,
+                Operation = Operation.VratiListuSviSmestajnaJedinica,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<List<SmestajnaJedinica>>(serverOdg.Result);
+            return serverOdg;
+        }
+
+        ///////////////////////
+        /// SMESTAJNA JEDINICA
+        ///////////////////////
+        internal Odgovor KreirajSmestajnaJedinica(SmestajnaJedinica sj)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = sj,
+                Operation = Operation.KreirajSmestajnaJedinica,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
+            return serverOdg;
+
+        }
+
+        internal Odgovor PromeniSmestajnaJedinica(SmestajnaJedinica nova)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = nova,
+                Operation = Operation.PromeniSmestajnaJedinica,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
+            return serverOdg;
+        }
+
+        internal Odgovor VratiListuSmestajnaJedinica(SmestajnaJedinica filtrirana)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = filtrirana,
+                Operation = Operation.VratiListuSmestajnaJedinica,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<List<SmestajnaJedinica>>(serverOdg.Result);
+            return serverOdg;
+        }
+
+        internal Odgovor PretraziSmestajnaJedinica(SmestajnaJedinica izabranaSJ)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = izabranaSJ,
+                Operation = Operation.PretraziSmestajnaJedinica,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
+            return serverOdg;
+        }
+
+        internal Odgovor ObrisiSmestajnaJedinica(SmestajnaJedinica izabranaSJ)
+        {
+            Zahtev klZahtev = new Zahtev
+            {
+                Argument = izabranaSJ,
+                Operation = Operation.ObrisiSmestajnaJedinica,
+            };
+            serializer.Send(klZahtev);
+
+            Odgovor serverOdg = serializer.Receive<Odgovor>();
+            return serverOdg;
+        }
     }
 }

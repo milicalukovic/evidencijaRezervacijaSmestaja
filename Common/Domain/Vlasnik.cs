@@ -46,5 +46,10 @@ namespace Common.Domain
         public string SelectColumns => " * ";
         public string JoinClause => "";
 
+        public override string ToString()
+        {
+            return Ime + " " + Prezime;
+        }
+
        }
 }

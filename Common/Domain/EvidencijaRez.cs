@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -26,14 +27,14 @@ namespace Common.Domain
             get => SmestajnaJedinica?.OsnovnaVrstaUsluge ?? 0;
             set { } 
         }
-        public decimal ProcenatPovecanjaPoUsluzi
+        public decimal PovecanjeCenePoUsluzi
         {
-            get => SmestajnaJedinica?.ProcenatPovecanjaPoUsluzi ?? 0;
+            get => SmestajnaJedinica?.PovecanjeCenePoUsluzi ?? 0;
             set { } 
         }
         public decimal UkupanIznos 
         {
-            get => StavkeEvidencije.Sum(s => s.Iznos);
+            get => StavkeEvidencije.Sum(s => s.IznosRezervacije);
             set { }
         }
         public Vlasnik Vlasnik { get; set; } = new Vlasnik();
@@ -45,20 +46,22 @@ namespace Common.Domain
 
         public string TableName => "EvidencijaRez";
         public string InsertColumns => "mesec, sezonskiKoeficijentCene, procenatAvansa, osnovnaCenaPoOsobi, " +
-            "osnovnaVrstaUsluge, procenatPovecanjaPoUsluzi, ukupanIznos, idVlasnik, idSmestajnaJedinica";
-        public string InsertValues => $"'{Mesec}', '{SezonskiKoeficijentCene}', '{ProcenatAvansa}', '{OsnovnaCenaPoOsobi}', " +
-            $"'{(int)OsnovnaVrstaUsluge}', '{ProcenatPovecanjaPoUsluzi}', '{UkupanIznos}', '{Vlasnik.Id}', '{SmestajnaJedinica.Id}'";
-        public string PrimaryKeyClause => $"id = '{Id}";
+            "osnovnaVrstaUsluge, PovecanjeCenePoUsluzi, ukupanIznos, idVlasnik, idSmestajnaJedinica";
+        public string InsertValues => $"'{Mesec}', {SezonskiKoeficijentCene.ToString(CultureInfo.InvariantCulture)}, " +
+            $"{ProcenatAvansa.ToString(CultureInfo.InvariantCulture)}, {OsnovnaCenaPoOsobi.ToString(CultureInfo.InvariantCulture)}, " +
+            $"{(int)OsnovnaVrstaUsluge}, {PovecanjeCenePoUsluzi.ToString(CultureInfo.InvariantCulture)}, " +
+            $"{UkupanIznos.ToString(CultureInfo.InvariantCulture)}, {Vlasnik.Id}, {SmestajnaJedinica.Id}";
+        public string PrimaryKeyClause => $"id = {Id}";
         public string WhereClause { get; set; }
         public string UpdateSetClause => $"mesec = '{Mesec}', "+
-                                         $"sezonskiKoeficijentCene = '{SezonskiKoeficijentCene}', "+
-                                         $"procenatAvansa = '{ProcenatAvansa}', "+
-                                         $"osnovnaCenaPoOsobi = '{OsnovnaCenaPoOsobi}', " +
-                                         $"osnovnaVrstaUsluge = '{(int)OsnovnaVrstaUsluge}', "+
-                                         $"procenatPovecanjaPoUsluzi = '{ProcenatPovecanjaPoUsluzi}', "+
-                                         $"ukupanIznos = '{UkupanIznos}', "+
-                                         $"idVlasnik = '{Vlasnik.Id}', "+
-                                         $"idSmestajnaJedinica = '{SmestajnaJedinica.Id}'";
+                                         $"sezonskiKoeficijentCene = {SezonskiKoeficijentCene.ToString(CultureInfo.InvariantCulture)}, "+
+                                         $"procenatAvansa = {ProcenatAvansa.ToString(CultureInfo.InvariantCulture)}, "+
+                                         $"osnovnaCenaPoOsobi = {OsnovnaCenaPoOsobi.ToString(CultureInfo.InvariantCulture)}, " +
+                                         $"osnovnaVrstaUsluge = {(int)OsnovnaVrstaUsluge}, "+
+                                         $"PovecanjeCenePoUsluzi = {PovecanjeCenePoUsluzi.ToString(CultureInfo.InvariantCulture)}, "+
+                                         $"ukupanIznos = {UkupanIznos.ToString(CultureInfo.InvariantCulture)}, "+
+                                         $"idVlasnik = {Vlasnik.Id}, "+
+                                         $"idSmestajnaJedinica = {SmestajnaJedinica.Id}";
 
 
         public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
@@ -74,7 +77,7 @@ namespace Common.Domain
                     ProcenatAvansa = (decimal)reader["procenatAvansa"],
                     OsnovnaVrstaUsluge = (VrstaUsluge)(int)reader["e.osnovnaVrstaUsluge"],
                     OsnovnaCenaPoOsobi = (decimal)reader["e.osnovnaCenaPoOsobi"],
-                    ProcenatPovecanjaPoUsluzi = (decimal)reader["e.procenatPovecanjaPoUsluzi"],
+                    PovecanjeCenePoUsluzi = (decimal)reader["e.PovecanjeCenePoUsluzi"],
                     UkupanIznos = (decimal)reader["ukupanIznos"],
                     Vlasnik = new Vlasnik
                     {
@@ -90,7 +93,8 @@ namespace Common.Domain
                         Naziv = reader["nazivSmestaj"].ToString().Trim(),
                         OsnovnaVrstaUsluge = (VrstaUsluge)(int)reader["sj.osnovnaVrstaUsluge"],
                         CenaPoOsobi = (decimal)reader["sj.cenaPoOsobi"],
-                        ProcenatPovecanjaPoUsluzi = (decimal)reader["sj.procenatPovecanjaPoUsluzi"],
+                        PovecanjeCenePoUsluzi = (decimal)reader["sj.PovecanjeCenePoUsluzi"],
+                        Vlasnik = reader["korisnickoIme"].ToString().Trim(), //povezala sa vlasnik tabelom???
                         Tip = new TipSmestaja()
                         {
                             Id = (long)reader["idTip"],
@@ -109,9 +113,9 @@ namespace Common.Domain
         //JOIN (e + v + sj + ts)
         public string SelectColumns =>
             " distinct e.id AS idEvidencije, e.mesec, e.sezonskiKoeficijentCene, e.procenatAvansa, " +
-            "e.osnovnaCenaPoOsobi, e.osnovnaVrstaUsluge, e.procenatPovecanjaPoUsluzi, e.ukupanIznos, " +
+            "e.osnovnaCenaPoOsobi, e.osnovnaVrstaUsluge, e.PovecanjeCenePoUsluzi, e.ukupanIznos, " +
             "v.id = idVlasnik, v.ime AS ime, v.prezime AS prezime, v.korisnickoIme AS korisnickoIme, v.lozinka AS lozinka, " +
-            "sj.id = idSmestajnaJedinica, sj.naziv AS nazivSmestaj, sj.cenaPoOsobi, sj.osnovnaVrstaUsluge, sj.procenatPovecanjaPoUsluzi, " +
+            "sj.id = idSmestajnaJedinica, sj.naziv AS nazivSmestaj, sj.cenaPoOsobi, sj.osnovnaVrstaUsluge, sj.PovecanjeCenePoUsluzi, " +
             "ts.id = idTip, ts.naziv AS nazivTip, ts.minKapacitet AS minKapacitet, ts.maxKapacitet AS maxKapacitet";
 
         public string JoinClause =>

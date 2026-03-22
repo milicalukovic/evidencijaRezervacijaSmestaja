@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Client.GuiController
 {
-    public class PrijaviVlasnikGUIController
+    public class PrijaviVlasnikController
     {
         private FrmPrijaviVlasnik frmPrijaviVlasnik;
-        public PrijaviVlasnikGUIController(FrmPrijaviVlasnik frmPrijaviVlasnik) { this.frmPrijaviVlasnik = frmPrijaviVlasnik; }
+        public PrijaviVlasnikController(FrmPrijaviVlasnik frmPrijaviVlasnik) { this.frmPrijaviVlasnik = frmPrijaviVlasnik; }
 
         public void PrijaviVlasnik()
         {
@@ -29,27 +29,27 @@ namespace Client.GuiController
                 
                 Vlasnik vl = new Vlasnik
                 {
-                    KorisnickoIme= frmPrijaviVlasnik.TxtKorisnickoIme.Text,
-                    Lozinka = frmPrijaviVlasnik.TxtLozinka.Text
+                    KorisnickoIme= frmPrijaviVlasnik.TxtKorisnickoIme.Text.Trim(),
+                    Lozinka = frmPrijaviVlasnik.TxtLozinka.Text.Trim()
                 };
 
                 frmPrijaviVlasnik.TxtKorisnickoIme.BackColor = Color.White;
 
                 Odgovor response = Communication.Instance.PrijaviVlasnik(vl); //saljemo zahtev i primamo odgovor
-                if (response.ExceptionMessage == null) //postoji u bazi
+                if (response.ExceptionMessage == null && response.Result!=null) //postoji u bazi
                 {
 
                     Koordinator.Instance.UlogovaniVlasnik = (Vlasnik)response.Result;
-                    MessageBox.Show(frmPrijaviVlasnik, "Korisnicko ime i sifra su ispravni!", "USPEŠNA PRIJAVA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(frmPrijaviVlasnik, "Korisnicko ime i sifra su ispravni!", "USPESNA PRIJAVA", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     frmPrijaviVlasnik.DialogResult = DialogResult.OK;
                     frmPrijaviVlasnik.Close();
-                    Koordinator.Instance.OtvoriGlavnuFrm();
+                    Koordinator.Instance.OtvoriGlavnuFrm(); //ucitava sledecu
 
                 }
                 else //nema zaposlenog u bazi, desila se neka greska
                 {
-                    MessageBox.Show(frmPrijaviVlasnik, "Korisnicno ime i sifra nisu ispravni! " + response.ExceptionMessage, "GREŠKA",
+                    MessageBox.Show(frmPrijaviVlasnik, "Korisnicno ime i sifra nisu ispravni! ", "GRESKA",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -62,7 +62,7 @@ namespace Client.GuiController
             catch (Exception e)
             {
 
-                MessageBox.Show(frmPrijaviVlasnik, "Ne moze da se otvori glavna forma i meni!" + e.Message,
+                MessageBox.Show(frmPrijaviVlasnik, "Ne moze da se otvori glavna forma i meni!",
                                             "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
@@ -72,18 +72,17 @@ namespace Client.GuiController
 
         private bool Validacija() //da li su popunjena polja + DODATI VALIDACIJU ZA PODATKE
         {
-            if (string.IsNullOrEmpty(frmPrijaviVlasnik.TxtKorisnickoIme.Text) ||
-               string.IsNullOrEmpty(frmPrijaviVlasnik.TxtLozinka.Text))
+            if (string.IsNullOrEmpty(frmPrijaviVlasnik.TxtKorisnickoIme.Text.Trim()) ||
+               string.IsNullOrEmpty(frmPrijaviVlasnik.TxtLozinka.Text.Trim()))
             {
-                MessageBox.Show(frmPrijaviVlasnik, "Popunite sva polja!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(frmPrijaviVlasnik, "Popunite sva polja!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            bool validEmail = MailAddress.TryCreate(frmPrijaviVlasnik.TxtKorisnickoIme.Text, out _);
+            bool validEmail = MailAddress.TryCreate(frmPrijaviVlasnik.TxtKorisnickoIme.Text.Trim(), out _);
             if (!validEmail)
             {
-
-                MessageBox.Show(frmPrijaviVlasnik, "Korisničko ime nije validno!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(frmPrijaviVlasnik, "Korisničko ime nije validno!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 frmPrijaviVlasnik.TxtKorisnickoIme.BackColor = Color.Red;
                 return false;
             }
@@ -95,5 +94,7 @@ namespace Client.GuiController
         {
             frmPrijaviVlasnik.ShowDialog();
         }
+
+        
     }
 }

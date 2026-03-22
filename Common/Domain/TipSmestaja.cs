@@ -17,7 +17,7 @@ namespace Common.Domain
 
         public string TableName => "TipSmestaja";
         public string InsertColumns => "naziv, minKapacitet, maxKapacitet";
-        public string InsertValues => $"'{Naziv}', '{MinKapacitet}', '{MaxKapacitet}'";
+        public string InsertValues => $"'{Naziv}', {MinKapacitet}, {MaxKapacitet}";
         public string PrimaryKeyClause => "";
         public string WhereClause { get ; set ; }
         public string UpdateSetClause => "";
@@ -42,6 +42,11 @@ namespace Common.Domain
         }
         public string SelectColumns => "*";
         public string JoinClause => "";
+
+        public override string ToString()
+        {
+            return Naziv;
+        }
 
      }
 }

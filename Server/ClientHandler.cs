@@ -63,15 +63,34 @@ namespace Server
                     case Operation.PrijaviVlasnik:
                         serverOdg.Result = Controller.Instance.PrijaviVlasnik(serializer.ReadType<Vlasnik>(klZahtev.Argument)); //readtype vraca obj ili null
                         break;
-                    
-                        //    Controller.Instance.AddPerson(serializer.ReadType<Klijent>(req.Argument)); //readtype vraca obj ili null
-                    //    break;
-                    //case Operation.Login:
-                    //    r.Result = Controller.Instance.Login(serializer.ReadType<Zaposleni>(req.Argument));
-                    //    break;
-                    //case Operation.GetAllMesto:
-                    //    r.Result = Controller.Instance.GetAllCity();
-                    //    break;
+                    case Operation.UbaciIzvorOcene:
+                        serverOdg.Result = Controller.Instance.UbaciIzvorOcene(serializer.ReadType<IzvorOcene>(klZahtev.Argument));
+                        break;
+                    case Operation.VratiListuSviTipSmestaja:
+                        serverOdg.Result = Controller.Instance.VratiListuSviTipSmestaja(serializer.ReadType<TipSmestaja>(klZahtev.Argument));
+                        break;
+                    case Operation.VratiListuSviSmestajnaJedinica:
+                        serverOdg.Result = Controller.Instance.VratiListuSviSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
+                        break;
+                    case Operation.KreirajSmestajnaJedinica:
+                        serverOdg.Result = Controller.Instance.KreirajSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
+                        break;
+                    case Operation.PromeniSmestajnaJedinica:
+                        Controller.Instance.PromeniSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
+                        break;
+                    case Operation.VratiListuSmestajnaJedinica:
+                        serverOdg.Result = Controller.Instance.VratiListuSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
+                        break;
+                    case Operation.PretraziSmestajnaJedinica:
+                        serverOdg.Result = Controller.Instance.PretraziSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
+                        break;
+                    case Operation.ObrisiSmestajnaJedinica:
+                        Controller.Instance.ObrisiSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
+                        break;
+
+
+
+
                 }
             }
             catch (Exception ex)

@@ -20,13 +20,6 @@ namespace Server.SystemOperation.VlasnikSO
         {
             List<IDomainObj> list = repository.GetAllByCondition(vl); 
             Result = list.Cast<Vlasnik>().FirstOrDefault();
-
-            if (Result == null)
-            {
-                Debug.WriteLine("Ne postoji vlasnik sa unetim kredencijalima!");
-                throw new Exception("Ne postoji vlasnik sa unetim kredencijalima!");
-
-            }
         }
     }
 }
