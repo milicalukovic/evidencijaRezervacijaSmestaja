@@ -66,7 +66,8 @@ namespace Server.Repository
         public List<IDomainObj> GetAllByCondition(IDomainObj entity)
         {
             SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText = $"SELECT {entity.SelectColumns} FROM {entity.TableName} {entity.JoinClause} WHERE {entity.WhereClause}";
+            cmd.CommandText = $"SELECT {entity.SelectColumns} FROM {entity.TableName} {entity.JoinClause}" +
+                $" WHERE {entity.WhereClause}";
             Debug.WriteLine(cmd.CommandText);
             using SqlDataReader reader = cmd.ExecuteReader();
             List<IDomainObj> lista = entity.VratiListuSvi(reader);
@@ -77,8 +78,7 @@ namespace Server.Repository
         public void Update(IDomainObj entity)
         {
             SqlCommand cmd = broker.CreateCommand();
-            cmd.CommandText =
-                $"UPDATE {entity.TableName} SET {entity.UpdateSetClause} WHERE {entity.PrimaryKeyClause}";
+            cmd.CommandText = $"UPDATE {entity.TableName} SET {entity.UpdateSetClause} WHERE {entity.PrimaryKeyClause}";
 
             Debug.WriteLine(cmd.CommandText);
             cmd.ExecuteNonQuery();

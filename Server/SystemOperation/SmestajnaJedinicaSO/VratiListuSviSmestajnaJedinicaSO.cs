@@ -1,4 +1,5 @@
 ﻿using Common.Domain;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,7 @@ namespace Server.SystemOperation.SmestajnaJedinicaSO
         protected override void ExecuteConcreteOperation() //vraca sve smestajne jedinice koje je kreirao vlasnik koji je prijavljen
         {
             List<SmestajnaJedinica> lista = repository.GetAll(sj).Cast<SmestajnaJedinica>().ToList();
-            foreach(SmestajnaJedinica sj in lista){
-                if (!sj.Vlasnik.Equals(this.sj.Vlasnik))
-                {
-                    lista.Remove(sj);
-                }
-            }
-            ResultList = lista;
+            ResultList = lista.Where(x => x.Vlasnik.Equals(this.sj.Vlasnik)).ToList(); 
         }
     }
 }

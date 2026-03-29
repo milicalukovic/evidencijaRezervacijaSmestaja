@@ -30,12 +30,12 @@ namespace Common.Communication
 
         // Korisnik (gost)
         VratiListuSviKorinsik,
+        KreirajKorisnik,
 
         // Tip smestaja
         VratiListuSviTipSmestaja,
 
         // Izvor ocene
-        UbaciIzvorOcene,
-        PromeniIzvorOcene,
+        UbaciIzvorOcene
     }
 }

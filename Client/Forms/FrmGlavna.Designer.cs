@@ -50,7 +50,7 @@
             menu.Items.AddRange(new ToolStripItem[] { mesecnaEvidencijaMenuItem, smestajnaJedinicaMenuItem, prosecnaOcenaMenuItem, vlasnikMenuItem });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Size = new Size(1008, 28);
+            menu.Size = new Size(1229, 28);
             menu.TabIndex = 0;
             menu.Text = "menu";
             // 
@@ -126,7 +126,7 @@
             // 
             panel.Location = new Point(31, 50);
             panel.Name = "panel";
-            panel.Size = new Size(953, 529);
+            panel.Size = new Size(1164, 529);
             panel.TabIndex = 1;
             // 
             // FrmGlavna
@@ -134,7 +134,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Window;
-            ClientSize = new Size(1008, 612);
+            ClientSize = new Size(1229, 612);
             Controls.Add(panel);
             Controls.Add(menu);
             Name = "FrmGlavna";

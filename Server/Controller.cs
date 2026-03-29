@@ -1,4 +1,5 @@
-﻿using Common.Domain;
+﻿using Common.Communication;
+using Common.Domain;
 using Server.SystemOperation.IzvorOceneSO;
 using Server.SystemOperation.SmestajnaJedinicaSO;
 using Server.SystemOperation.TipSmestajaSO;
@@ -15,6 +16,7 @@ namespace Server
     {
         private static Controller instance;
 
+        private List<Vlasnik> ulogovani = new List<Vlasnik>();
         public static Controller Instance
         {
             get
@@ -31,7 +33,16 @@ namespace Server
         {
             PrijaviVlasnikSO so = new PrijaviVlasnikSO(vl);
             so.ExecuteTemplate();
-            return so.Result;
+            if (so.Result != null)
+            {
+                if (ulogovani.Contains(so.Result))
+                {
+                    throw new Exception("Vlasnik je vec ulogovan!");
+                }
+                ulogovani.Add(so.Result);
+                return so.Result;
+            }
+            throw new Exception("Korisnicno ime i sifra nisu ispravni!");
         }
 
         internal object UbaciIzvorOcene(IzvorOcene izvorOcene)
@@ -86,6 +97,11 @@ namespace Server
         {
             ObrisiSmestajnaJedinicaSO so = new ObrisiSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate() ;
+        }
+
+        internal void OdjaviVlasnik(Vlasnik vlasnik)
+        {
+            ulogovani.Remove(vlasnik);
         }
     }
 }

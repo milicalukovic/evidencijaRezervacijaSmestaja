@@ -17,4 +17,9 @@
     <ProjectReference Include="..\DBBroker\DBBroker.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SystemOperation\KorisnikSO\" />
+    <Folder Include="SystemOperation\EvidencijaRezSO\" />
+  </ItemGroup>
+
 </Project>

@@ -33,7 +33,7 @@ namespace Client.GuiController
             else                                   //izmena postojece, prikaz postojecih podataka
             {
                 SmestajnaJedinica izabrana = Koordinator.Instance.IzabranaSJ;
-                Frm.CmbTip.SelectedItem = izabrana.Tip;
+                Frm.CmbTip.SelectedValue = izabrana.Tip.Id;
                 Frm.TxtNaziv.Text = izabrana.Naziv;
                 Frm.CmbOsnovnaVrstaUsluge.SelectedItem = izabrana.OsnovnaVrstaUsluge;
                 Frm.NumericCenaPoOsobi.Value = izabrana.CenaPoOsobi;
@@ -54,7 +54,7 @@ namespace Client.GuiController
             List<TipSmestaja> lista = Koordinator.Instance.ListaTipSmestaja;
             Frm.CmbTip.DataSource = lista;
             Frm.CmbTip.DisplayMember = "Naziv"; //sta se prikazuje korisniku
-            //Frm.CmbTip.ValueMember = "Id";      //sta je vrednost
+            Frm.CmbTip.ValueMember = "Id";      //sta je vrednost - kada se ucitava izabrana
         }
 
         internal void PromeniSmestajnaJedinica()

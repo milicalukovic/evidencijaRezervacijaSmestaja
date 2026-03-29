@@ -43,43 +43,44 @@ namespace Client.GuiController
             {
                 HeaderText = "Naziv",                                            //naslov
                 DataPropertyName = "Naziv",                                      //vrednost uzima iz tog atributa objekta
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,              //zauzme sav preostali prostor
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Osnovna vrsta usluge",
                 DataPropertyName = "OsnovnaVrstaUsluge",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, //zauzme tacno mesta koliko joj je potrebno
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Cena po osobi",
                 DataPropertyName = "CenaPoOsobi",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Povecanje cene po usluzi",
                 DataPropertyName = "PovecanjeCenePoUsluzi",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "tipNaziv",
                 HeaderText = "Tip smestaja",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "minKapacitet",
                 HeaderText = "Min Kapacitet",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "maxKapacitet",
                 HeaderText = "Max kapacitet",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                // AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
 
             UCPrikaz.DgvSmestajnaJedinica.DataSource = AzurirajSmestajneJedinice();
@@ -215,19 +216,19 @@ namespace Client.GuiController
                         MessageBox.Show(UCPrikaz, "Sistem je nasao smestajne jedinice po zadatim kriterijumima.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         UCPrikaz.DgvSmestajnaJedinica.DataSource = null;
                         UCPrikaz.DgvSmestajnaJedinica.DataSource = lista;
+                        return;
                     }
                     else
                     {
-                        MessageBox.Show(UCPrikaz, "Sistem ne moze da nadje smestajne jedinice po zadatim kriterijumima.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //ako je vec bila filtrirana a nije restartovana pre ovog kriterijuma
                         UCPrikaz.DgvSmestajnaJedinica.DataSource = null;
                         UCPrikaz.DgvSmestajnaJedinica.DataSource = Koordinator.Instance.ListaSmestajnaJedinica;
-                        UCPrikaz.CbSmestajnaJedinica.Checked = false;
-                        UCPrikaz.CbTipSmestaja.Checked = false;
                     }
                 }
-
             }
+            MessageBox.Show(UCPrikaz, "Sistem ne moze da nadje smestajne jedinice po zadatim kriterijumima.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //ako je vec bila filtrirana a nije restartovana pre ovog kriterijuma
+            UCPrikaz.CbSmestajnaJedinica.Checked = false;
+            UCPrikaz.CbTipSmestaja.Checked = false;
         }
         internal void IzabranaSJ(int rowIndex)
         {

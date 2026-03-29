@@ -15,6 +15,7 @@ namespace Server
         private JsonNetworkSerializer serializer;
         private Socket socket;
         private readonly Server server;
+        private Vlasnik ulogovani;
 
         public ClientHandler(Socket socket, Server server)
         {
@@ -45,6 +46,10 @@ namespace Server
             }
             finally
             {
+                if (ulogovani != null)
+                {
+                    Controller.Instance.OdjaviVlasnik(ulogovani);
+                }
                 if (socket.Connected)
                 {
                     socket.Close();
@@ -62,6 +67,12 @@ namespace Server
                 {
                     case Operation.PrijaviVlasnik:
                         serverOdg.Result = Controller.Instance.PrijaviVlasnik(serializer.ReadType<Vlasnik>(klZahtev.Argument)); //readtype vraca obj ili null
+                        ulogovani = serverOdg.Result as Vlasnik;
+                        break;
+                    case Operation.OdjaviVlasnik:
+                        Controller.Instance.OdjaviVlasnik(serializer.ReadType<Vlasnik>(klZahtev.Argument));
+                        //socket.Close();
+                        //server.RemoveClient(this);
                         break;
                     case Operation.UbaciIzvorOcene:
                         serverOdg.Result = Controller.Instance.UbaciIzvorOcene(serializer.ReadType<IzvorOcene>(klZahtev.Argument));

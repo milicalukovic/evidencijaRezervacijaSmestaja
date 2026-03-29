@@ -1,4 +1,5 @@
 ﻿using Client.Session;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,7 +41,10 @@ namespace Client.UserControls
 
         private void btnVratiPrikaz_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.SmestajnaJedinicaUCController.AzurirajTabelu();
+            if (!Koordinator.Instance.ListaSmestajnaJedinica.IsNullOrEmpty())
+            {
+                Koordinator.Instance.SmestajnaJedinicaUCController.AzurirajTabelu();
+            }
         }
         private void dgvSmestajnaJedinica_CellClick(object sender, DataGridViewCellEventArgs e)
         {

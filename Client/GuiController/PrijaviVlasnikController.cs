@@ -49,7 +49,7 @@ namespace Client.GuiController
                 }
                 else //nema zaposlenog u bazi, desila se neka greska
                 {
-                    MessageBox.Show(frmPrijaviVlasnik, "Korisnicno ime i sifra nisu ispravni! ", "GRESKA",
+                    MessageBox.Show(frmPrijaviVlasnik, response.ExceptionMessage, "GRESKA",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

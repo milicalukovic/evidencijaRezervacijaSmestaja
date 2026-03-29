@@ -39,16 +39,16 @@
             // 
             dgvSmestajnaJedinica.BackgroundColor = SystemColors.Control;
             dgvSmestajnaJedinica.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSmestajnaJedinica.Location = new Point(34, 234);
+            dgvSmestajnaJedinica.Location = new Point(54, 234);
             dgvSmestajnaJedinica.Name = "dgvSmestajnaJedinica";
             dgvSmestajnaJedinica.RowHeadersWidth = 51;
-            dgvSmestajnaJedinica.Size = new Size(888, 217);
+            dgvSmestajnaJedinica.Size = new Size(1051, 217);
             dgvSmestajnaJedinica.TabIndex = 0;
             dgvSmestajnaJedinica.CellClick += dgvSmestajnaJedinica_CellClick;
             // 
             // btnKreirajSJ
             // 
-            btnKreirajSJ.Location = new Point(758, 467);
+            btnKreirajSJ.Location = new Point(963, 467);
             btnKreirajSJ.Name = "btnKreirajSJ";
             btnKreirajSJ.Size = new Size(132, 40);
             btnKreirajSJ.TabIndex = 2;
@@ -59,7 +59,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(138, 80);
+            checkBox1.Location = new Point(206, 79);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(170, 24);
             checkBox1.TabIndex = 4;
@@ -70,7 +70,7 @@
             // checkBox2
             // 
             checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(492, 80);
+            checkBox2.Location = new Point(553, 79);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(114, 24);
             checkBox2.TabIndex = 5;
@@ -81,7 +81,7 @@
             // cmbSmestajnaJedinica
             // 
             cmbSmestajnaJedinica.FormattingEnabled = true;
-            cmbSmestajnaJedinica.Location = new Point(94, 126);
+            cmbSmestajnaJedinica.Location = new Point(169, 125);
             cmbSmestajnaJedinica.Name = "cmbSmestajnaJedinica";
             cmbSmestajnaJedinica.Size = new Size(243, 28);
             cmbSmestajnaJedinica.TabIndex = 6;
@@ -89,14 +89,14 @@
             // cmbTipSmestaja
             // 
             cmbTipSmestaja.FormattingEnabled = true;
-            cmbTipSmestaja.Location = new Point(429, 126);
+            cmbTipSmestaja.Location = new Point(484, 125);
             cmbTipSmestaja.Name = "cmbTipSmestaja";
             cmbTipSmestaja.Size = new Size(243, 28);
             cmbTipSmestaja.TabIndex = 7;
             // 
             // btnFilltrirajPrikazSJ
             // 
-            btnFilltrirajPrikazSJ.Location = new Point(579, 183);
+            btnFilltrirajPrikazSJ.Location = new Point(834, 183);
             btnFilltrirajPrikazSJ.Name = "btnFilltrirajPrikazSJ";
             btnFilltrirajPrikazSJ.Size = new Size(94, 29);
             btnFilltrirajPrikazSJ.TabIndex = 8;
@@ -106,7 +106,7 @@
             // 
             // btnVratiPrikaz
             // 
-            btnVratiPrikaz.Location = new Point(698, 183);
+            btnVratiPrikaz.Location = new Point(963, 183);
             btnVratiPrikaz.Name = "btnVratiPrikaz";
             btnVratiPrikaz.Size = new Size(94, 29);
             btnVratiPrikaz.TabIndex = 9;
@@ -136,7 +136,7 @@
             // 
             // btnPretraziSJ
             // 
-            btnPretraziSJ.Location = new Point(594, 467);
+            btnPretraziSJ.Location = new Point(751, 467);
             btnPretraziSJ.Name = "btnPretraziSJ";
             btnPretraziSJ.Size = new Size(133, 40);
             btnPretraziSJ.TabIndex = 12;
@@ -161,7 +161,7 @@
             Controls.Add(btnKreirajSJ);
             Controls.Add(dgvSmestajnaJedinica);
             Name = "UCPrikazSmestajnaJedinica";
-            Size = new Size(953, 529);
+            Size = new Size(1164, 529);
             ((System.ComponentModel.ISupportInitialize)dgvSmestajnaJedinica).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -50,6 +50,13 @@ namespace Common.Domain
         {
             return Ime + " " + Prezime;
         }
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Vlasnik other)
+                return false;
+
+            return KorisnickoIme == other.KorisnickoIme;
+        }
 
        }
 }

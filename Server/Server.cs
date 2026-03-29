@@ -14,13 +14,11 @@ namespace Server
     {
         private Socket socket;
         private List<ClientHandler> handlers;
-        private FrmServer frm;
 
         public Server()
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             handlers = new List<ClientHandler>();
-            frm = new FrmServer();
         }
 
         public void Start()
@@ -36,7 +34,7 @@ namespace Server
             nitServera.Start();
         }
 
-
+        private object _lock = new object(); //sinhronizacija niti, ako je jedna nit obrade zahteva usla u removeClient nijedna druga nit nece uci dok ona ne zavrsi
 
         private void AcceptClient() //prihvatamo klijente 
         {
@@ -47,7 +45,10 @@ namespace Server
                     Socket klijentskiSoket = socket.Accept(); // klijent poslao zahtev
                     Debug.WriteLine("Klijent se povezao!");
                     ClientHandler handler = new ClientHandler(klijentskiSoket, this); //prosledjujemo Client Handleru konkretnog klijenta koji se povezao i pokazivac na servera
-                    handlers.Add(handler);
+                    lock (_lock)
+                    {
+                        handlers.Add(handler);
+                    }
 
 
                     //napraviti nit za svakog handlera da se zahtevi obradjuju na posebnim nitima
@@ -65,7 +66,11 @@ namespace Server
         //metoda koja resava sta se desava kada zatvormo formu server?
         public void Stop() //kada pritisnemo stop na serverskoj formi
         {
-            List<ClientHandler> copy = new List<ClientHandler>(handlers);
+            List<ClientHandler> copy;
+            lock (_lock)
+            {
+                copy = new List<ClientHandler>(handlers);
+            }
             foreach (ClientHandler handler in copy)
             {
 
@@ -77,10 +82,6 @@ namespace Server
 
             Debug.WriteLine("Server zaustavljen");
         }
-
-        private object _lock = new object(); //sinhronizacija niti, ako je jedna nit obrade zahteva usla u removeClient nijedna druga nit nece uci dok ona ne zavrsi
-
-
 
         internal void RemoveClient(ClientHandler clientHandler) //izbacuje konkretnog handlera iz liste, u ClientHandleru se zatvara socket ako vec nije zatvroren u Stop metodi
         {

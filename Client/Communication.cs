@@ -42,50 +42,79 @@ namespace Client
 
         public Odgovor PrijaviVlasnik(Vlasnik vl)
         {
-            Zahtev zahtev = new Zahtev
+            try
             {
-                Argument = vl,
-                Operation = Operation.PrijaviVlasnik
-            };
+                Zahtev zahtev = new Zahtev
+                {
+                    Argument = vl,
+                    Operation = Operation.PrijaviVlasnik
+                };
 
-            serializer.Send(zahtev); //saljemo zahtev kroz mrezu do servera
+                serializer.Send(zahtev); //saljemo zahtev kroz mrezu do servera
 
-            //ocekujemo odgovor od servera
-            Odgovor odgovor
-                = serializer.Receive<Odgovor>(); //ostajemo na ovoj liniji sve dok ne dobijemo odgovor od servera
+                //ocekujemo odgovor od servera
+                Odgovor odgovor
+                    = serializer.Receive<Odgovor>(); //ostajemo na ovoj liniji sve dok ne dobijemo odgovor od servera
 
-            //iz odgovora od servera uzimamo podatke i konvertujemo u konkretan tip koji nam treba
-            //treba nam Vlasnik jer pokusavamo da se prijavimo 
-            odgovor.Result = serializer.ReadType<Vlasnik>(odgovor.Result);
+                //iz odgovora od servera uzimamo podatke i konvertujemo u konkretan tip koji nam treba
+                //treba nam Vlasnik jer pokusavamo da se prijavimo 
+                odgovor.Result = serializer.ReadType<Vlasnik>(odgovor.Result);
 
-            return odgovor; //saljemo sta je odgovor od servera koji cemo dalje proveravati u GUIControlleru
+                return odgovor; //saljemo sta je odgovor od servera koji cemo dalje proveravati u GUIControlleru
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         internal void OdjaviVlasnik(Vlasnik ulogovaniVlasnik)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = ulogovaniVlasnik,
-                Operation = Operation.OdjaviVlasnik
-            };
-            serializer.Send(klZahtev);
-            socket.Close();
-            Debug.WriteLine("Zaposleni se odjavljuje...");
-            Environment.Exit(0);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = ulogovaniVlasnik,
+                    Operation = Operation.OdjaviVlasnik
+                };
+                serializer.Send(klZahtev);
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+            }
+
         }
 
         internal Odgovor UbaciIzvorOcene(IzvorOcene izvor)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = izvor,
-                Operation = Operation.UbaciIzvorOcene,
-            };
-            serializer.Send(klZahtev);
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<IzvorOcene>(serverOdg.Result);
-            return serverOdg;
-            
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = izvor,
+                    Operation = Operation.UbaciIzvorOcene,
+                };
+                serializer.Send(klZahtev);
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<IzvorOcene>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         ///////////////////////
@@ -93,29 +122,49 @@ namespace Client
         ///////////////////////
         internal Odgovor VratiListuSviTipSmestaja(TipSmestaja tip)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = tip,
-                Operation = Operation.VratiListuSviTipSmestaja,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = tip,
+                    Operation = Operation.VratiListuSviTipSmestaja,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<List<TipSmestaja>>(serverOdg.Result);
-            return serverOdg;
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<List<TipSmestaja>>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
         internal Odgovor VratiListuSviSmestajnaJedinica(SmestajnaJedinica sj)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = sj,
-                Operation = Operation.VratiListuSviSmestajnaJedinica,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = sj,
+                    Operation = Operation.VratiListuSviSmestajnaJedinica,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<List<SmestajnaJedinica>>(serverOdg.Result);
-            return serverOdg;
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<List<SmestajnaJedinica>>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         ///////////////////////
@@ -123,72 +172,121 @@ namespace Client
         ///////////////////////
         internal Odgovor KreirajSmestajnaJedinica(SmestajnaJedinica sj)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = sj,
-                Operation = Operation.KreirajSmestajnaJedinica,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = sj,
+                    Operation = Operation.KreirajSmestajnaJedinica,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
-            return serverOdg;
-
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         internal Odgovor PromeniSmestajnaJedinica(SmestajnaJedinica nova)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = nova,
-                Operation = Operation.PromeniSmestajnaJedinica,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = nova,
+                    Operation = Operation.PromeniSmestajnaJedinica,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
-            return serverOdg;
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         internal Odgovor VratiListuSmestajnaJedinica(SmestajnaJedinica filtrirana)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = filtrirana,
-                Operation = Operation.VratiListuSmestajnaJedinica,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = filtrirana,
+                    Operation = Operation.VratiListuSmestajnaJedinica,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<List<SmestajnaJedinica>>(serverOdg.Result);
-            return serverOdg;
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<List<SmestajnaJedinica>>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         internal Odgovor PretraziSmestajnaJedinica(SmestajnaJedinica izabranaSJ)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = izabranaSJ,
-                Operation = Operation.PretraziSmestajnaJedinica,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = izabranaSJ,
+                    Operation = Operation.PretraziSmestajnaJedinica,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
-            return serverOdg;
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
 
         internal Odgovor ObrisiSmestajnaJedinica(SmestajnaJedinica izabranaSJ)
         {
-            Zahtev klZahtev = new Zahtev
+            try
             {
-                Argument = izabranaSJ,
-                Operation = Operation.ObrisiSmestajnaJedinica,
-            };
-            serializer.Send(klZahtev);
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = izabranaSJ,
+                    Operation = Operation.ObrisiSmestajnaJedinica,
+                };
+                serializer.Send(klZahtev);
 
-            Odgovor serverOdg = serializer.Receive<Odgovor>();
-            return serverOdg;
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                socket.Close();
+                Debug.WriteLine("Klijent se odjavljuje...");
+                Environment.Exit(0);
+                return null;
+            }
         }
     }
 }
