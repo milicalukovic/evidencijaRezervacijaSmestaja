@@ -2,7 +2,7 @@
 using Client.Session;
 using Common.Communication;
 using Common.Domain;
-using Common.Domain.enums;
+using Common.Domain.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;

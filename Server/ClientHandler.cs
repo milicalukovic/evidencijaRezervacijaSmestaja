@@ -98,9 +98,27 @@ namespace Server
                     case Operation.ObrisiSmestajnaJedinica:
                         Controller.Instance.ObrisiSmestajnaJedinica(serializer.ReadType<SmestajnaJedinica>(klZahtev.Argument));
                         break;
-
-
-
+                    case Operation.VratiListuEvidencijaRez:
+                        serverOdg.Result = Controller.Instance.VratiListuEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
+                        break;
+                    case Operation.PretraziEvidencijaRez:
+                        serverOdg.Result = Controller.Instance.PretraziEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
+                        break;
+                    case Operation.KreirajEvidencijaRez:
+                        serverOdg.Result = Controller.Instance.KreirajEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
+                        break;
+                    case Operation.VratiListuSviKorinsik:
+                        serverOdg.Result = Controller.Instance.VratiListuSviKorisnik(serializer.ReadType<Korisnik>(klZahtev.Argument));
+                        break;
+                    case Operation.ObrisiEvidencijaRez:
+                        Controller.Instance.ObrisiEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
+                        break;
+                    case Operation.PromeniEvidencijaRez:
+                        Controller.Instance.PromeniEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
+                        break;
+                    case Operation.DodajKorisnik:
+                        serverOdg.Result = Controller.Instance.DodajKorisnik(serializer.ReadType<Korisnik>(klZahtev.Argument));
+                        break;
 
                 }
             }

@@ -3,7 +3,7 @@ using Client.Session;
 using Client.UserControls;
 using Common.Communication;
 using Common.Domain;
-using Common.Domain.enums;
+using Common.Domain.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections;
@@ -25,7 +25,8 @@ namespace Client.GuiController
 
         internal void PopuniPodatke()
         {
-            UcitajTipSmestaja();
+            //UcitajTipSmestaja(); ucitano u kontroleru glavne frm
+
             UCPrikaz.CmbTipSmestaja.Visible = false;
             UCPrikaz.CmbSmestajnaJedinica.Visible = false;
             PopuniTabelu(); //pravi kolone i postavlja DataSource
@@ -38,7 +39,7 @@ namespace Client.GuiController
             UCPrikaz.DgvSmestajnaJedinica.Columns.Clear();                     //reset
             UCPrikaz.DgvSmestajnaJedinica.DataSource = null;
 
-
+            UCPrikaz.DgvSmestajnaJedinica.CellFormatting -= FormatirajTabelu;
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Naziv",                                            //naslov
@@ -53,14 +54,14 @@ namespace Client.GuiController
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "cenaPoOsobi",
                 HeaderText = "Cena po osobi",
-                DataPropertyName = "CenaPoOsobi",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
+                Name = "povecanjeCene",
                 HeaderText = "Povecanje cene po usluzi",
-                DataPropertyName = "PovecanjeCenePoUsluzi",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
@@ -72,7 +73,7 @@ namespace Client.GuiController
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "minKapacitet",
-                HeaderText = "Min Kapacitet",
+                HeaderText = "Min kapacitet",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
@@ -91,21 +92,41 @@ namespace Client.GuiController
         }
         private void FormatirajTabelu(object? sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (UCPrikaz.DgvSmestajnaJedinica.Rows[e.RowIndex].DataBoundItem is SmestajnaJedinica sj)
-            {
-                if (UCPrikaz.DgvSmestajnaJedinica.Columns[e.ColumnIndex].Name == "tipNaziv")
-                {
-                    e.Value = sj.Tip?.Naziv;
-                }
 
-                if (UCPrikaz.DgvSmestajnaJedinica.Columns[e.ColumnIndex].Name == "minKapacitet")
-                {
-                    e.Value = sj.Tip?.MinKapacitet;
-                }
-                if (UCPrikaz.DgvSmestajnaJedinica.Columns[e.ColumnIndex].Name == "maxKapacitet")
-                {
-                    e.Value = sj.Tip?.MaxKapacitet;
-                }
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            if (UCPrikaz.DgvSmestajnaJedinica.Rows[e.RowIndex].DataBoundItem is not SmestajnaJedinica sj)
+                return;
+
+            string columnName = UCPrikaz.DgvSmestajnaJedinica.Columns[e.ColumnIndex].Name;
+
+            switch (columnName)
+            {
+                case "tipNaziv":
+                    e.Value = sj.Tip?.Naziv;
+                    e.FormattingApplied = true;
+                    break;
+
+                case "minKapacitet":
+                    e.Value = sj.Tip?.MinKapacitet.ToString();
+                    e.FormattingApplied = true;
+                    break;
+
+                case "maxKapacitet":
+                    e.Value = sj.Tip?.MaxKapacitet.ToString();
+                    e.FormattingApplied = true;
+                    break;
+
+                case "cenaPoOsobi":
+                    e.Value = sj.CenaPoOsobi.ToString("N2") + " €";
+                    e.FormattingApplied = true;
+                    break;
+
+                case "povecanjeCene":
+                    e.Value = sj.PovecanjeCenePoUsluzi.ToString("N2") + " €";
+                    e.FormattingApplied = true;
+                    break;
+
             }
         }
         private List<SmestajnaJedinica> AzurirajSmestajneJedinice()
@@ -124,17 +145,6 @@ namespace Client.GuiController
             return lista;
         }
 
-        private void UcitajTipSmestaja()
-        {
-            TipSmestaja tip = new TipSmestaja();
-
-            Odgovor serverOdg = Communication.Instance.VratiListuSviTipSmestaja(tip);
-            if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
-            {
-                List<TipSmestaja> lista = (List<TipSmestaja>)serverOdg.Result;
-                Koordinator.Instance.ListaTipSmestaja = lista;
-            }
-        }
         internal void PrikaziCmbTip() //kada nije selekotvan check box visible false
         {
             if (UCPrikaz.CbTipSmestaja.Checked)

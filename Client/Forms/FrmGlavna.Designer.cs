@@ -31,8 +31,8 @@
             menu = new MenuStrip();
             mesecnaEvidencijaMenuItem = new ToolStripMenuItem();
             kreirajNovuToolStripMenuItem = new ToolStripMenuItem();
-            pretraziEvidencijeToolStripMenuItem = new ToolStripMenuItem();
-            izmeniPostojecuToolStripMenuItem = new ToolStripMenuItem();
+            prikaziEvidencijeToolStripMenuItem = new ToolStripMenuItem();
+            pretraziEvidencijeToolStripMenuItem1 = new ToolStripMenuItem();
             smestajnaJedinicaMenuItem = new ToolStripMenuItem();
             prikazSJMenuItem = new ToolStripMenuItem();
             prosecnaOcenaMenuItem = new ToolStripMenuItem();
@@ -56,7 +56,7 @@
             // 
             // mesecnaEvidencijaMenuItem
             // 
-            mesecnaEvidencijaMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kreirajNovuToolStripMenuItem, pretraziEvidencijeToolStripMenuItem, izmeniPostojecuToolStripMenuItem });
+            mesecnaEvidencijaMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kreirajNovuToolStripMenuItem, prikaziEvidencijeToolStripMenuItem, pretraziEvidencijeToolStripMenuItem1 });
             mesecnaEvidencijaMenuItem.Name = "mesecnaEvidencijaMenuItem";
             mesecnaEvidencijaMenuItem.Size = new Size(152, 24);
             mesecnaEvidencijaMenuItem.Text = "Mesecna evidencija";
@@ -64,20 +64,23 @@
             // kreirajNovuToolStripMenuItem
             // 
             kreirajNovuToolStripMenuItem.Name = "kreirajNovuToolStripMenuItem";
-            kreirajNovuToolStripMenuItem.Size = new Size(214, 26);
+            kreirajNovuToolStripMenuItem.Size = new Size(227, 26);
             kreirajNovuToolStripMenuItem.Text = "kreiraj novu";
+            kreirajNovuToolStripMenuItem.Click += kreirajNovuToolStripMenuItem_Click;
             // 
-            // pretraziEvidencijeToolStripMenuItem
+            // prikaziEvidencijeToolStripMenuItem
             // 
-            pretraziEvidencijeToolStripMenuItem.Name = "pretraziEvidencijeToolStripMenuItem";
-            pretraziEvidencijeToolStripMenuItem.Size = new Size(214, 26);
-            pretraziEvidencijeToolStripMenuItem.Text = "pretrazi evidenciju";
+            prikaziEvidencijeToolStripMenuItem.Name = "prikaziEvidencijeToolStripMenuItem";
+            prikaziEvidencijeToolStripMenuItem.Size = new Size(227, 26);
+            prikaziEvidencijeToolStripMenuItem.Text = "pregledaj evidencije";
+            prikaziEvidencijeToolStripMenuItem.Click += prikaziEvidencijeToolStripMenuItem_Click;
             // 
-            // izmeniPostojecuToolStripMenuItem
+            // pretraziEvidencijeToolStripMenuItem1
             // 
-            izmeniPostojecuToolStripMenuItem.Name = "izmeniPostojecuToolStripMenuItem";
-            izmeniPostojecuToolStripMenuItem.Size = new Size(214, 26);
-            izmeniPostojecuToolStripMenuItem.Text = "izmeni postojecu";
+            pretraziEvidencijeToolStripMenuItem1.Name = "pretraziEvidencijeToolStripMenuItem1";
+            pretraziEvidencijeToolStripMenuItem1.Size = new Size(227, 26);
+            pretraziEvidencijeToolStripMenuItem1.Text = "pretrazi evidencije";
+            pretraziEvidencijeToolStripMenuItem1.Click += pretraziEvidencijeToolStripMenuItem_Click;
             // 
             // smestajnaJedinicaMenuItem
             // 
@@ -89,9 +92,9 @@
             // prikazSJMenuItem
             // 
             prikazSJMenuItem.Name = "prikazSJMenuItem";
-            prikazSJMenuItem.Size = new Size(161, 26);
+            prikazSJMenuItem.Size = new Size(224, 26);
             prikazSJMenuItem.Text = "prikazi sve";
-            prikazSJMenuItem.Click += prikaziMenuItem_Click;
+            prikazSJMenuItem.Click += prikaziSJMenuItem_Click;
             // 
             // prosecnaOcenaMenuItem
             // 
@@ -103,7 +106,7 @@
             // ubaciIzvorOcene
             // 
             ubaciIzvorOcene.Name = "ubaciIzvorOcene";
-            ubaciIzvorOcene.Size = new Size(211, 26);
+            ubaciIzvorOcene.Size = new Size(224, 26);
             ubaciIzvorOcene.Text = "dodaj izvor ocene";
             ubaciIzvorOcene.Click += ubaciIzvorOcene_Click;
             // 
@@ -124,6 +127,7 @@
             // 
             // panel
             // 
+            panel.BackColor = Color.Tan;
             panel.Location = new Point(31, 50);
             panel.Name = "panel";
             panel.Size = new Size(1164, 529);
@@ -140,6 +144,7 @@
             Name = "FrmGlavna";
             Text = "Klijentska forma";
             FormClosing += FrmGlavna_FormClosing;
+            Load += FrmGlavna_Load;
             menu.ResumeLayout(false);
             menu.PerformLayout();
             ResumeLayout(false);
@@ -155,11 +160,11 @@
         private ToolStripMenuItem vlasnikMenuItem;
         private ToolStripMenuItem odjava;
         private ToolStripMenuItem kreirajNovuToolStripMenuItem;
-        private ToolStripMenuItem pretraziEvidencijeToolStripMenuItem;
-        private ToolStripMenuItem izmeniPostojecuToolStripMenuItem;
+        private ToolStripMenuItem prikaziEvidencijeToolStripMenuItem;
         private ToolStripMenuItem prikazSJMenuItem;
         private ToolStripMenuItem ubaciIzvorOcene;
         private Panel panel;
+        private ToolStripMenuItem pretraziEvidencijeToolStripMenuItem1;
 
         public Panel GlavnaPanel { get => panel; set => panel = value; }
     }

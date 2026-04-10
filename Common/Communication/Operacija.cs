@@ -11,13 +11,15 @@ namespace Common.Communication
         // Vlasnik
         PrijaviVlasnik,
         OdjaviVlasnik,
-        VratiListuSviVlasnik,
+        //VratiListuSviVlasnik,
 
         // Evidencija rezervacija
         KreirajEvidencijaRez,
         PretraziEvidencijaRez,
         PromeniEvidencijaRez,
         VratiListuEvidencijaRez,
+
+        ObrisiEvidencijaRez,
 
         // Smestajna jedinica
         VratiListuSviSmestajnaJedinica,
@@ -30,7 +32,7 @@ namespace Common.Communication
 
         // Korisnik (gost)
         VratiListuSviKorinsik,
-        KreirajKorisnik,
+        DodajKorisnik,
 
         // Tip smestaja
         VratiListuSviTipSmestaja,

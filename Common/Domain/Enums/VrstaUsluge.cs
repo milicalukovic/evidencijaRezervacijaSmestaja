@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Domain.enums
+namespace Common.Domain.Enums
 {
     public enum VrstaUsluge
     {

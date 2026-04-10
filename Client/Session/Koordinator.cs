@@ -59,8 +59,8 @@ namespace Client.Session
             IzvorOceneController.OtvoriFormu();
         }
 
-        public List<TipSmestaja> ListaTipSmestaja { get; set; }
-        public List<SmestajnaJedinica> ListaSmestajnaJedinica { get; set; }
+        public List<TipSmestaja> ListaTipSmestaja { get; set; } = new List<TipSmestaja>();
+        public List<SmestajnaJedinica> ListaSmestajnaJedinica { get; set; } = new List<SmestajnaJedinica> ();
         public UCPrikazSmestajnaJedinica UCPrikazSmestajnaJedinica { get; set; }
         public SmestajnaJedinicaUCController SmestajnaJedinicaUCController { get; set; }
         internal void InicijalizujUCPrikazSJ()
@@ -81,7 +81,80 @@ namespace Client.Session
             SmestajnaJedinicaFrmController.OtvoriFormu();
         }
 
+        public List<EvidencijaRez> ListaEvidencijaRezervacija { get; set; } = new List<EvidencijaRez>();
+        public UCPrikazEvidencijaRez UCPrikazEvidencijaRez { get; set; }
+        public PrikazEvidencijaRezController PrikazEvidencijaRezController { get; set; }
+        internal void InicijalizujUCPrikazEvidencija()
+        {
+            UCPrikazEvidencijaRez = new UCPrikazEvidencijaRez();
+            PrikazEvidencijaRezController = new PrikazEvidencijaRezController(UCPrikazEvidencijaRez);
+        }
 
+        public FrmKriterijumPretrageEvidencijaRez FrmKriterijumPretrageEvidencijaRez { get; set; }
+        public KriterijumPretrageController KriterijumPretrageController { get; set; }
+        internal void OtvoriFrmKriterijumPretrageEvidencijaRez()
+        {
+            FrmKriterijumPretrageEvidencijaRez = new FrmKriterijumPretrageEvidencijaRez();
+            KriterijumPretrageController = new KriterijumPretrageController(FrmKriterijumPretrageEvidencijaRez);
+            KriterijumPretrageController.OtvoriFormu();
+        }
 
+        public EvidencijaRez IzabranaEvidencija { get; set; }
+        public UCIzabranaEvidencijaRez UCIzabranaEvidencijaRez { get; set; }
+        public IzabranaEvidencijaRezController IzabranaEvidencijaRezController { get; set; }
+        internal void InicijalizujUCIzabranaEvidencijaRez()
+        {
+            UCIzabranaEvidencijaRez = new UCIzabranaEvidencijaRez();
+            IzabranaEvidencijaRezController = new IzabranaEvidencijaRezController(UCIzabranaEvidencijaRez);
+        }
+
+        public EvidencijaRez KreiranaEvidencija { get; set; }
+        public List<Korisnik> ListaKorisnik { get; set; } = new List<Korisnik>();
+        public FrmPromeniEvidencijaRez FrmPromeniEvidencijaRez { get; set; }
+        public PromeniEvidencijaRezFrmController PromeniEvidencijaRezFrmController { get; set; }
+        internal void OtvoriFrmPromeniEvidencijaRez(EvidencijaRez e)
+        {
+            FrmPromeniEvidencijaRez = new FrmPromeniEvidencijaRez();
+            PromeniEvidencijaRezFrmController = new PromeniEvidencijaRezFrmController(FrmPromeniEvidencijaRez);
+            PromeniEvidencijaRezFrmController.OtvoriFormu(e);
+        }
+
+        public EvidencijaRez IzmenjenaEvidencija { get; set; }
+        public UCOsnovniPodaciEvidencijaRez UCOsnovniPodaciEvidencijaRez { get; set; }
+        public OsnovniPodaciEvidencijaRezController OsnovniPodaciEvidencijaRezController { get; set; }
+        internal void InicijalizujUCOsnovniPodaciEvidencijaRez()
+        {
+            UCOsnovniPodaciEvidencijaRez = new UCOsnovniPodaciEvidencijaRez();
+            OsnovniPodaciEvidencijaRezController = new OsnovniPodaciEvidencijaRezController(UCOsnovniPodaciEvidencijaRez);
+        }
+
+        public StavkaEvidencije IzabranaStavka { get; set; }
+        public UCStavkeEvidencijaRez UCStavkeEvidencijaRez { get; set; }
+        public StavkeEvidencijaRezUCController StavkeEvidencijaRezUCController { get; set; }
+        internal void InicijalizujUCStavkeEvidencijaRez()
+        {
+            UCStavkeEvidencijaRez = new UCStavkeEvidencijaRez();
+            StavkeEvidencijaRezUCController = new StavkeEvidencijaRezUCController(UCStavkeEvidencijaRez);
+        }
+
+        public StavkaEvidencije IzmenjenaStavka { get; set; }
+        public FrmStavkaEvidencije FrmStavka { get; set; }
+        public StavkaEvidencijeFrmController StavkaEvidencijeFrmController { get; set; }
+        internal void OtvoriFrmStavkaEvidencije(StavkaEvidencije stavka)
+        {
+            FrmStavka = new FrmStavkaEvidencije();
+            StavkaEvidencijeFrmController = new StavkaEvidencijeFrmController(FrmStavka);
+            StavkaEvidencijeFrmController.OtvoriFormu(stavka);
+        }
+
+        public StavkaEvidencije KreiranaStavka { get; set; }
+        public Korisnik Korisnik { get; set; }
+        public UCIznosiStavkeEvidencije UCIznosiStavkeEvidencije {  get; set; }
+        public IznosiStavkeEvidencijeController IznosiStavkeEvidencijeController { get; set; }
+        internal void InicijalizujUCIznosiStavkeEvidencije()
+        {
+            UCIznosiStavkeEvidencije = new UCIznosiStavkeEvidencije();
+            IznosiStavkeEvidencijeController = new IznosiStavkeEvidencijeController(UCIznosiStavkeEvidencije);
+        }
     }
 }

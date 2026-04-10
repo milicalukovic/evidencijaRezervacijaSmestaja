@@ -11,17 +11,16 @@ using System.Windows.Forms;
 
 namespace Client.Forms
 {
-    public partial class FrmIzvorOcene : Form
+    public partial class FrmKriterijumPretrageEvidencijaRez : Form
     {
-        public FrmIzvorOcene()
+        public FrmKriterijumPretrageEvidencijaRez()
         {
             InitializeComponent();
         }
 
-        private void btnUbaciIzvorOcene_Click(object sender, EventArgs e)
+        private void btnPretraziEvidencijeRez_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.IzvorOceneController.UbaciIzvorOcene();
+            Koordinator.Instance.KriterijumPretrageController.PretraziEvidencijeRezPoKriterijumima();
         }
-
     }
 }

@@ -73,7 +73,6 @@
             Controls.Add(label1);
             Name = "FrmIzvorOcene";
             Text = "Novi izvor ocene";
-            Load += FrmIzvorOcene_Load;
             ResumeLayout(false);
             PerformLayout();
         }

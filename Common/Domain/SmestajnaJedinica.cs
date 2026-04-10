@@ -1,4 +1,4 @@
-﻿using Common.Domain.enums;
+﻿using Common.Domain.Enums;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace Common.Domain
         public string TableName =>"SmestajnaJedinica";
         public string InsertColumns => "naziv, osnovnaVrstaUsluge, cenaPoOsobi, PovecanjeCenePoUsluzi, Vlasnik, idTip";
         public string InsertValues => $"'{Naziv}', {(int)OsnovnaVrstaUsluge}," +
-            $" {CenaPoOsobi.ToString(CultureInfo.InvariantCulture)}, {PovecanjeCenePoUsluzi.ToString(CultureInfo.InvariantCulture)},'{Vlasnik}', '{Tip.Id}'";
+            $" {CenaPoOsobi.ToString(CultureInfo.InvariantCulture)}, {PovecanjeCenePoUsluzi.ToString(CultureInfo.InvariantCulture)},'{Vlasnik}', '{Tip?.Id}'";
                              //format 30.5 jer je na formi 30,5
         public string PrimaryKeyClause => $"id = {Id}";
 
@@ -64,7 +64,7 @@ namespace Common.Domain
         }  
         public string UpdateSetClause => $"naziv = '{Naziv}', osnovnaVrstaUsluge = {(int)OsnovnaVrstaUsluge}," +
             $" cenaPoOsobi = {CenaPoOsobi.ToString(CultureInfo.InvariantCulture)}, PovecanjeCenePoUsluzi = {PovecanjeCenePoUsluzi.ToString(CultureInfo.InvariantCulture)}, " +
-            $"vlasnik = '{Vlasnik}', idTip = {Tip.Id}";
+            $"vlasnik = '{Vlasnik}', idTip = {Tip?.Id}";
 
         public List<IDomainObj> VratiListuSvi(SqlDataReader reader)
         {

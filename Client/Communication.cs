@@ -64,10 +64,12 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -110,10 +112,37 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        internal Odgovor DodajKorisnik(Korisnik noviKorisnik)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = noviKorisnik,
+                    Operation = Operation.DodajKorisnik,
+                };
+                serializer.Send(klZahtev);
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<Korisnik>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -137,10 +166,12 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
         internal Odgovor VratiListuSviSmestajnaJedinica(SmestajnaJedinica sj)
@@ -160,10 +191,38 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        internal Odgovor VratiListuSviKorisnik(Korisnik korisnik)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = korisnik,
+                    Operation = Operation.VratiListuSviKorinsik,
+                };
+                serializer.Send(klZahtev);
+
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<List<Korisnik>>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -187,10 +246,12 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -206,15 +267,16 @@ namespace Client
                 serializer.Send(klZahtev);
 
                 Odgovor serverOdg = serializer.Receive<Odgovor>();
-                serverOdg.Result = serializer.ReadType<SmestajnaJedinica>(serverOdg.Result);
                 return serverOdg;
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -235,10 +297,12 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -259,10 +323,12 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
 
@@ -282,11 +348,146 @@ namespace Client
             }
             catch (Exception ex)
             {
-                socket.Close();
-                Debug.WriteLine("Klijent se odjavljuje...");
-                Environment.Exit(0);
-                return null;
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
             }
         }
+
+        ///////////////////////
+        /// EVIDENCIJA REZ
+        ///////////////////////
+        internal Odgovor VratiListuEvidencijaRez(EvidencijaRez evidencija)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = evidencija,
+                    Operation = Operation.VratiListuEvidencijaRez,
+                };
+                serializer.Send(klZahtev);
+
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<List<EvidencijaRez>>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        internal Odgovor PretraziEvidencijaRez(EvidencijaRez izabrana)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = izabrana,
+                    Operation = Operation.PretraziEvidencijaRez,
+                };
+                serializer.Send(klZahtev);
+
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<EvidencijaRez>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        internal Odgovor KreirajEvidencijaRez(EvidencijaRez kreirana)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = kreirana,
+                    Operation = Operation.KreirajEvidencijaRez,
+                };
+                serializer.Send(klZahtev);
+
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                serverOdg.Result = serializer.ReadType<EvidencijaRez>(serverOdg.Result);
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        internal Odgovor ObrisiEvidencijaRez(EvidencijaRez kreiranaEvidencija)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = kreiranaEvidencija,
+                    Operation = Operation.ObrisiEvidencijaRez,
+                };
+                serializer.Send(klZahtev);
+
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        internal Odgovor PromeniEvidencijaRez(EvidencijaRez izmenjenaEvidencija)
+        {
+            try
+            {
+                Zahtev klZahtev = new Zahtev
+                {
+                    Argument = izmenjenaEvidencija,
+                    Operation = Operation.PromeniEvidencijaRez,
+                };
+                serializer.Send(klZahtev);
+
+                Odgovor serverOdg = serializer.Receive<Odgovor>();
+                return serverOdg;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString()); 
+
+                return new Odgovor
+                {
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        
     }
 }

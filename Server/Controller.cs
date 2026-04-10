@@ -1,6 +1,8 @@
 ﻿using Common.Communication;
 using Common.Domain;
+using Server.SystemOperation.EvidencijaRezSO;
 using Server.SystemOperation.IzvorOceneSO;
+using Server.SystemOperation.KorisnikSO;
 using Server.SystemOperation.SmestajnaJedinicaSO;
 using Server.SystemOperation.TipSmestajaSO;
 using Server.SystemOperation.VlasnikSO;
@@ -44,7 +46,10 @@ namespace Server
             }
             throw new Exception("Korisnicno ime i sifra nisu ispravni!");
         }
-
+        internal void OdjaviVlasnik(Vlasnik vlasnik)
+        {
+            ulogovani.Remove(vlasnik);
+        }
         internal object UbaciIzvorOcene(IzvorOcene izvorOcene)
         {
             UbaciIzvorOceneSO so1 = new UbaciIzvorOceneSO(izvorOcene);
@@ -99,9 +104,51 @@ namespace Server
             so.ExecuteTemplate() ;
         }
 
-        internal void OdjaviVlasnik(Vlasnik vlasnik)
+        internal object VratiListuEvidencijaRez(EvidencijaRez evidencijaRez)
         {
-            ulogovani.Remove(vlasnik);
+            VratiListuEvidencijaRezSO so = new VratiListuEvidencijaRezSO(evidencijaRez);
+            so.ExecuteTemplate() ;
+            return so.ResultList;
+        }
+
+        internal object PretraziEvidencijaRez(EvidencijaRez evidencijaRez)
+        {
+            PretraziEvidencijaRezSO so = new PretraziEvidencijaRezSO(evidencijaRez);
+            so.ExecuteTemplate() ;
+            return so.Result;
+        }
+
+        internal object KreirajEvidencijaRez(EvidencijaRez evidencijaRez)
+        {
+            KreirajEvidencijaRezSO so = new KreirajEvidencijaRezSO(evidencijaRez);
+            so.ExecuteTemplate() ;
+            return so.Result;
+        }
+
+        internal object VratiListuSviKorisnik(Korisnik korisnik)
+        {
+            VratiListuSviKorisnikSO so = new VratiListuSviKorisnikSO(korisnik);
+            so.ExecuteTemplate() ;
+            return so.ResultList;
+        }
+
+        internal void ObrisiEvidencijaRez(EvidencijaRez evidencijaRez)
+        {
+            UkloniEvidencijaRezSO so = new UkloniEvidencijaRezSO(evidencijaRez);
+            so.ExecuteTemplate() ;
+        }
+
+        internal void PromeniEvidencijaRez(EvidencijaRez evidencijaRez)
+        {
+            PromeniEvidencijaRezSO so = new PromeniEvidencijaRezSO(evidencijaRez);
+            so.ExecuteTemplate() ;
+        }
+
+        internal object DodajKorisnik(Korisnik korisnik)
+        {
+            DodajKorisnikSO so = new DodajKorisnikSO(korisnik);
+            so.ExecuteTemplate() ;
+            return so.Result;
         }
     }
 }

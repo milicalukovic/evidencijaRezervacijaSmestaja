@@ -24,24 +24,39 @@ namespace Client.Forms
             Koordinator.Instance.GlavnaFrmController.OdjaviVlasnik();
         }
 
+        private void FrmGlavna_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Koordinator.Instance.GlavnaFrmController.OdjaviVlasnik();
+        }
+
         private void ubaciIzvorOcene_Click(object sender, EventArgs e)
         {
             Koordinator.Instance.GlavnaFrmController.UbaciIzvorOcene();
         }
 
-        private void prikaziMenuItem_Click(object sender, EventArgs e)
+        private void prikaziSJMenuItem_Click(object sender, EventArgs e)
         {
             Koordinator.Instance.GlavnaFrmController.PrikaziSmestajneJedinice();
         }
 
-        private void FrmGlavna_Load(object sender, EventArgs e)
+        private void prikaziEvidencijeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
         }
 
-        private void FrmGlavna_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmGlavna_Load(object sender, EventArgs e)
         {
-            Koordinator.Instance.GlavnaFrmController.OdjaviVlasnik();
+            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
+        }
+
+        private void pretraziEvidencijeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Koordinator.Instance.GlavnaFrmController.PretraziEvidencije();
+        }
+
+        private void kreirajNovuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Koordinator.Instance.GlavnaFrmController.KreirajEvidencijaRez();
         }
     }
 }

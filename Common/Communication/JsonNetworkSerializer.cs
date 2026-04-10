@@ -31,9 +31,12 @@ namespace Common.Communication
             writer.WriteLine(JsonSerializer.Serialize(z));
         }
         //prihvata json i pretvara u obj
-        public T Receive<T>()
+        public T Receive<T>() where T : class
         {
             string json = reader.ReadLine();
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
             return JsonSerializer.Deserialize<T>(json);
         }
         //obj pretvara u konkretan tip

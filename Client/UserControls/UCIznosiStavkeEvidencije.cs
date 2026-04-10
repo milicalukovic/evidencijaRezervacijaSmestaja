@@ -9,19 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Client.Forms
+namespace Client.UserControls
 {
-    public partial class FrmIzvorOcene : Form
+    public partial class UCIznosiStavkeEvidencije : UserControl
     {
-        public FrmIzvorOcene()
+        public UCIznosiStavkeEvidencije()
         {
             InitializeComponent();
         }
 
-        private void btnUbaciIzvorOcene_Click(object sender, EventArgs e)
+        private void btnPromeniEvidencijaRez_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.IzvorOceneController.UbaciIzvorOcene();
+            Koordinator.Instance.IznosiStavkeEvidencijeController.SacuvajStavku();
         }
-
     }
 }
