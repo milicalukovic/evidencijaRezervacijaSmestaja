@@ -13,6 +13,7 @@ namespace Common.Domain
     {
         public EvidencijaRez Evidencija {  get; set; }
         public long Rb {  get; set; } //postavljamo na serveru kada menjamo evidenciju u odnosu na trenutni br stavki
+        public StatusStavke StatusStavke { get; set; }
         public int DanDolaska { get; set; }
         public int DanOdlaska { get; set; }
         public Korisnik Korisnik { get; set; } = new Korisnik();
@@ -33,11 +34,11 @@ namespace Common.Domain
         public string TableName => "StavkaEvidencije";
         public string InsertColumns => " idEvidencije, rb, danDolaska, danOdlaska, brDana, brOsoba, " +
                                         " idKorisnik, vrstaUsluge, uplacenAvans";
-        public string InsertValues => $" {Evidencija.Id}, {Rb}, {DanDolaska}, {DanOdlaska}, {BrDana}, " +
+        public string InsertValues => $" {Evidencija?.Id}, {Rb}, {DanDolaska}, {DanOdlaska}, {BrDana}, " +
                                 $"{BrOsoba.ToString(CultureInfo.InvariantCulture)}, {Korisnik?.Id}, " +
                                 $" {(int)VrstaUsluge}, {(UplacenAvans ? 1 : 0)}";
-        public string PrimaryKeyClause => $"idEvidencije = {Evidencija.Id} AND rb = {Rb} ";
-        public string WhereClause { get => $" s.idEvidencije = {Evidencija.Id}"; set { } }
+        public string PrimaryKeyClause => $"idEvidencije = {Evidencija?.Id} AND rb = {Rb} ";
+        public string WhereClause { get => $" s.idEvidencije = {Evidencija?.Id}"; set { } }
         public string UpdateSetClause => "";
 
         public List<IDomainObj> VratiListuSvi(SqlDataReader reader)

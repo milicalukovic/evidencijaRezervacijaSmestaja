@@ -28,5 +28,11 @@ namespace Client.UserControls
         {
             Koordinator.Instance.OsnovniPodaciEvidencijaRezController.PromeniCMBSmestajnaJedinica(CmbSmestajnaJedinica.SelectedItem as SmestajnaJedinica);
         }
+
+        private void btnZaboraviIzmene_Click(object sender, EventArgs e)
+        {
+            Koordinator.Instance.OsnovniPodaciEvidencijaRezController.ZaboraviIzmene();
+
+        }
     }
 }

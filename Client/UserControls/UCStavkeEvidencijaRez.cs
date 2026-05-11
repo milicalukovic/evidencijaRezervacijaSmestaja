@@ -20,7 +20,7 @@ namespace Client.UserControls
 
         private void btnDodajStavka_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.OtvoriFrmStavkaEvidencije(new Common.Domain.StavkaEvidencije());
+            Koordinator.Instance.StavkeEvidencijaRezUCController.DodajStavkaEvidencije();
         }
         private void dgvStavke_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -40,7 +40,7 @@ namespace Client.UserControls
 
         private void btnPromeniEvidencijaRez_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.StavkeEvidencijaRezUCController.PromeniEvidencijaRez();
+            Koordinator.Instance.StavkeEvidencijaRezUCController.PromeniEvidencijaRez(Koordinator.Instance.Evidencija);
         }
 
         //private void dgvStavke_DataError(object sender, DataGridViewDataErrorEventArgs e)

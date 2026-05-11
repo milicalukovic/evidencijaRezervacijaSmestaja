@@ -3,8 +3,10 @@ using Client.Session;
 using Client.UserControls;
 using Common.Communication;
 using Common.Domain;
+using Common.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +25,8 @@ namespace Client.GuiController
 
         internal void PopuniPodatke()
         {
-            UCEvidencija.LblRezervacije.Text = $"Rezervacije {Koordinator.Instance.IzmenjenaEvidencija.SmestajnaJedinica.Naziv}" +
-                $" \n za period evidencije {(NazivMeseca)Koordinator.Instance.IzmenjenaEvidencija.Mesec.Month} {Koordinator.Instance.IzmenjenaEvidencija.Mesec.Year}. ";
+            UCEvidencija.LblRezervacije.Text = $"Rezervacije {Koordinator.Instance.Evidencija.SmestajnaJedinica.Naziv}" +
+                $" \n za period evidencije {(NazivMeseca)Koordinator.Instance.Evidencija.Mesec.Month} {Koordinator.Instance.Evidencija.Mesec.Year}. ";
 
             PopuniTabelu();
         }
@@ -41,16 +43,14 @@ namespace Client.GuiController
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "dolazak",
-                HeaderText = "Dan dolaska",
-                DataPropertyName = "DanDolaska",
+                HeaderText = "Dolazak",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
                 Width = 90
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "odlazak",
-                HeaderText = "Dan odlaska",
-                DataPropertyName = "DanOdlaska",
+                HeaderText = "Odlazak",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
                 Width = 90
             });
@@ -98,7 +98,7 @@ namespace Client.GuiController
                 MinimumWidth = 100
             });
 
-            var sortirane = Koordinator.Instance.IzmenjenaEvidencija.StavkeEvidencije
+            var sortirane = Koordinator.Instance.Evidencija.StavkeEvidencije
                             .OrderBy(s => s.DanDolaska)
                             .ThenBy(s => s.DanOdlaska)
                             .ToList();
@@ -137,19 +137,26 @@ namespace Client.GuiController
                     break;
 
                 case "dolazak":
-                    e.Value = stavka.DanDolaska.ToString() + ".";
+                    e.Value = stavka.DanDolaska.ToString() + "." + Koordinator.Instance.Evidencija.Mesec.Month + ".";
                     e.FormattingApplied = true;
                     break;
 
                 case "odlazak":
-                    e.Value = stavka.DanOdlaska.ToString() + ".";
+                    if (stavka.DanOdlaska == 1)
+                    {
+                        e.Value = 1 + "." + Koordinator.Instance.Evidencija.Mesec.AddMonths(1).Month + ".";
+                    }
+                    else
+                    {
+                        e.Value = stavka.DanOdlaska.ToString() + "." + Koordinator.Instance.Evidencija.Mesec.Month + ".";
+                    }
                     e.FormattingApplied = true;
                     break;
             }
         }
         public void AzurirajTabelu()
         {
-            var sortirane = Koordinator.Instance.IzmenjenaEvidencija.StavkeEvidencije
+            var sortirane = Koordinator.Instance.Evidencija.StavkeEvidencije
                         .OrderBy(s => s.DanDolaska)
                         .ThenBy(s => s.DanOdlaska)
                         .ToList();
@@ -158,6 +165,19 @@ namespace Client.GuiController
             UCEvidencija.DgvStavke.DataSource = sortirane;
         }
 
+        internal void DodajStavkaEvidencije()
+        {
+            Koordinator.Instance.IzmenjenaStavka = null;
+
+            Koordinator.Instance.Stavka = new StavkaEvidencije
+            {
+                Evidencija = Koordinator.Instance.Evidencija,
+                Rb = Koordinator.Instance.Evidencija.StavkeEvidencije.Count,
+            };
+            // Koordinator.Instance.OtvoriFrmStavkaEvidencije();
+            Koordinator.Instance.GlavnaFrmController.PromeniStavkaEvidencijeRez();
+
+        }
         internal void IzabranaStavka(int rowIndex)
         {
             if (rowIndex < 0)
@@ -167,71 +187,188 @@ namespace Client.GuiController
             }
             else
             {
-                Koordinator.Instance.IzabranaStavka = UCEvidencija.DgvStavke.Rows[rowIndex].DataBoundItem as StavkaEvidencije;
+                Koordinator.Instance.Stavka = UCEvidencija.DgvStavke.Rows[rowIndex].DataBoundItem as StavkaEvidencije;
+                Koordinator.Instance.IzmenjenaStavka = new StavkaEvidencije //pamti podakte o izmeni
+                {
+                    Evidencija = Koordinator.Instance.Stavka.Evidencija,
+                    Rb = Koordinator.Instance.Stavka.Rb,
+                    Korisnik = Koordinator.Instance.Stavka.Korisnik,
+                };
             }
         }
 
         internal void ObrisiStavkaEvidencije()
         {
-            if (Koordinator.Instance.IzabranaStavka == null)
+            if (Koordinator.Instance.IzmenjenaStavka == null)
             {
                 MessageBox.Show(UCEvidencija, "Morate izabrati rezervaciju.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Koordinator.Instance.IzmenjenaEvidencija.StavkeEvidencije.Remove(Koordinator.Instance.IzabranaStavka);
+            Koordinator.Instance.Stavka.StatusStavke = StatusStavke.OBRISANA;
+            Koordinator.Instance.Evidencija.StavkeEvidencije.Remove(Koordinator.Instance.Stavka);
+            Koordinator.Instance.IzmenjenaStavka = null;
             AzurirajTabelu();
         }
 
         internal void IzmeniStavkaEvidencije()
         {
-            if (Koordinator.Instance.IzabranaStavka == null)
+            if (Koordinator.Instance.IzmenjenaStavka == null)
             {
                 MessageBox.Show(UCEvidencija, "Morate izabrati rezervaciju.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Koordinator.Instance.OtvoriFrmStavkaEvidencije(Koordinator.Instance.IzabranaStavka);
+            //Koordinator.Instance.Stavka = Koordinator.Instance.IzabranaStavka;
+            //Koordinator.Instance.OtvoriFrmStavkaEvidencije();
+            Koordinator.Instance.GlavnaFrmController.PromeniStavkaEvidencijeRez();
         }
 
-        internal void PromeniEvidencijaRez()
+        internal void PromeniEvidencijaRez(EvidencijaRez evidencija)
         {
+            Koordinator.Instance.IzmenjenaStavka = null;
             //sada svaka stavka evidencije u sebi cuva i evidenciju (koristilo se za obracune iznosa dok se ne posalje u bazu)
             //kada je saljemo ka serveru preko JSON-a, ucitavace evidenciju pa njenu stavku pa u okviru stavke opet evidenciju i njene stavke i nastaje ciklicna referenca, javlja se greska
             //zato pre nego sto posaljemo serveru postavimo samo idEvidencije i praznu listu stavki u evidenciji
-            foreach (var s in Koordinator.Instance.IzmenjenaEvidencija.StavkeEvidencije)
+            foreach (var s in evidencija.StavkeEvidencije)
             {
                 s.Evidencija = new EvidencijaRez
                 {
-                    Id = Koordinator.Instance.IzmenjenaEvidencija.Id,
+                    Id = evidencija.Id,
                     StavkeEvidencije = new List<StavkaEvidencije>()
-                }; //server ce u SO dodeliti pravu vrednost za evidenciju a ovde prekinamo ciklicnu referencu i zadrzavamo id
+                }; //server ce u SO dodeliti pravu vrednost za evidenciju a ovde prekidamo ciklicnu referencu i zadrzavamo id
             }
-            Odgovor serverOdg = Communication.Instance.PromeniEvidencijaRez(Koordinator.Instance.IzmenjenaEvidencija);
-            if(serverOdg == null || serverOdg.ExceptionMessage != null )
+            Odgovor serverOdg = Communication.Instance.PromeniEvidencijaRez(evidencija);
+            if (serverOdg == null || serverOdg.ExceptionMessage != null)
             {
-                MessageBox.Show(UCEvidencija, "Sistem ne moze da zapamti evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (Koordinator.Instance.IzmenjenaEvidencija.Equals(Koordinator.Instance.KreiranaEvidencija)) //ako je kreirana a nije uspesno zapamcena obrisi je
+                MessageBox.Show(UCEvidencija, "Sistem ne moze da zapamti evidenciju/e rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!evidencija.Equals(Koordinator.Instance.EvidencijaSledecegMeseca) &&
+                    Koordinator.Instance.Evidencija.Nova) //ako je kreirana a nije uspesno zapamcena obrisi je
                 {
-                    Koordinator.Instance.PromeniEvidencijaRezFrmController.ObrisiEvidenciju();
+
+                    Odgovor odg = Communication.Instance.ObrisiEvidencijaRez(evidencija);
+
+                    if (odg.ExceptionMessage != null)
+                        throw new Exception(odg.ExceptionMessage);
+
+                    //obrisi i sledecu kreiranu ako postoji
+                    if (Koordinator.Instance.EvidencijaSledecegMeseca != null)
+                    {
+                        Odgovor odg2 = Communication.Instance.ObrisiEvidencijaRez(Koordinator.Instance.EvidencijaSledecegMeseca);
+
+                        if (odg2.ExceptionMessage != null)
+                            throw new Exception(odg2.ExceptionMessage);
+
+                        Koordinator.Instance.EvidencijaSledecegMeseca = null;
+                    }
                 }
             }
             else
             {
                 Koordinator.Instance.PrikazEvidencijaRezController.AzurirajTabelu();
 
-                if (Koordinator.Instance.IzmenjenaEvidencija.Equals(Koordinator.Instance.IzabranaEvidencija))
+                if (!evidencija.Equals(Koordinator.Instance.EvidencijaSledecegMeseca) &&
+                    !Koordinator.Instance.Evidencija.Nova)
                     Koordinator.Instance.IzabranaEvidencijaRezController.AzurirajTabelu();
 
-                MessageBox.Show(UCEvidencija, "Sistem je zapamtio evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (!evidencija.Equals(Koordinator.Instance.EvidencijaSledecegMeseca) &&
+                    Koordinator.Instance.EvidencijaSledecegMeseca != null)
+                {
+                    PromeniEvidencijaRez(Koordinator.Instance.EvidencijaSledecegMeseca);
+
+                    
+                }
+                else
+                {
+                    Debug.WriteLine(evidencija.Id);
+                    Debug.WriteLine(Koordinator.Instance.EvidencijaSledecegMeseca?.Id);
+                    
+                    if (evidencija.Equals(Koordinator.Instance.EvidencijaSledecegMeseca) ||
+                        Koordinator.Instance.EvidencijaSledecegMeseca==null)
+                    {
+                        MessageBox.Show(UCEvidencija, "Sistem je zapamtio evidenciju/e rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Koordinator.Instance.Evidencija = null;
+                        Koordinator.Instance.EvidencijaSledecegMeseca = null;
+                    }
+                    
+                    Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
+                }
+
             }
-
-            
-            if (Koordinator.Instance.IzmenjenaEvidencija.Equals(Koordinator.Instance.KreiranaEvidencija))
-                Koordinator.Instance.KreiranaEvidencija = null;
-            else
-                Koordinator.Instance.IzabranaEvidencija = null;
-
-            Koordinator.Instance.IzmenjenaEvidencija = null;
-            Koordinator.Instance.PromeniEvidencijaRezFrmController.ZatvoriFormu();
+           
         }
+
+
+        //    internal void PromeniEvidencijaRez()
+        //    {
+
+        //        bool uspesnoTekuca = SacuvajEvidencijaRez(Koordinator.Instance.Evidencija);
+
+        //        if (!uspesnoTekuca)
+        //        {
+        //            if(Koordinator.Instance.EvidencijaSledecegMeseca != null)
+        //            {
+        //                UkloniEvidencijaRez(Koordinator.Instance.EvidencijaSledecegMeseca);
+
+        //            }
+        //            return;
+        //        }
+
+        //        if (Koordinator.Instance.EvidencijaSledecegMeseca != null)
+        //        {
+        //            bool uspesnoSledeca = SacuvajEvidencijaRez(Koordinator.Instance.EvidencijaSledecegMeseca);
+
+        //            if (!uspesnoSledeca)
+        //            {
+        //                UkloniEvidencijaRez(Koordinator.Instance.Evidencija);
+
+        //            }
+        //            return;
+        //        }
+
+        //        MessageBox.Show(UCEvidencija, "Sistem je zapamtio evidenciju/e rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        //        Koordinator.Instance.Evidencija = null;
+        //        Koordinator.Instance.EvidencijaSledecegMeseca = null;
+        //        Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
+
+        //    }
+
+        //    private void UkloniEvidencijaRez(EvidencijaRez evidencija)
+        //    {
+        //        Odgovor odg = Communication.Instance.ObrisiEvidencijaRez(evidencija);
+
+        //        if (odg.ExceptionMessage != null)
+        //            throw new Exception(odg.ExceptionMessage);
+
+        //        evidencija = null;
+        //    }
+
+        //    private bool SacuvajEvidencijaRez(EvidencijaRez evidencija)
+        //    {
+
+        //        Koordinator.Instance.IzmenjenaStavka = null;
+        //        //sada svaka stavka evidencije u sebi cuva i evidenciju (koristilo se za obracune iznosa dok se ne posalje u bazu)
+        //        //kada je saljemo ka serveru preko JSON-a, ucitavace evidenciju pa njenu stavku pa u okviru stavke opet evidenciju i njene stavke i nastaje ciklicna referenca, javlja se greska
+        //        //zato pre nego sto posaljemo serveru postavimo samo idEvidencije i praznu listu stavki u evidenciji
+        //        foreach (var s in evidencija.StavkeEvidencije)
+        //        {
+        //            s.Evidencija = new EvidencijaRez
+        //            {
+        //                Id = evidencija.Id,
+        //                StavkeEvidencije = new List<StavkaEvidencije>()
+        //            }; //server ce u SO dodeliti pravu vrednost za evidenciju a ovde prekidamo ciklicnu referencu i zadrzavamo id
+        //        }
+        //        Odgovor serverOdg = Communication.Instance.PromeniEvidencijaRez(evidencija);
+        //        if (serverOdg == null || serverOdg.ExceptionMessage != null)
+        //        {
+        //            MessageBox.Show(UCEvidencija, "Sistem ne moze da zapamti evidenciju/e rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            return true;
+        //        }
+
+        //    }
+        //}
     }
 }

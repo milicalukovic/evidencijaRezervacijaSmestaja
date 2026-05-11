@@ -1,4 +1,5 @@
-﻿using Client.Model;
+﻿using Client.Forms;
+using Client.Model;
 using Client.Session;
 using Client.UserControls;
 using Common.Domain;
@@ -22,7 +23,7 @@ namespace Client.GuiController
 
         internal void PopuniPodatke()
         {
-            EvidencijaRez izabrana = Koordinator.Instance.IzabranaEvidencija;
+            EvidencijaRez izabrana = Koordinator.Instance.Evidencija;
 
             UCEvidencija.TxtSmestajnaJedinica.Text = izabrana.SmestajnaJedinica.Naziv;
             UCEvidencija.TxtMesec.Text = $"{(NazivMeseca)izabrana.Mesec.Month} {izabrana.Mesec.Year}.";
@@ -107,7 +108,7 @@ namespace Client.GuiController
                 Width = 115
             });
 
-            var sortirane = Koordinator.Instance.IzabranaEvidencija.StavkeEvidencije
+            var sortirane = Koordinator.Instance.Evidencija.StavkeEvidencije
                             .OrderBy(s => s.DanDolaska)
                             .ThenBy(s=> s.DanOdlaska)
                             .ToList();
@@ -151,12 +152,19 @@ namespace Client.GuiController
                     break;
 
                 case "dolazak":
-                    e.Value = stavka.DanDolaska.ToString() + "/"+ Koordinator.Instance.IzabranaEvidencija.Mesec.ToString("MM/yyyy", CultureInfo.InvariantCulture); ;
+                    e.Value = stavka.DanDolaska.ToString() + "/"+ Koordinator.Instance.Evidencija.Mesec.ToString("MM/yyyy", CultureInfo.InvariantCulture); ;
                     e.FormattingApplied = true;
                     break;
 
                 case "odlazak":
-                    e.Value = stavka.DanOdlaska.ToString() + "/"+ Koordinator.Instance.IzabranaEvidencija.Mesec.ToString("MM/yyyy", CultureInfo.InvariantCulture); ;
+                    if (stavka.DanOdlaska == 1)
+                    {
+                        e.Value = 1 + "/" + Koordinator.Instance.Evidencija.Mesec.AddMonths(1).ToString("MM/yyyy", CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        e.Value = stavka.DanOdlaska.ToString() + "/" + Koordinator.Instance.Evidencija.Mesec.ToString("MM/yyyy", CultureInfo.InvariantCulture); 
+                    }
                     e.FormattingApplied = true;
                     break;
 
@@ -165,12 +173,13 @@ namespace Client.GuiController
 
         internal void PromeniEvidencijaRez()
         {
-            Koordinator.Instance.OtvoriFrmPromeniEvidencijaRez(Koordinator.Instance.IzabranaEvidencija);
+            //Koordinator.Instance.OtvoriFrmPromeniEvidencijaRez(Koordinator.Instance.Evidencija);
+            Koordinator.Instance.GlavnaFrmController.PromeniEvidencijaRez(Koordinator.Instance.Evidencija);
         }
 
         internal void AzurirajTabelu()
         {
-            var sortirane = Koordinator.Instance.IzmenjenaEvidencija.StavkeEvidencije
+            var sortirane = Koordinator.Instance.Evidencija.StavkeEvidencije
                         .OrderBy(s => s.DanDolaska)
                         .ThenBy(s => s.DanOdlaska)
                         .ToList();

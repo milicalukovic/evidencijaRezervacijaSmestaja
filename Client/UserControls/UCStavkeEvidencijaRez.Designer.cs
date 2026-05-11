@@ -42,16 +42,16 @@
             dgvStavke.BackgroundColor = SystemColors.Window;
             dgvStavke.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvStavke.GridColor = Color.Tan;
-            dgvStavke.Location = new Point(22, 188);
+            dgvStavke.Location = new Point(51, 104);
             dgvStavke.Name = "dgvStavke";
             dgvStavke.RowHeadersWidth = 51;
-            dgvStavke.Size = new Size(1006, 383);
+            dgvStavke.Size = new Size(1053, 331);
             dgvStavke.TabIndex = 0;
             dgvStavke.CellClick += dgvStavke_CellClick;
             // 
             // btnDodajStavka
             // 
-            btnDodajStavka.Location = new Point(528, 116);
+            btnDodajStavka.Location = new Point(665, 458);
             btnDodajStavka.Name = "btnDodajStavka";
             btnDodajStavka.Size = new Size(108, 53);
             btnDodajStavka.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             // btnIzmeniStavka
             // 
-            btnIzmeniStavka.Location = new Point(694, 116);
+            btnIzmeniStavka.Location = new Point(831, 458);
             btnIzmeniStavka.Name = "btnIzmeniStavka";
             btnIzmeniStavka.Size = new Size(109, 53);
             btnIzmeniStavka.TabIndex = 2;
@@ -71,7 +71,7 @@
             // 
             // btnObrisiStavka
             // 
-            btnObrisiStavka.Location = new Point(845, 116);
+            btnObrisiStavka.Location = new Point(982, 458);
             btnObrisiStavka.Name = "btnObrisiStavka";
             btnObrisiStavka.Size = new Size(105, 53);
             btnObrisiStavka.TabIndex = 3;
@@ -90,7 +90,7 @@
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(845, 34);
+            btnPromeniEvidencijaRez.Location = new Point(1026, 25);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(105, 53);
             btnPromeniEvidencijaRez.TabIndex = 5;
@@ -109,7 +109,7 @@
             Controls.Add(btnDodajStavka);
             Controls.Add(dgvStavke);
             Name = "UCStavkeEvidencijaRez";
-            Size = new Size(1052, 589);
+            Size = new Size(1164, 529);
             ((System.ComponentModel.ISupportInitialize)dgvStavke).EndInit();
             ResumeLayout(false);
         }

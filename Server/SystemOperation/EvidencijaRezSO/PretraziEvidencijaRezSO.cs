@@ -1,4 +1,5 @@
 ﻿using Common.Domain;
+using Common.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Server.SystemOperation.EvidencijaRezSO
 
             StavkaEvidencije stavka = new StavkaEvidencije();
             stavka.Evidencija = Result;
+            stavka.StatusStavke = StatusStavke.BEZ;
 
             List<IDomainObj> listaStavki = repository.GetAllByCondition(stavka);
             Result.StavkeEvidencije = listaStavki.Cast<StavkaEvidencije>().ToList();

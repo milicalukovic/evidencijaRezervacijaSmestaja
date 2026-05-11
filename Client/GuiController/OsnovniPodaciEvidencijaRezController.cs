@@ -25,18 +25,19 @@ namespace Client.GuiController
         {
             PopuniSmestajnaJedinica();
 
-            if (Koordinator.Instance.IzabranaEvidencija.Equals(e)) //izmena
+            if (!e.Nova) //izmena
             {
                 //postavi vrednosti izabrane evidencije
-                Koordinator.Instance.IzmenjenaEvidencija = Koordinator.Instance.IzabranaEvidencija;
                 UCEvidencija.NumericMesec.Value = e.Mesec.Month;
                 UCEvidencija.NumericGodina.Value = e.Mesec.Year;
                 UCEvidencija.NumericProcenatAvansa.Value = e.ProcenatAvansa;
                 UCEvidencija.NumericSezonskiKoefCene.Value = e.SezonskiKoeficijentCene;
                 
                 UCEvidencija.NumericMesec.ReadOnly = true;
+                UCEvidencija.NumericMesec.Enabled = false;
                 UCEvidencija.NumericGodina.ReadOnly = true;
-                UCEvidencija.CmbSmestajnaJedinica.Enabled = true;
+                UCEvidencija.NumericGodina.Enabled = false;
+                UCEvidencija.CmbSmestajnaJedinica.Enabled = false;
 
                 UCEvidencija.CmbSmestajnaJedinica.SelectedItem = e.SmestajnaJedinica;
                 //ucita vrednosti u trenutku kreiranja evidencije
@@ -49,7 +50,7 @@ namespace Client.GuiController
             }
             else                                             //nova - ucita joj trenutne sj
             {
-                Koordinator.Instance.IzmenjenaEvidencija = Koordinator.Instance.KreiranaEvidencija;
+                //Koordinator.Instance.Evidencija = Koordinator.Instance.KreiranaEvidencija;
                 PromeniCMBSmestajnaJedinica(Koordinator.Instance.ListaSmestajnaJedinica.FirstOrDefault());
             }
 
@@ -91,10 +92,11 @@ namespace Client.GuiController
             if (!Validacija())
                 return;
 
-            
-            if (Koordinator.Instance.IzmenjenaEvidencija.Equals(Koordinator.Instance.KreiranaEvidencija)) //promeni novu kreiranu
+            EvidencijaRez izmenjena = Koordinator.Instance.Evidencija;
+
+            if (izmenjena.Nova) //promeni novu kreiranu
             {
-                EvidencijaRez izmenjena = Koordinator.Instance.IzmenjenaEvidencija;
+                
                 izmenjena.Vlasnik = Koordinator.Instance.UlogovaniVlasnik;
                 izmenjena.SmestajnaJedinica = UCEvidencija.CmbSmestajnaJedinica.SelectedItem as SmestajnaJedinica;
                 izmenjena.OsnovnaCenaPoOsobi = izmenjena.SmestajnaJedinica.CenaPoOsobi;
@@ -108,19 +110,16 @@ namespace Client.GuiController
                 izmenjena.ProcenatAvansa = (decimal)UCEvidencija.NumericProcenatAvansa.Value;
                 izmenjena.SezonskiKoeficijentCene = (decimal)UCEvidencija.NumericSezonskiKoefCene.Value;
 
-                //otvori stavke
-                Koordinator.Instance.PromeniEvidencijaRezFrmController.StavkeEvidencijeRez();
-            }
-            if (Koordinator.Instance.IzmenjenaEvidencija.Equals(Koordinator.Instance.IzabranaEvidencija)) //izmena
+            } else//izmena
             {
-                EvidencijaRez izmenjena = Koordinator.Instance.IzmenjenaEvidencija;
+                
                 izmenjena.ProcenatAvansa = (decimal)UCEvidencija.NumericProcenatAvansa.Value;
                 izmenjena.SezonskiKoeficijentCene = (decimal)UCEvidencija.NumericSezonskiKoefCene.Value;
 
-                //otvori stavke
-                Koordinator.Instance.PromeniEvidencijaRezFrmController.StavkeEvidencijeRez();
             }
-
+            //otvori stavke
+            //Koordinator.Instance.PromeniEvidencijaRezFrmController.StavkeEvidencijeRez();
+            Koordinator.Instance.GlavnaFrmController.StavkeEvidencijeRez();
         }
         private bool Validacija()
         {
@@ -132,7 +131,7 @@ namespace Client.GuiController
                 return false;
             }
             //ako vec postoji evidencija za tu smestajnu jedinicu, mesec i vlasnika
-            if (Koordinator.Instance.IzmenjenaEvidencija.Equals(Koordinator.Instance.KreiranaEvidencija))
+            if (Koordinator.Instance.Evidencija.Nova)
             {
                 EvidencijaRez evidencija = new EvidencijaRez();
 
@@ -158,5 +157,48 @@ namespace Client.GuiController
             }
             return true;
         }
+
+        internal void ZaboraviIzmene()
+        {
+            DialogResult rezultat = MessageBox.Show(
+                    "Niste sacuvali izmene. \nDa li zelite da zatvorite formu?",
+                    "Upozorenje",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+            if (rezultat == DialogResult.No)
+            {
+                
+                return;
+            }
+
+            try
+            {
+                // obrisi evidenciju iz baze ako je već kreirana
+                if (Koordinator.Instance.Evidencija.Nova)
+                {
+
+                    Odgovor odg = Communication.Instance.ObrisiEvidencijaRez(Koordinator.Instance.Evidencija);
+
+                    if (odg.ExceptionMessage != null)
+                    {
+                        throw new Exception(odg.ExceptionMessage);
+                    }
+
+                }
+                Koordinator.Instance.Evidencija = null;
+                Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(
+                    "Sistem ne može da obriše evidenciju iz baze.",
+                    "Greška",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+            }
+        }
     }
+    
 }

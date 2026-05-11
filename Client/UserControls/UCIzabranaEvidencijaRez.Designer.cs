@@ -96,10 +96,10 @@
             // 
             dgvStavke.BackgroundColor = SystemColors.Window;
             dgvStavke.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStavke.Location = new Point(28, 36);
+            dgvStavke.Location = new Point(30, 26);
             dgvStavke.Name = "dgvStavke";
             dgvStavke.RowHeadersWidth = 51;
-            dgvStavke.Size = new Size(1025, 293);
+            dgvStavke.Size = new Size(1070, 324);
             dgvStavke.TabIndex = 6;
             dgvStavke.DataError += dgvStavke_DataError;
             // 
@@ -118,9 +118,9 @@
             groupBox1.BackColor = Color.Tan;
             groupBox1.Controls.Add(dgvStavke);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            groupBox1.Location = new Point(30, 145);
+            groupBox1.Location = new Point(16, 145);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1100, 357);
+            groupBox1.Size = new Size(1129, 367);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
             groupBox1.Text = "Rezervacije";

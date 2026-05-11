@@ -37,12 +37,38 @@ namespace Client.GuiController
             }
             if (!Frm.TxtBrLicneKarte.Text.Trim().IsNullOrEmpty())
             {
-                StavkaEvidencije stavka = new StavkaEvidencije();
-                stavka.Evidencija = evidencija;
-                stavka.Korisnik = new Korisnik();
-                stavka.Korisnik.BrLicneKarte = Frm.TxtBrLicneKarte.Text.Trim();
+                evidencija.StavkeEvidencije.Add(new StavkaEvidencije
+                {
+                    Korisnik = new Korisnik
+                    {
+                        BrLicneKarte = Frm.TxtBrLicneKarte.Text.Trim()
+                    }
+                });
+            }
+            //if (!Frm.TxtBrLicneKarte.Text.Trim().IsNullOrEmpty())
+            {
+                Odgovor serverOdg = Communication.Instance.VratiListuSviKorisnik(new Korisnik());
+                if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
+                {
+                    Koordinator.Instance.ListaKorisnik = (List<Korisnik>)serverOdg.Result;
+                }
 
-                evidencija.StavkeEvidencije.Add(stavka);
+                Korisnik trazeniKorisnik = Koordinator.Instance.ListaKorisnik
+                                          ?.FirstOrDefault(k => k.BrLicneKarte == Frm.TxtBrLicneKarte.Text.Trim());
+
+                if (trazeniKorisnik != null)
+                {
+                    evidencija.StavkeEvidencije.Add(new StavkaEvidencije
+                        {
+                            Korisnik = new Korisnik
+                            {
+                                Id = trazeniKorisnik.Id,
+                                BrLicneKarte = trazeniKorisnik.BrLicneKarte
+                            }
+                            // NE postavljati Evidencija = evidencija da ne bi doslo do cikline reference
+                        });
+                }
+               
             }
             if (Frm.NumericMesec.Value > 0)
             {

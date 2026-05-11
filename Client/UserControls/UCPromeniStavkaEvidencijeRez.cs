@@ -9,35 +9,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Client.Forms
+namespace Client.UserControls
 {
-    public partial class FrmStavkaEvidencije : Form
+    public partial class UCPromeniStavkaEvidencijeRez : UserControl
     {
-        public FrmStavkaEvidencije()
+        public UCPromeniStavkaEvidencijeRez()
         {
             InitializeComponent();
         }
+
         private void btnPretraziKorisnik_Click(object sender, EventArgs e)
         {
             if (txtKorisnik.ReadOnly)
             {
-                Koordinator.Instance.StavkaEvidencijeFrmController.PretraziKorisnik();
+                Koordinator.Instance.PromeniStavkaEvidencijeRezController.PretraziKorisnik();
             }
             else
             {
-                Koordinator.Instance.StavkaEvidencijeFrmController.DodajKorisnik();
+                Koordinator.Instance.PromeniStavkaEvidencijeRezController.DodajKorisnik();
             }
 
         }
 
         private void btnPromeniEvidencijaRez_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.StavkaEvidencijeFrmController.ZapamtiPodatke();
+            Koordinator.Instance.PromeniStavkaEvidencijeRezController.ZapamtiPodatke();
         }
 
-        private void FrmStavkaEvidencije_FormClosing(object sender, FormClosingEventArgs e)
+        private void btnOdustani_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.StavkaEvidencijeFrmController.OsveziVrednosti();     
+            Koordinator.Instance.PromeniStavkaEvidencijeRezController.Odustani();
         }
 
         

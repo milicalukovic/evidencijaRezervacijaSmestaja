@@ -79,8 +79,13 @@ namespace Client.GuiController
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
             });
 
-            
-            UCPrikaz.DgvEvidencije.DataSource = AzurirajEvidencijeRezervacija() ?? new List<EvidencijaRez>();
+            var sortirane = (AzurirajEvidencijeRezervacija() ?? new List<EvidencijaRez>())
+                        .OrderBy(e => e?.SmestajnaJedinica?.Naziv)
+                        .ThenBy(e => e?.Mesec)
+                        .ToList();
+
+            UCPrikaz.DgvEvidencije.DataSource = sortirane;
+            //UCPrikaz.DgvEvidencije.DataSource = AzurirajEvidencijeRezervacija() ?? new List<EvidencijaRez>();
 
             UCPrikaz.DgvEvidencije.CellFormatting += FormatirajTabelu; //za vrednosti u tabeli koje nisu direktno iz klase SJ (iz obj TipSmestaja)
 
@@ -148,7 +153,13 @@ namespace Client.GuiController
         internal void AzurirajTabelu()
         {
             UCPrikaz.DgvEvidencije.DataSource = null;
-            UCPrikaz.DgvEvidencije.DataSource = AzurirajEvidencijeRezervacija();
+            var sortirane = (AzurirajEvidencijeRezervacija() ?? new List<EvidencijaRez>())
+                .OrderBy(e => e?.SmestajnaJedinica?.Naziv)
+                .ThenBy(e => e?.Mesec)
+                .ToList();
+
+            UCPrikaz.DgvEvidencije.DataSource = sortirane;
+            //UCPrikaz.DgvEvidencije.DataSource = AzurirajEvidencijeRezervacija();
 
         }
 
@@ -164,7 +175,13 @@ namespace Client.GuiController
         internal void PretraziEvidencijeRezPoKriterijumima(List<EvidencijaRez> lista)
         {
             UCPrikaz.DgvEvidencije.DataSource = null;
-            UCPrikaz.DgvEvidencije.DataSource = lista;
+            var sortirane = lista
+                    .OrderBy(e => e?.SmestajnaJedinica?.Naziv)
+                    .ThenBy(e => e?.Mesec)
+                    .ToList();
+
+            UCPrikaz.DgvEvidencije.DataSource = sortirane;
+            //UCPrikaz.DgvEvidencije.DataSource = lista;
             MessageBox.Show(UCPrikaz, "Sistem je nasao evidencije rezervacija po zadatim kriterijumima.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -177,9 +194,9 @@ namespace Client.GuiController
             }
             else
             {
-                Koordinator.Instance.IzabranaEvidencija = UCPrikaz.DgvEvidencije.Rows[rowIndex].DataBoundItem as EvidencijaRez;
+                Koordinator.Instance.Evidencija = UCPrikaz.DgvEvidencije.Rows[rowIndex].DataBoundItem as EvidencijaRez;
 
-                EvidencijaRez izabrana = Koordinator.Instance.IzabranaEvidencija;
+                EvidencijaRez izabrana = Koordinator.Instance.Evidencija;
                 Debug.WriteLine("WHERE: " + izabrana.WhereClause);
 
                 if (izabrana != null)
@@ -194,7 +211,7 @@ namespace Client.GuiController
                     else
                     {
                         MessageBox.Show(UCPrikaz, "Sistem ne moze da nadje evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Koordinator.Instance.IzabranaEvidencija = null;
+                        Koordinator.Instance.Evidencija = null;
                     }
                 }
             }

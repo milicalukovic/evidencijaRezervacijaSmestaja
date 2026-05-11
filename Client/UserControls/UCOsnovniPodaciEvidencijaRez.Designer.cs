@@ -53,6 +53,7 @@
             lblOsnovnaVrstaUsluge = new Label();
             cmbSmestajnaJedinica = new ComboBox();
             btnPromeniEvidencijaRez = new Button();
+            btnZaboraviIzmene = new Button();
             ((System.ComponentModel.ISupportInitialize)numericSezonskiKoefCene).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericProcenatAvansa).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericGodina).BeginInit();
@@ -62,7 +63,7 @@
             // 
             // label9
             // 
-            label9.Location = new Point(26, 138);
+            label9.Location = new Point(26, 129);
             label9.Name = "label9";
             label9.Size = new Size(156, 41);
             label9.TabIndex = 30;
@@ -73,7 +74,7 @@
             // 
             numericSezonskiKoefCene.DecimalPlaces = 2;
             numericSezonskiKoefCene.Increment = new decimal(new int[] { 5, 0, 0, 131072 });
-            numericSezonskiKoefCene.Location = new Point(297, 152);
+            numericSezonskiKoefCene.Location = new Point(297, 143);
             numericSezonskiKoefCene.Maximum = new decimal(new int[] { 999, 0, 0, 131072 });
             numericSezonskiKoefCene.Name = "numericSezonskiKoefCene";
             numericSezonskiKoefCene.Size = new Size(150, 27);
@@ -84,7 +85,7 @@
             // 
             numericProcenatAvansa.DecimalPlaces = 2;
             numericProcenatAvansa.Increment = new decimal(new int[] { 5, 0, 0, 131072 });
-            numericProcenatAvansa.Location = new Point(297, 80);
+            numericProcenatAvansa.Location = new Point(297, 85);
             numericProcenatAvansa.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
             numericProcenatAvansa.Name = "numericProcenatAvansa";
             numericProcenatAvansa.Size = new Size(150, 27);
@@ -103,7 +104,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 9F);
-            label6.Location = new Point(409, 20);
+            label6.Location = new Point(409, 35);
             label6.Name = "label6";
             label6.Size = new Size(15, 20);
             label6.TabIndex = 26;
@@ -111,7 +112,7 @@
             // 
             // numericGodina
             // 
-            numericGodina.Location = new Point(490, 18);
+            numericGodina.Location = new Point(490, 33);
             numericGodina.Maximum = new decimal(new int[] { 2036, 0, 0, 0 });
             numericGodina.Minimum = new decimal(new int[] { 2002, 0, 0, 0 });
             numericGodina.Name = "numericGodina";
@@ -121,7 +122,7 @@
             // 
             // numericMesec
             // 
-            numericMesec.Location = new Point(354, 18);
+            numericMesec.Location = new Point(354, 33);
             numericMesec.Maximum = new decimal(new int[] { 12, 0, 0, 0 });
             numericMesec.Name = "numericMesec";
             numericMesec.Size = new Size(49, 27);
@@ -131,7 +132,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F);
-            label4.Location = new Point(428, 20);
+            label4.Location = new Point(428, 35);
             label4.Name = "label4";
             label4.Size = new Size(56, 20);
             label4.TabIndex = 23;
@@ -141,7 +142,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9F);
-            label5.Location = new Point(297, 20);
+            label5.Location = new Point(297, 35);
             label5.Name = "label5";
             label5.Size = new Size(51, 20);
             label5.TabIndex = 22;
@@ -149,7 +150,7 @@
             // 
             // label3
             // 
-            label3.Location = new Point(26, 23);
+            label3.Location = new Point(26, 35);
             label3.Name = "label3";
             label3.Size = new Size(156, 22);
             label3.TabIndex = 21;
@@ -171,51 +172,51 @@
             groupBox1.Controls.Add(lblCenaPoOsobi);
             groupBox1.Controls.Add(lblOsnovnaVrstaUsluge);
             groupBox1.Controls.Add(cmbSmestajnaJedinica);
-            groupBox1.Location = new Point(26, 235);
+            groupBox1.Location = new Point(26, 216);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1000, 336);
+            groupBox1.Size = new Size(1110, 290);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Smestajna jedinica";
             // 
             // txtMaxKapacitet
             // 
-            txtMaxKapacitet.Location = new Point(712, 252);
+            txtMaxKapacitet.Location = new Point(770, 225);
             txtMaxKapacitet.Name = "txtMaxKapacitet";
             txtMaxKapacitet.Size = new Size(251, 27);
             txtMaxKapacitet.TabIndex = 15;
             // 
             // txtMinKapacitet
             // 
-            txtMinKapacitet.Location = new Point(712, 182);
+            txtMinKapacitet.Location = new Point(770, 158);
             txtMinKapacitet.Name = "txtMinKapacitet";
             txtMinKapacitet.Size = new Size(251, 27);
             txtMinKapacitet.TabIndex = 14;
             // 
             // txtTipSmestaja
             // 
-            txtTipSmestaja.Location = new Point(712, 114);
+            txtTipSmestaja.Location = new Point(770, 82);
             txtTipSmestaja.Name = "txtTipSmestaja";
             txtTipSmestaja.Size = new Size(251, 27);
             txtTipSmestaja.TabIndex = 13;
             // 
             // txtPovecanjeCenePoUsluzi
             // 
-            txtPovecanjeCenePoUsluzi.Location = new Point(233, 252);
+            txtPovecanjeCenePoUsluzi.Location = new Point(291, 225);
             txtPovecanjeCenePoUsluzi.Name = "txtPovecanjeCenePoUsluzi";
             txtPovecanjeCenePoUsluzi.Size = new Size(251, 27);
             txtPovecanjeCenePoUsluzi.TabIndex = 12;
             // 
             // txtOsnovnaCenaPoOsobi
             // 
-            txtOsnovnaCenaPoOsobi.Location = new Point(233, 182);
+            txtOsnovnaCenaPoOsobi.Location = new Point(291, 158);
             txtOsnovnaCenaPoOsobi.Name = "txtOsnovnaCenaPoOsobi";
             txtOsnovnaCenaPoOsobi.Size = new Size(251, 27);
             txtOsnovnaCenaPoOsobi.TabIndex = 11;
             // 
             // txtOsnovnaVrstaUsluge
             // 
-            txtOsnovnaVrstaUsluge.Location = new Point(233, 114);
+            txtOsnovnaVrstaUsluge.Location = new Point(291, 82);
             txtOsnovnaVrstaUsluge.Name = "txtOsnovnaVrstaUsluge";
             txtOsnovnaVrstaUsluge.Size = new Size(251, 27);
             txtOsnovnaVrstaUsluge.TabIndex = 10;
@@ -223,7 +224,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(550, 255);
+            label2.Location = new Point(608, 228);
             label2.Name = "label2";
             label2.Size = new Size(149, 20);
             label2.TabIndex = 9;
@@ -232,7 +233,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(550, 185);
+            label1.Location = new Point(608, 161);
             label1.Name = "label1";
             label1.Size = new Size(140, 20);
             label1.TabIndex = 8;
@@ -241,7 +242,7 @@
             // lblTip
             // 
             lblTip.AutoSize = true;
-            lblTip.Location = new Point(550, 117);
+            lblTip.Location = new Point(608, 85);
             lblTip.Name = "lblTip";
             lblTip.Size = new Size(89, 20);
             lblTip.TabIndex = 7;
@@ -249,7 +250,7 @@
             // 
             // lblProcenatPovecanjaPoUsluzi
             // 
-            lblProcenatPovecanjaPoUsluzi.Location = new Point(32, 255);
+            lblProcenatPovecanjaPoUsluzi.Location = new Point(90, 222);
             lblProcenatPovecanjaPoUsluzi.Name = "lblProcenatPovecanjaPoUsluzi";
             lblProcenatPovecanjaPoUsluzi.Size = new Size(146, 46);
             lblProcenatPovecanjaPoUsluzi.TabIndex = 6;
@@ -258,7 +259,7 @@
             // 
             // lblCenaPoOsobi
             // 
-            lblCenaPoOsobi.Location = new Point(32, 176);
+            lblCenaPoOsobi.Location = new Point(90, 149);
             lblCenaPoOsobi.Name = "lblCenaPoOsobi";
             lblCenaPoOsobi.Size = new Size(146, 49);
             lblCenaPoOsobi.TabIndex = 5;
@@ -267,7 +268,7 @@
             // 
             // lblOsnovnaVrstaUsluge
             // 
-            lblOsnovnaVrstaUsluge.Location = new Point(32, 115);
+            lblOsnovnaVrstaUsluge.Location = new Point(90, 85);
             lblOsnovnaVrstaUsluge.Name = "lblOsnovnaVrstaUsluge";
             lblOsnovnaVrstaUsluge.Size = new Size(146, 22);
             lblOsnovnaVrstaUsluge.TabIndex = 4;
@@ -277,7 +278,7 @@
             // cmbSmestajnaJedinica
             // 
             cmbSmestajnaJedinica.FormattingEnabled = true;
-            cmbSmestajnaJedinica.Location = new Point(365, 37);
+            cmbSmestajnaJedinica.Location = new Point(464, 26);
             cmbSmestajnaJedinica.Name = "cmbSmestajnaJedinica";
             cmbSmestajnaJedinica.Size = new Size(251, 28);
             cmbSmestajnaJedinica.TabIndex = 0;
@@ -285,18 +286,29 @@
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(821, 96);
+            btnPromeniEvidencijaRez.Location = new Point(743, 73);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
-            btnPromeniEvidencijaRez.Size = new Size(151, 44);
+            btnPromeniEvidencijaRez.Size = new Size(158, 44);
             btnPromeniEvidencijaRez.TabIndex = 19;
             btnPromeniEvidencijaRez.Text = "Zapamti podatke";
             btnPromeniEvidencijaRez.UseVisualStyleBackColor = true;
             btnPromeniEvidencijaRez.Click += btnPromeniEvidencijaRez_Click;
             // 
+            // btnZaboraviIzmene
+            // 
+            btnZaboraviIzmene.Location = new Point(943, 75);
+            btnZaboraviIzmene.Name = "btnZaboraviIzmene";
+            btnZaboraviIzmene.Size = new Size(158, 44);
+            btnZaboraviIzmene.TabIndex = 31;
+            btnZaboraviIzmene.Text = "Zaboravi izmene";
+            btnZaboraviIzmene.UseVisualStyleBackColor = true;
+            btnZaboraviIzmene.Click += btnZaboraviIzmene_Click;
+            // 
             // UCOsnovniPodaciEvidencijaRez
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnZaboraviIzmene);
             Controls.Add(label9);
             Controls.Add(numericSezonskiKoefCene);
             Controls.Add(numericProcenatAvansa);
@@ -310,7 +322,7 @@
             Controls.Add(groupBox1);
             Controls.Add(btnPromeniEvidencijaRez);
             Name = "UCOsnovniPodaciEvidencijaRez";
-            Size = new Size(1052, 589);
+            Size = new Size(1164, 529);
             ((System.ComponentModel.ISupportInitialize)numericSezonskiKoefCene).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericProcenatAvansa).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericGodina).EndInit();
@@ -348,6 +360,7 @@
         private Label lblOsnovnaVrstaUsluge;
         private ComboBox cmbSmestajnaJedinica;
         private Button btnPromeniEvidencijaRez;
+        private Button btnZaboraviIzmene;
 
         public NumericUpDown NumericSezonskiKoefCene { get => numericSezonskiKoefCene; set => numericSezonskiKoefCene = value; }
         public NumericUpDown NumericProcenatAvansa { get => numericProcenatAvansa; set => numericProcenatAvansa = value; }

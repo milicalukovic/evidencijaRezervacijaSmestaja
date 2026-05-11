@@ -59,6 +59,7 @@ namespace Client.Session
             IzvorOceneController.OtvoriFormu();
         }
 
+        public List<Korisnik> ListaKorisnik { get; set; } = new List<Korisnik>();
         public List<TipSmestaja> ListaTipSmestaja { get; set; } = new List<TipSmestaja>();
         public List<SmestajnaJedinica> ListaSmestajnaJedinica { get; set; } = new List<SmestajnaJedinica> ();
         public UCPrikazSmestajnaJedinica UCPrikazSmestajnaJedinica { get; set; }
@@ -98,8 +99,7 @@ namespace Client.Session
             KriterijumPretrageController = new KriterijumPretrageController(FrmKriterijumPretrageEvidencijaRez);
             KriterijumPretrageController.OtvoriFormu();
         }
-
-        public EvidencijaRez IzabranaEvidencija { get; set; }
+        public EvidencijaRez Evidencija { get; set; }
         public UCIzabranaEvidencijaRez UCIzabranaEvidencijaRez { get; set; }
         public IzabranaEvidencijaRezController IzabranaEvidencijaRezController { get; set; }
         internal void InicijalizujUCIzabranaEvidencijaRez()
@@ -107,19 +107,6 @@ namespace Client.Session
             UCIzabranaEvidencijaRez = new UCIzabranaEvidencijaRez();
             IzabranaEvidencijaRezController = new IzabranaEvidencijaRezController(UCIzabranaEvidencijaRez);
         }
-
-        public EvidencijaRez KreiranaEvidencija { get; set; }
-        public List<Korisnik> ListaKorisnik { get; set; } = new List<Korisnik>();
-        public FrmPromeniEvidencijaRez FrmPromeniEvidencijaRez { get; set; }
-        public PromeniEvidencijaRezFrmController PromeniEvidencijaRezFrmController { get; set; }
-        internal void OtvoriFrmPromeniEvidencijaRez(EvidencijaRez e)
-        {
-            FrmPromeniEvidencijaRez = new FrmPromeniEvidencijaRez();
-            PromeniEvidencijaRezFrmController = new PromeniEvidencijaRezFrmController(FrmPromeniEvidencijaRez);
-            PromeniEvidencijaRezFrmController.OtvoriFormu(e);
-        }
-
-        public EvidencijaRez IzmenjenaEvidencija { get; set; }
         public UCOsnovniPodaciEvidencijaRez UCOsnovniPodaciEvidencijaRez { get; set; }
         public OsnovniPodaciEvidencijaRezController OsnovniPodaciEvidencijaRezController { get; set; }
         internal void InicijalizujUCOsnovniPodaciEvidencijaRez()
@@ -128,7 +115,7 @@ namespace Client.Session
             OsnovniPodaciEvidencijaRezController = new OsnovniPodaciEvidencijaRezController(UCOsnovniPodaciEvidencijaRez);
         }
 
-        public StavkaEvidencije IzabranaStavka { get; set; }
+        public StavkaEvidencije IzmenjenaStavka { get; set; }
         public UCStavkeEvidencijaRez UCStavkeEvidencijaRez { get; set; }
         public StavkeEvidencijaRezUCController StavkeEvidencijaRezUCController { get; set; }
         internal void InicijalizujUCStavkeEvidencijaRez()
@@ -137,20 +124,21 @@ namespace Client.Session
             StavkeEvidencijaRezUCController = new StavkeEvidencijaRezUCController(UCStavkeEvidencijaRez);
         }
 
-        public StavkaEvidencije IzmenjenaStavka { get; set; }
-        public FrmStavkaEvidencije FrmStavka { get; set; }
-        public StavkaEvidencijeFrmController StavkaEvidencijeFrmController { get; set; }
-        internal void OtvoriFrmStavkaEvidencije(StavkaEvidencije stavka)
-        {
-            FrmStavka = new FrmStavkaEvidencije();
-            StavkaEvidencijeFrmController = new StavkaEvidencijeFrmController(FrmStavka);
-            StavkaEvidencijeFrmController.OtvoriFormu(stavka);
-        }
-
-        public StavkaEvidencije KreiranaStavka { get; set; }
+        public StavkaEvidencije Stavka { get; set; }
         public Korisnik Korisnik { get; set; }
+        public StavkaEvidencije StavkaSledecegMeseca { get; internal set; }
+        public EvidencijaRez EvidencijaSledecegMeseca { get; internal set; }
+        public UCPromeniStavkaEvidencijeRez UCPromeniStavkaEvidencijeRez { get; set; }
+        public PromeniStavkaEvidencijeRezController PromeniStavkaEvidencijeRezController { get; set; }
+        internal void InicijalizujUCPromeniStavkaEvidencijeRez()
+        {
+            UCPromeniStavkaEvidencijeRez = new UCPromeniStavkaEvidencijeRez();
+            PromeniStavkaEvidencijeRezController = new PromeniStavkaEvidencijeRezController(UCPromeniStavkaEvidencijeRez);
+        }
+        
         public UCIznosiStavkeEvidencije UCIznosiStavkeEvidencije {  get; set; }
         public IznosiStavkeEvidencijeController IznosiStavkeEvidencijeController { get; set; }
+
         internal void InicijalizujUCIznosiStavkeEvidencije()
         {
             UCIznosiStavkeEvidencije = new UCIznosiStavkeEvidencije();

@@ -15,6 +15,7 @@ namespace Common.Domain
     public class EvidencijaRez : IDomainObj
     {
         public long Id { get; set; }
+        public Boolean Nova {  get; set; }
         public DateOnly Mesec { get;  set; } = new DateOnly();
         public decimal SezonskiKoeficijentCene {  get; set; } 
         public decimal ProcenatAvansa { get; set; }

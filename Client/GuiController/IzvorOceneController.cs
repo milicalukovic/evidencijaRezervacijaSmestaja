@@ -41,7 +41,7 @@ namespace Client.GuiController
             }
             else
             {
-                if (serverOdg.ExceptionMessage.Contains("UNIQUE"))
+                if (serverOdg.ExceptionMessage.Contains("unique"))
                 {
                     MessageBox.Show(Frm, "Sistem ne moze da zapamti izvor ocene. Izvor ocene vec postoji.", "GRESKA",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);

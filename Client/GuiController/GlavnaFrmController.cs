@@ -83,14 +83,26 @@ namespace Client.GuiController
             if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
             {
                 EvidencijaRez nova = serverOdg.Result as EvidencijaRez;
-                Koordinator.Instance.KreiranaEvidencija = nova;
+                nova.Nova = true;
+                Koordinator.Instance.Evidencija = nova;
                 MessageBox.Show(frmGlavna, "Sistem je kreirao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Koordinator.Instance.OtvoriFrmPromeniEvidencijaRez(nova);
-            }
+
+                //Koordinator.Instance.OtvoriFrmPromeniEvidencijaRez(nova);
+                PromeniEvidencijaRez(nova);
+        
+    }
             else
             {
                 MessageBox.Show(frmGlavna, "Sistem ne moze da kreira  evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public void PromeniEvidencijaRez(EvidencijaRez e)
+        {
+            frmGlavna.GlavnaPanel.Controls.Clear();
+            Koordinator.Instance.InicijalizujUCOsnovniPodaciEvidencijaRez();
+            Koordinator.Instance.OsnovniPodaciEvidencijaRezController.PopuniPodatke(e);
+            frmGlavna.GlavnaPanel.Controls.Add(Koordinator.Instance.UCOsnovniPodaciEvidencijaRez);
         }
 
         private void UcitajKorisnike()
@@ -130,6 +142,22 @@ namespace Client.GuiController
                     Koordinator.Instance.ListaSmestajnaJedinica = lista;
                 }
             
+        }
+
+        internal void StavkeEvidencijeRez()
+        {
+            frmGlavna.GlavnaPanel.Controls.Clear();
+            Koordinator.Instance.InicijalizujUCStavkeEvidencijaRez();
+            Koordinator.Instance.StavkeEvidencijaRezUCController.PopuniPodatke();
+            frmGlavna.GlavnaPanel.Controls.Add(Koordinator.Instance.UCStavkeEvidencijaRez);
+        }
+
+        internal void PromeniStavkaEvidencijeRez()
+        {
+            frmGlavna.GlavnaPanel.Controls.Clear();
+            Koordinator.Instance.InicijalizujUCPromeniStavkaEvidencijeRez();
+            Koordinator.Instance.PromeniStavkaEvidencijeRezController.PopuniPodatke();
+            frmGlavna.GlavnaPanel.Controls.Add(Koordinator.Instance.UCPromeniStavkaEvidencijeRez);
         }
     }
 }
