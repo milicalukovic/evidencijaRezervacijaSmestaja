@@ -43,10 +43,6 @@ namespace Client.UserControls
             Koordinator.Instance.StavkeEvidencijaRezUCController.PromeniEvidencijaRez(Koordinator.Instance.Evidencija);
         }
 
-        //private void dgvStavke_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        //{
-        //    MessageBox.Show($"Kolona: {DgvStavke.Columns[e.ColumnIndex].Name}, red: {e.RowIndex}");
-        //    e.ThrowException = false;
-        //}
+      
     }
 }

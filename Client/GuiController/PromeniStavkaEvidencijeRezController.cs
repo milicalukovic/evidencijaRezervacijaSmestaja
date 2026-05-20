@@ -29,7 +29,7 @@ namespace Client.GuiController
 
             PopuniCMBVrstaUsluge();
             PodesiDateTimePickere();
-            Popuni_Txt_Cmb_Mesec();
+           
             UCStavka.TxtKorisnik.ReadOnly = true;
             UCStavka.TxtBrTel.ReadOnly = true;
             UCStavka.TxtEmail.ReadOnly = true;
@@ -37,36 +37,10 @@ namespace Client.GuiController
             if (Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka)) //popuni podatke izabrane
             {
                 StavkaEvidencije izabrana = Koordinator.Instance.Stavka;
-                DateTime mesec = new DateTime(
-                    izabrana.Evidencija.Mesec.Year,
-                    izabrana.Evidencija.Mesec.Month,
-                    1
-                );
 
-                UCStavka.DtpDatumDolaska.Value = mesec.AddDays(izabrana.DanDolaska - 1);
+                UCStavka.DtpDatumDolaska.Value = izabrana.Dolazak.ToDateTime(TimeOnly.MinValue);
+                UCStavka.DtpDatumOdlaska.Value = izabrana.Odlazak.ToDateTime(TimeOnly.MinValue);
 
-                if (izabrana.BrDana > izabrana.DanOdlaska - izabrana.DanDolaska)
-                {
-                    UCStavka.DtpDatumOdlaska.Value = mesec.AddMonths(1);
-                }
-                else
-                {
-                    UCStavka.DtpDatumOdlaska.Value = mesec.AddDays(izabrana.DanOdlaska - 1);
-                }
-
-
-                UCStavka.NumericDanDolaska.Value = izabrana.DanDolaska;
-
-                if (izabrana.BrDana > izabrana.DanOdlaska - izabrana.DanDolaska)
-                {
-                    UCStavka.NumericDanOdlaska.Value = 1;
-                    UCStavka.CmbMesecOdlaska.SelectedIndex = 1;
-                }
-                else
-                {
-                    UCStavka.NumericDanOdlaska.Value = izabrana.DanOdlaska;
-                    UCStavka.CmbMesecOdlaska.SelectedIndex = 0;
-                }
 
                 UCStavka.NumericBrOsoba.Value = izabrana.BrOsoba;
                 UCStavka.CmbVrstaUsluge.SelectedItem = izabrana.VrstaUsluge;
@@ -94,13 +68,15 @@ namespace Client.GuiController
             DateTime pocetakTekucegMeseca =
                 new DateTime(mesecEvidencije.Year, mesecEvidencije.Month, 1);
 
+            DateTime krajTekucegMeseca =
+                pocetakTekucegMeseca.AddMonths(1).AddDays(-1);
             DateTime krajSledecegMeseca =
                 pocetakTekucegMeseca.AddMonths(2).AddDays(-1);
 
             UCStavka.DtpDatumDolaska.Format = DateTimePickerFormat.Custom;
             UCStavka.DtpDatumDolaska.CustomFormat = "dd.MM.yyyy.";
             UCStavka.DtpDatumDolaska.MinDate = pocetakTekucegMeseca;
-            UCStavka.DtpDatumDolaska.MaxDate = krajSledecegMeseca;
+            UCStavka.DtpDatumDolaska.MaxDate = krajTekucegMeseca;
 
             UCStavka.DtpDatumOdlaska.Format = DateTimePickerFormat.Custom;
             UCStavka.DtpDatumOdlaska.CustomFormat = "dd.MM.yyyy.";
@@ -109,27 +85,6 @@ namespace Client.GuiController
 
             UCStavka.DtpDatumDolaska.Value = pocetakTekucegMeseca;
             UCStavka.DtpDatumOdlaska.Value = pocetakTekucegMeseca;
-        }
-        private void Popuni_Txt_Cmb_Mesec()
-        {
-            DateOnly mesecEvidencije = Koordinator.Instance.Evidencija.Mesec;
-
-            UCStavka.TxtMesecDolaska.ReadOnly = true;
-            UCStavka.TxtMesecDolaska.Text = $"{(NazivMeseca)mesecEvidencije.Month} {mesecEvidencije.Year}.";
-
-            int tekuciMesec = mesecEvidencije.Month;
-            int sledeciMesec = mesecEvidencije.AddMonths(1).Month; //za decembar bice jan sledece
-
-            var meseci = new[]
-            {
-                new { Mesec = tekuciMesec, Prikaz = $"{(NazivMeseca)tekuciMesec} {mesecEvidencije.Year}." },
-                new { Mesec = sledeciMesec, Prikaz = $"{(NazivMeseca)sledeciMesec} {mesecEvidencije.AddMonths(1).Year}." }
-            }.ToList();
-
-            UCStavka.CmbMesecOdlaska.DataSource = meseci;
-            UCStavka.CmbMesecOdlaska.DisplayMember = "Prikaz";
-            UCStavka.CmbMesecOdlaska.ValueMember = "Mesec";
-            UCStavka.CmbMesecOdlaska.Visible = true;
         }
 
         private void PopuniCMBVrstaUsluge()
@@ -268,21 +223,23 @@ namespace Client.GuiController
 
         internal void ZapamtiPodatke()
         {
+            DateOnly dolazak = DateOnly.FromDateTime(UCStavka.DtpDatumDolaska.Value.Date);
+            DateOnly odlazak = DateOnly.FromDateTime(UCStavka.DtpDatumOdlaska.Value.Date);
+
+            StavkaEvidencije stavka;
 
             if (!Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka))
             {
-                Koordinator.Instance.Stavka = new StavkaEvidencije
+                //Koordinator.Instance.Stavka = new StavkaEvidencije
+                stavka = new StavkaEvidencije
                 {
                     Rb = Koordinator.Instance.Evidencija.StavkeEvidencije.Count,
                     Evidencija = Koordinator.Instance.Evidencija,
                     Korisnik = Koordinator.Instance.Korisnik,
 
-                    DanDolaska = (int)UCStavka.DtpDatumDolaska.Value.Date.Day,
-                    DanOdlaska = (int)UCStavka.DtpDatumOdlaska.Value.Date.Day,
-                    BrDana = ((int)UCStavka.DtpDatumOdlaska.Value.Date.Day - (int)UCStavka.DtpDatumDolaska.Value.Date.Day),
-                    //DanDolaska = (int)UCStavka.NumericDanDolaska.Value,
-                    //DanOdlaska = (int)UCStavka.NumericDanOdlaska.Value,
-                    //BrDana = (int)UCStavka.NumericDanOdlaska.Value - (int)UCStavka.NumericDanDolaska.Value,
+                    Dolazak = dolazak,
+                    Odlazak = odlazak,
+                    BrDana = odlazak.DayNumber - dolazak.DayNumber,
                     BrOsoba = (decimal)UCStavka.NumericBrOsoba.Value,
                     VrstaUsluge = (VrstaUsluge)UCStavka.CmbVrstaUsluge.SelectedItem,
                     UplacenAvans = UCStavka.CheckBoxUplacenAvans.Checked,
@@ -292,18 +249,34 @@ namespace Client.GuiController
             }
             else
             {
-                StavkaEvidencije izabrana = Koordinator.Instance.IzmenjenaStavka; //menjamo je
-                izabrana.DanDolaska = (int)UCStavka.NumericDanDolaska.Value;
-                izabrana.DanOdlaska = (int)UCStavka.NumericDanOdlaska.Value;
-                izabrana.BrDana = izabrana.DanOdlaska - izabrana.DanDolaska;
-                izabrana.BrOsoba = (decimal)UCStavka.NumericBrOsoba.Value;
-                izabrana.VrstaUsluge = (VrstaUsluge)UCStavka.CmbVrstaUsluge.SelectedItem;
-                izabrana.UplacenAvans = UCStavka.CheckBoxUplacenAvans.Checked;
+                //StavkaEvidencije izabrana = Koordinator.Instance.IzmenjenaStavka; //menjamo je
+                stavka = new StavkaEvidencije
+                {
+                    Rb = Koordinator.Instance.IzmenjenaStavka.Rb,
+                    Evidencija = Koordinator.Instance.IzmenjenaStavka.Evidencija,
+                    Korisnik = Koordinator.Instance.IzmenjenaStavka.Korisnik,
+
+                    Dolazak = dolazak,
+                    Odlazak = odlazak,
+                    BrDana = odlazak.DayNumber - dolazak.DayNumber,
+
+                    BrOsoba = (decimal)UCStavka.NumericBrOsoba.Value,
+                    VrstaUsluge = (VrstaUsluge)UCStavka.CmbVrstaUsluge.SelectedItem,
+                    UplacenAvans = UCStavka.CheckBoxUplacenAvans.Checked,
+                };
 
             }
-            if (!Validacija())
+            if (!Validacija(stavka))
                 return; //OSVEZII SVE VREDNOSTI STAVKI
 
+            if(Koordinator.Instance.StavkaSledecegMeseca == null) //azuriraj iznose ako nema prelaska u sl mesec jer je to vec obradjeno za obe stavke
+{
+                stavka.Evidencija = Koordinator.Instance.Evidencija;
+                stavka.IzracunajIznose();
+            }
+
+            Koordinator.Instance.Stavka = stavka;
+            
             //otvori panel i on azurira listu stavki
             UCStavka.PanelIznosi.Controls.Clear();
             Koordinator.Instance.InicijalizujUCIznosiStavkeEvidencije();
@@ -319,7 +292,7 @@ namespace Client.GuiController
             UCStavka.PanelIznosi.Controls.Add(Koordinator.Instance.UCIznosiStavkeEvidencije);
         }
 
-        private bool Validacija()
+        private bool Validacija(StavkaEvidencije stavka)
         {
 
             //KAPACITET
@@ -337,14 +310,19 @@ namespace Client.GuiController
             }
 
             //DATUMI
-            //ukoliko rezervacija prelazi u sledeci mesec
-            if ((int)UCStavka.DtpDatumOdlaska.Value.Month
-                == Koordinator.Instance.Evidencija.Mesec.AddMonths(1).Month)
+            if (stavka.Odlazak <= stavka.Dolazak)
             {
-                if ((int)UCStavka.NumericDanOdlaska.Value == 1) //samo do prvog u narednom mesecu
-                {
-                    return PodeliNaDveStavke();
-                }
+                MessageBox.Show(UCStavka, "Datum odlaska mora biti posle datuma dolaska!",
+                    "UPOZORENJE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            
+
+            //ukoliko rezervacija prelazi u sledeci mesec
+            if (stavka.Odlazak.Month == Koordinator.Instance.Evidencija.Mesec.AddMonths(1).Month
+                && stavka.Odlazak.Day != 1)    //ako je do prvog u narednom mesecu => pamtimo je samo u tekucem mesecu
+            {                                                                       
+                
                 //provera da li postoji ta evidencija
                 EvidencijaRez evidencijaSledecegMeseca = new EvidencijaRez();
 
@@ -362,12 +340,10 @@ namespace Client.GuiController
 
                 if (serverOdg.ExceptionMessage == null && serverOdg.Result != null) //postoji
                 {
-                    //podela na dve stavke i validacija njihovih datuma
+                    //dodavanje stavke u obe evidencije i validacija njihovih datuma
                     Koordinator.Instance.EvidencijaSledecegMeseca = (EvidencijaRez)serverOdg.Result;
 
-                    return PodeliNaDveStavke();
-
-
+                    return DodajUObeEvidencije(stavka);
                 }
                 else
                 {
@@ -398,8 +374,8 @@ namespace Client.GuiController
                             sledeca = odg.Result as EvidencijaRez;
                             Koordinator.Instance.EvidencijaSledecegMeseca = sledeca;
                             MessageBox.Show(UCStavka, "Sistem je kreirao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            return PodeliNaDveStavke();
+                            sledeca.Nova = true;
+                            return DodajUObeEvidencije(stavka);
                         }
                         else
                         {
@@ -407,156 +383,181 @@ namespace Client.GuiController
                             Debug.WriteLine(odg.ExceptionMessage);
                             return false;
                         }
+                    }
+                }
+            }
+
+            //ako rez nije presla u naredni
+            else
+            {
+                // ranije je prelazila, sada vise ne prelazi
+                if (stavka.Equals(Koordinator.Instance.IzmenjenaStavka)
+                    && Koordinator.Instance.IzmenjenaStavka.Odlazak.Month
+                        == Koordinator.Instance.Evidencija.Mesec.AddMonths(1).Month
+                    && Koordinator.Instance.IzmenjenaStavka.Odlazak.Day != 1)
+                {
+                    EvidencijaRez kriterijum = new EvidencijaRez
+                    {
+                        Vlasnik = Koordinator.Instance.UlogovaniVlasnik,
+                        SmestajnaJedinica = Koordinator.Instance.Evidencija.SmestajnaJedinica,
+                        Mesec = Koordinator.Instance.Evidencija.Mesec.AddMonths(1),
+                        Validacija = true
+                    };
+
+                    Odgovor serverOdg = Communication.Instance.PretraziEvidencijaRez(kriterijum);
+
+                    if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
+                    {
+                        Koordinator.Instance.EvidencijaSledecegMeseca =
+                            serverOdg.Result as EvidencijaRez;
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            UCStavka,
+                            "Nije pronađena evidencija sledećeg meseca za brisanje stare rezervacije.",
+                            "GREŠKA",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+
+                        return false;
+                    }
 
 
+                    // pronadji stavku u sledecoj evidenciji
+                    foreach (StavkaEvidencije s in Koordinator.Instance.EvidencijaSledecegMeseca.StavkeEvidencije)
+                    {
+                        bool istaStavka =
+                            s.Dolazak == Koordinator.Instance.IzmenjenaStavka.Dolazak
+                            && s.Odlazak == Koordinator.Instance.IzmenjenaStavka.Odlazak
+                            && s.Korisnik.BrLicneKarte ==
+                                Koordinator.Instance.IzmenjenaStavka.Korisnik.BrLicneKarte;
+
+                        if (istaStavka)
+                        {
+                            s.StatusStavke = StatusStavke.OBRISANA;
+                            Koordinator.Instance.StavkaSledecegMeseca = s;
+                            break;
+                        }
                     }
                 }
 
-
+                return proveraDatuma(stavka);
             }
-
             
-            if (Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka))
-            {
-                return proveraDatuma(Koordinator.Instance.IzmenjenaStavka);
-            }
-            else
-            {
-                return proveraDatuma(Koordinator.Instance.Stavka);
-            }
+
         }
 
-        private bool PodeliNaDveStavke() // pravi jednu stavku u tekucoj a jednu u sledecoj evidenciji 
-                                         // deli na dva dela i proverava datume tek tako podeljenih stavki
+        private bool DodajUObeEvidencije(StavkaEvidencije stavka)     // pravi jednu stavku u tekucoj a jednu u sledecoj evidenciji 
+                                                //obe evidencije imaju istu stavku 
         {
 
-            StavkaEvidencije stavkaTekuciMesec;
-            if (Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka))
+            if (stavka.Equals(Koordinator.Instance.IzmenjenaStavka) &&
+                Koordinator.Instance.IzmenjenaStavka.Odlazak.Month
+                    == Koordinator.Instance.Evidencija.Mesec.AddMonths(1).Month
+                     && Koordinator.Instance.IzmenjenaStavka.Odlazak.Day != 1) //postoji kao stavka u narednom mesecu
             {
-                stavkaTekuciMesec = Koordinator.Instance.IzmenjenaStavka;
+                
+                foreach (StavkaEvidencije s in Koordinator.Instance.EvidencijaSledecegMeseca.StavkeEvidencije)
+                {
+                    if (s.Dolazak == Koordinator.Instance.IzmenjenaStavka.Dolazak
+                            && s.Odlazak == Koordinator.Instance.IzmenjenaStavka.Odlazak
+                            && s.Korisnik.BrLicneKarte == Koordinator.Instance.IzmenjenaStavka.Korisnik.BrLicneKarte)
+                    {
+                        Koordinator.Instance.StavkaSledecegMeseca = s;
+                        break;
+                    }
+                }
+                if (Koordinator.Instance.StavkaSledecegMeseca.StatusStavke != StatusStavke.DODATA) //ako je lokalno dodata i jos nije sacuvana u bazi
+                {
+                    Koordinator.Instance.StavkaSledecegMeseca.StatusStavke =
+                        StatusStavke.IZMENJENA;
+                }
+
             }
-            else
+           
+            else //nova tekuca stavka ili izmenjena koja nije prelazila u naredni mesec a sada prelazi => stavka u sledecem mesecu je nova
             {
-                stavkaTekuciMesec = Koordinator.Instance.Stavka;
-            }
-
-            stavkaTekuciMesec.DanDolaska = (int)UCStavka.NumericDanDolaska.Value;
-            stavkaTekuciMesec.DanOdlaska = DateTime.DaysInMonth(stavkaTekuciMesec.Evidencija.Mesec.Year, stavkaTekuciMesec.Evidencija.Mesec.Month);
-            
-            if(stavkaTekuciMesec.DanDolaska == stavkaTekuciMesec.DanOdlaska) //od poslednjeg dana u mesecu
-            {
-                stavkaTekuciMesec.BrDana = 1;
-            }
-            else
-            {
-                stavkaTekuciMesec.BrDana = 1 + stavkaTekuciMesec.DanOdlaska - stavkaTekuciMesec.DanDolaska;
-                //racuna i 1 noc izmedju poslednjeg dana tekuceg meseca i prvog dana sl meseca
-            }
-
-
-            if (!proveraDatuma(stavkaTekuciMesec))
-                return false;
-
-            //ispravna provera => dan odlaska je 1. u narednom mesecu
-            stavkaTekuciMesec.DanOdlaska = 1;
-
-            if ((int)UCStavka.NumericDanOdlaska.Value != 1)  //ako nije do 1. u narednom mesecu => ne pravimo rezervaciju za sl
-            {
-                StavkaEvidencije stavkaSlMesec = new StavkaEvidencije
+                Koordinator.Instance.StavkaSledecegMeseca = new StavkaEvidencije
                 {
                     Evidencija = Koordinator.Instance.EvidencijaSledecegMeseca,
-                    Korisnik = stavkaTekuciMesec.Korisnik,
+                    Korisnik = stavka.Korisnik,
+                    Rb = Koordinator.Instance.EvidencijaSledecegMeseca.StavkeEvidencije.Count,
                     StatusStavke = StatusStavke.DODATA,
-                    DanDolaska = 1,
-                    DanOdlaska = (int)UCStavka.NumericDanOdlaska.Value,
-                    BrDana = (int)UCStavka.NumericDanOdlaska.Value - 1,
-                    BrOsoba = (decimal)UCStavka.NumericBrOsoba.Value,
-                    VrstaUsluge = (VrstaUsluge)UCStavka.CmbVrstaUsluge.SelectedItem,
-                    UplacenAvans = UCStavka.CheckBoxUplacenAvans.Checked,
                 };
-
-
-                if (!proveraDatuma(stavkaSlMesec))
-                    return false;
-
-                Koordinator.Instance.StavkaSledecegMeseca = stavkaSlMesec;
             }
-            
-            return true; 
+            Koordinator.Instance.StavkaSledecegMeseca.Odlazak = stavka.Odlazak;
+            Koordinator.Instance.StavkaSledecegMeseca.Dolazak = stavka.Dolazak;
+
+            DateOnly prviDanSledecegMeseca = Koordinator.Instance.Evidencija.Mesec.AddMonths(1);
+
+            // broj dana za tekuću evidenciju
+            stavka.BrDana = prviDanSledecegMeseca.DayNumber - stavka.Dolazak.DayNumber;
+            stavka.IzracunajIznose(); 
+
+            // broj dana za sledeću evidenciju
+
+            Koordinator.Instance.StavkaSledecegMeseca.BrDana =
+                stavka.Odlazak.DayNumber - prviDanSledecegMeseca.DayNumber;
+
+            Koordinator.Instance.StavkaSledecegMeseca.BrOsoba = stavka.BrOsoba;
+            Koordinator.Instance.StavkaSledecegMeseca.VrstaUsluge = stavka.VrstaUsluge;
+            Koordinator.Instance.StavkaSledecegMeseca.UplacenAvans = stavka.UplacenAvans;
+            Koordinator.Instance.StavkaSledecegMeseca.IzracunajIznose();
+
+            //provera i u tekucem i u sledecem mesecu
+            if (!proveraDatuma(stavka))
+                return false;
+
+            if (!proveraDatuma(Koordinator.Instance.StavkaSledecegMeseca))
+                return false;
+
+            return true;
+
         }
 
         internal bool proveraDatuma(StavkaEvidencije s)
         {
-            //provera datuma kada je rezervacija u okviru jednog meseca ili je vec podeljena na dve stavke
-            int noviDanDolaska = s.DanDolaska;
-            int noviDanOdlaska = s.DanOdlaska;
+            DateOnly noviDolazak = s.Dolazak;
+            DateOnly noviOdlazak = s.Odlazak;
 
-            
-            //provera u zavisnosti od meseca da li je prekoracen broj dana tj dan odlaska veci od br dana tog meseca
-
-            int godina = s.Evidencija.Mesec.Year;
-            int brMeseca = s.Evidencija.Mesec.Month;
-            int brojDanaUMesecu = DateTime.DaysInMonth(godina, brMeseca);
-
-            if (noviDanDolaska >= noviDanOdlaska &&
-                (noviDanDolaska==brojDanaUMesecu && (int)UCStavka.CmbMesecOdlaska.SelectedValue    //izastavi slucaj kada je rez kreirana od posl dana meseca do sl meseca
-                != Koordinator.Instance.Evidencija.Mesec.AddMonths(1).Month))
-            {
-                MessageBox.Show(UCStavka, "Dan dolaska mora biti pre dana odlaska!",
-                    "UPOZORENJE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (noviDanDolaska < 1 || noviDanDolaska > brojDanaUMesecu)
-            {
-                MessageBox.Show(
-                    UCStavka,
-                    $"Dan dolaska mora biti u opsegu 1-{brojDanaUMesecu} za mesec {(NazivMeseca)brMeseca}.",
-                    "UPOZORENJE",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (noviDanOdlaska < 1 || noviDanOdlaska > brojDanaUMesecu)
-            {
-                MessageBox.Show(
-                    UCStavka,
-                    $"Dan odlaska mora biti u opsegu 1-{brojDanaUMesecu} za mesec {(NazivMeseca)brMeseca}.",
-                    "UPOZORENJE",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                return false;
-            }
-
-            foreach (StavkaEvidencije stavka in s.Evidencija.StavkeEvidencije)
+            foreach (StavkaEvidencije postojeca in s.Evidencija.StavkeEvidencije)
             {
                 //nova => uporedjujemo datume svih stavki koje su vec u evidenciji rez
                 //azurira izabranu => ne racunamo stare datume te stavke
                 //evidencija sl meseca => uporedjuje datume svih vec postojecih stavki u toj evidenciji
-                if (!Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka)
-                    || !stavka.Equals(Koordinator.Instance.Stavka) || stavka.Evidencija.Equals(Koordinator.Instance.EvidencijaSledecegMeseca))
+
+                if (postojeca.StatusStavke == StatusStavke.OBRISANA)
+                    continue;
+
+                bool istaStavka =
+                    postojeca.Rb == s.Rb
+                    && postojeca.Evidencija.Id == s.Evidencija.Id;
+
+                if (istaStavka)
+                    continue;
+
+                bool preklapaSe =
+                    noviDolazak < postojeca.Odlazak && //novi početak je pre kraja stare rezervacije
+                    noviOdlazak > postojeca.Dolazak;   //novi kraj je posle početka stare rezervacije
+                                                       //samo ako su oba true => true
+
+                if (preklapaSe)
                 {
-                    int postojeciDolazak = stavka.DanDolaska;
-                    int postojeciOdlazak = stavka.DanOdlaska;
+                    MessageBox.Show(
+                        UCStavka,
+                        $"Termin se preklapa sa postojećom rezervacijom " +
+                        $"({postojeca.Dolazak:dd.MM.yyyy.} - {postojeca.Odlazak:dd.MM.yyyy.}).",
+                        "UPOZORENJE",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
 
-                    bool preklapaSe = noviDanDolaska < postojeciOdlazak && //novi početak je pre kraja stare rezervacije
-                                          noviDanOdlaska > postojeciDolazak;   //novi kraj je posle početka stare rezervacije
-                                                                               //samo ako su oba true => true
-
-                    if (preklapaSe)
-                    {
-                        MessageBox.Show(
-                                $"Termin se preklapa sa postojećom rezervacijom (period : " +
-                                $"{postojeciDolazak}-{postojeciOdlazak}. {(NazivMeseca)s.Evidencija.Mesec.Month}).",
-                                "Upozorenje",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-
-                        return false;
-                    }
+                    return false;
                 }
             }
+
             return true;
+             
         }
 
         internal void OsveziVrednosti()
@@ -572,18 +573,27 @@ namespace Client.GuiController
 
         internal void Odustani()
         {
-            //ako je vec kreirana evidencija
-            if (Koordinator.Instance.EvidencijaSledecegMeseca != null)
+            //ako je vec kreirana nova evidencija
+            if (Koordinator.Instance.EvidencijaSledecegMeseca != null
+                    && Koordinator.Instance.EvidencijaSledecegMeseca.Nova)
             {
-                Odgovor odg2 = Communication.Instance.ObrisiEvidencijaRez(Koordinator.Instance.EvidencijaSledecegMeseca);
+                EvidencijaRez zaBrisanje = new EvidencijaRez
+                {
+                    Id = Koordinator.Instance.EvidencijaSledecegMeseca.Id,
+                    StavkeEvidencije = new List<StavkaEvidencije>()
+                };
+
+                Odgovor odg2 = Communication.Instance.ObrisiEvidencijaRez(zaBrisanje);
 
                 if (odg2.ExceptionMessage != null)
                     throw new Exception(odg2.ExceptionMessage);
-
-                Koordinator.Instance.EvidencijaSledecegMeseca = null;
             }
+
+            Koordinator.Instance.EvidencijaSledecegMeseca = null;
+            
             //ako je izabrana vrati je na prethodne vrednosti
-            if (Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka))
+            if (Koordinator.Instance.Stavka != null && 
+                Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka))
             {
                 Koordinator.Instance.IzmenjenaStavka = null;
             }

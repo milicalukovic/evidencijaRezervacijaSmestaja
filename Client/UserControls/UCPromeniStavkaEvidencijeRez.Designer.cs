@@ -33,8 +33,6 @@
             groupBoxKorisnik = new GroupBox();
             dtpDatumOdlaska = new DateTimePicker();
             dtpDatumDolaska = new DateTimePicker();
-            cmbMesecOdlaska = new ComboBox();
-            txtMesecDolaska = new TextBox();
             groupBox1 = new GroupBox();
             maskedTxtBrLicneKarte = new MaskedTextBox();
             btnPretraziKorisnik = new Button();
@@ -47,8 +45,6 @@
             txtEmail = new TextBox();
             btnPromeniEvidencijaRez = new Button();
             checkBoxUplacenAvans = new CheckBox();
-            numericDanDolaska = new NumericUpDown();
-            numericDanOdlaska = new NumericUpDown();
             numericBrOsoba = new NumericUpDown();
             cmbVrstaUsluge = new ComboBox();
             label4 = new Label();
@@ -58,8 +54,6 @@
             btnOdustani = new Button();
             groupBoxKorisnik.SuspendLayout();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericDanDolaska).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericDanOdlaska).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericBrOsoba).BeginInit();
             SuspendLayout();
             // 
@@ -82,13 +76,9 @@
             // 
             groupBoxKorisnik.Controls.Add(dtpDatumOdlaska);
             groupBoxKorisnik.Controls.Add(dtpDatumDolaska);
-            groupBoxKorisnik.Controls.Add(cmbMesecOdlaska);
-            groupBoxKorisnik.Controls.Add(txtMesecDolaska);
             groupBoxKorisnik.Controls.Add(groupBox1);
             groupBoxKorisnik.Controls.Add(btnPromeniEvidencijaRez);
             groupBoxKorisnik.Controls.Add(checkBoxUplacenAvans);
-            groupBoxKorisnik.Controls.Add(numericDanDolaska);
-            groupBoxKorisnik.Controls.Add(numericDanOdlaska);
             groupBoxKorisnik.Controls.Add(numericBrOsoba);
             groupBoxKorisnik.Controls.Add(cmbVrstaUsluge);
             groupBoxKorisnik.Controls.Add(label4);
@@ -104,32 +94,17 @@
             // 
             // dtpDatumOdlaska
             // 
-            dtpDatumOdlaska.Location = new Point(887, 139);
+            dtpDatumOdlaska.Location = new Point(633, 133);
             dtpDatumOdlaska.Name = "dtpDatumOdlaska";
-            dtpDatumOdlaska.Size = new Size(241, 27);
+            dtpDatumOdlaska.Size = new Size(291, 27);
             dtpDatumOdlaska.TabIndex = 18;
             // 
             // dtpDatumDolaska
             // 
-            dtpDatumDolaska.Location = new Point(887, 84);
+            dtpDatumDolaska.Location = new Point(633, 82);
             dtpDatumDolaska.Name = "dtpDatumDolaska";
-            dtpDatumDolaska.Size = new Size(241, 27);
+            dtpDatumDolaska.Size = new Size(291, 27);
             dtpDatumDolaska.TabIndex = 17;
-            // 
-            // cmbMesecOdlaska
-            // 
-            cmbMesecOdlaska.FormattingEnabled = true;
-            cmbMesecOdlaska.Location = new Point(696, 138);
-            cmbMesecOdlaska.Name = "cmbMesecOdlaska";
-            cmbMesecOdlaska.Size = new Size(185, 28);
-            cmbMesecOdlaska.TabIndex = 16;
-            // 
-            // txtMesecDolaska
-            // 
-            txtMesecDolaska.Location = new Point(696, 84);
-            txtMesecDolaska.Name = "txtMesecDolaska";
-            txtMesecDolaska.Size = new Size(185, 27);
-            txtMesecDolaska.TabIndex = 15;
             // 
             // groupBox1
             // 
@@ -245,26 +220,6 @@
             checkBoxUplacenAvans.Text = "uplacen avans";
             checkBoxUplacenAvans.UseVisualStyleBackColor = true;
             // 
-            // numericDanDolaska
-            // 
-            numericDanDolaska.Location = new Point(622, 85);
-            numericDanDolaska.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
-            numericDanDolaska.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numericDanDolaska.Name = "numericDanDolaska";
-            numericDanDolaska.Size = new Size(61, 27);
-            numericDanDolaska.TabIndex = 12;
-            numericDanDolaska.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // numericDanOdlaska
-            // 
-            numericDanOdlaska.Location = new Point(622, 136);
-            numericDanOdlaska.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
-            numericDanOdlaska.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numericDanOdlaska.Name = "numericDanOdlaska";
-            numericDanOdlaska.Size = new Size(61, 27);
-            numericDanOdlaska.TabIndex = 11;
-            numericDanOdlaska.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
             // numericBrOsoba
             // 
             numericBrOsoba.DecimalPlaces = 1;
@@ -345,8 +300,6 @@
             groupBoxKorisnik.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericDanDolaska).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericDanOdlaska).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericBrOsoba).EndInit();
             ResumeLayout(false);
         }
@@ -356,8 +309,6 @@
         private Panel panelIznosi;
         private Label lblRezervacija;
         private GroupBox groupBoxKorisnik;
-        private ComboBox cmbMesecOdlaska;
-        private TextBox txtMesecDolaska;
         private GroupBox groupBox1;
         private MaskedTextBox maskedTxtBrLicneKarte;
         private Button btnPretraziKorisnik;
@@ -370,8 +321,6 @@
         private TextBox txtEmail;
         private Button btnPromeniEvidencijaRez;
         private CheckBox checkBoxUplacenAvans;
-        private NumericUpDown numericDanDolaska;
-        private NumericUpDown numericDanOdlaska;
         private NumericUpDown numericBrOsoba;
         private ComboBox cmbVrstaUsluge;
         private Label label4;
@@ -386,15 +335,11 @@
         public Panel PanelIznosi { get => panelIznosi; set => panelIznosi = value; }
         public CheckBox CheckBoxUplacenAvans { get => checkBoxUplacenAvans; set => checkBoxUplacenAvans = value; }
         public ComboBox CmbVrstaUsluge { get => cmbVrstaUsluge; set => cmbVrstaUsluge = value; }
-        public ComboBox CmbMesecOdlaska { get => cmbMesecOdlaska; set => cmbMesecOdlaska = value; }
         public NumericUpDown NumericBrOsoba { get => numericBrOsoba; set => numericBrOsoba = value; }
-        public NumericUpDown NumericDanDolaska { get => numericDanDolaska; set => numericDanDolaska = value; }
-        public NumericUpDown NumericDanOdlaska { get => numericDanOdlaska; set => numericDanOdlaska = value; }
         public MaskedTextBox MaskedTxtBrLicneKarte { get => maskedTxtBrLicneKarte; set => maskedTxtBrLicneKarte = value; }
         public TextBox TxtKorisnik { get => txtKorisnik; set => txtKorisnik = value; }
         public TextBox TxtEmail { get => txtEmail; set => txtEmail = value; }
         public TextBox TxtBrTel { get => txtBrTel; set => txtBrTel = value; }
-        public TextBox TxtMesecDolaska { get => txtMesecDolaska; set => txtMesecDolaska = value; }
         public Button BtnZapamtiPodatke { get => btnPromeniEvidencijaRez; set => btnPromeniEvidencijaRez = value; }
 
         public Button BtnPretraziKorisnik { get => btnPretraziKorisnik; set => btnPretraziKorisnik = value; }

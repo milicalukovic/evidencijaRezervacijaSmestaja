@@ -20,48 +20,25 @@ namespace Server.SystemOperation.EvidencijaRezSO
         {
             repository.Update(e);
 
-            StavkaEvidencije kriterijum = new StavkaEvidencije();
-            kriterijum.Evidencija = e;
-
-            List<IDomainObj> stareStavke = repository.GetAllByCondition(kriterijum);
-
-            foreach (StavkaEvidencije stavka in stareStavke.Cast<StavkaEvidencije>())
+            foreach (StavkaEvidencije stavka in e.StavkeEvidencije)
             {
+                stavka.Evidencija = e;
+                stavka.IzracunajIznose(); //pre cuvanja u bazi
                 if (stavka.StatusStavke == StatusStavke.DODATA)
                 {
                     stavka.Evidencija = e;
                     repository.InsertInto(stavka);
-                    Debug.WriteLine(stavka.StatusStavke);
                 }
                 if (stavka.StatusStavke == StatusStavke.OBRISANA)
                 {
                     repository.Delete(stavka);
-                    Debug.WriteLine(stavka.StatusStavke);
                 }
                 if (stavka.StatusStavke == StatusStavke.IZMENJENA)
                 {
                     repository.Update(stavka);
-                    Debug.WriteLine(stavka.StatusStavke);
                 }
+                Debug.WriteLine(stavka.StatusStavke +" "+ stavka.Korisnik.Ime);
             }
-
-            
-
-            //foreach (StavkaEvidencije stavka in stareStavke.Cast<StavkaEvidencije>())
-            //{
-            //    repository.Delete(stavka);
-            //}
-
-            //long rb = 1;
-            //foreach (StavkaEvidencije stavka in e.StavkeEvidencije)
-            //{
-            //    stavka.Evidencija = e;
-            //    stavka.Rb = rb++;
-            //    repository.InsertInto(stavka);
-            //}
-
-
-
         }
     }
 }

@@ -31,7 +31,17 @@ namespace Client.UserControls
 
         private void btnZaboraviIzmene_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.OsnovniPodaciEvidencijaRezController.ZaboraviIzmene();
+            if (Koordinator.Instance.OsnovniPodaciEvidencijaRezController != null)
+            {
+                bool nastavi =
+                    Koordinator.Instance.OsnovniPodaciEvidencijaRezController
+                        .ZaboraviIzmene();
+
+                if (!nastavi)
+                    return;
+            }
+
+            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije(true);
 
         }
     }

@@ -22,5 +22,10 @@ namespace Client.Forms
         {
             Koordinator.Instance.KriterijumPretrageController.PretraziEvidencijeRezPoKriterijumima();
         }
+
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Koordinator.Instance.KriterijumPretrageController.OtvoriUnosPeriodaEvidencije();
+        }
     }
 }

@@ -47,7 +47,7 @@
             // 
             // label6
             // 
-            label6.Location = new Point(55, 37);
+            label6.Location = new Point(2, 28);
             label6.Name = "label6";
             label6.Size = new Size(148, 24);
             label6.TabIndex = 5;
@@ -56,7 +56,7 @@
             // 
             // label1
             // 
-            label1.Location = new Point(55, 97);
+            label1.Location = new Point(2, 88);
             label1.Name = "label1";
             label1.Size = new Size(148, 24);
             label1.TabIndex = 6;
@@ -65,7 +65,7 @@
             // 
             // label2
             // 
-            label2.Location = new Point(375, 97);
+            label2.Location = new Point(262, 89);
             label2.Name = "label2";
             label2.Size = new Size(148, 24);
             label2.TabIndex = 7;
@@ -74,7 +74,7 @@
             // 
             // label3
             // 
-            label3.Location = new Point(375, 37);
+            label3.Location = new Point(262, 29);
             label3.Name = "label3";
             label3.Size = new Size(148, 24);
             label3.TabIndex = 8;
@@ -83,35 +83,35 @@
             // 
             // txtBrDana
             // 
-            txtBrDana.Location = new Point(209, 36);
+            txtBrDana.Location = new Point(156, 27);
             txtBrDana.Name = "txtBrDana";
             txtBrDana.Size = new Size(105, 27);
             txtBrDana.TabIndex = 9;
             // 
             // txtIznosAvansa
             // 
-            txtIznosAvansa.Location = new Point(209, 96);
+            txtIznosAvansa.Location = new Point(156, 87);
             txtIznosAvansa.Name = "txtIznosAvansa";
             txtIznosAvansa.Size = new Size(105, 27);
             txtIznosAvansa.TabIndex = 10;
             // 
             // txtIznosUsluge
             // 
-            txtIznosUsluge.Location = new Point(529, 36);
+            txtIznosUsluge.Location = new Point(416, 28);
             txtIznosUsluge.Name = "txtIznosUsluge";
-            txtIznosUsluge.Size = new Size(105, 27);
+            txtIznosUsluge.Size = new Size(300, 27);
             txtIznosUsluge.TabIndex = 11;
             // 
             // txtIznosRezervacije
             // 
-            txtIznosRezervacije.Location = new Point(529, 96);
+            txtIznosRezervacije.Location = new Point(416, 88);
             txtIznosRezervacije.Name = "txtIznosRezervacije";
-            txtIznosRezervacije.Size = new Size(105, 27);
+            txtIznosRezervacije.Size = new Size(300, 27);
             txtIznosRezervacije.TabIndex = 12;
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(707, 64);
+            btnPromeniEvidencijaRez.Location = new Point(737, 52);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(151, 35);
             btnPromeniEvidencijaRez.TabIndex = 13;

@@ -34,7 +34,6 @@
             label7 = new Label();
             label6 = new Label();
             numericGodina = new NumericUpDown();
-            numericMesec = new NumericUpDown();
             label4 = new Label();
             label5 = new Label();
             label3 = new Label();
@@ -54,10 +53,10 @@
             cmbSmestajnaJedinica = new ComboBox();
             btnPromeniEvidencijaRez = new Button();
             btnZaboraviIzmene = new Button();
+            cmbMesec = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)numericSezonskiKoefCene).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericProcenatAvansa).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericGodina).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericMesec).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -104,7 +103,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 9F);
-            label6.Location = new Point(409, 35);
+            label6.Location = new Point(493, 35);
             label6.Name = "label6";
             label6.Size = new Size(15, 20);
             label6.TabIndex = 26;
@@ -112,7 +111,7 @@
             // 
             // numericGodina
             // 
-            numericGodina.Location = new Point(490, 33);
+            numericGodina.Location = new Point(574, 33);
             numericGodina.Maximum = new decimal(new int[] { 2036, 0, 0, 0 });
             numericGodina.Minimum = new decimal(new int[] { 2002, 0, 0, 0 });
             numericGodina.Name = "numericGodina";
@@ -120,19 +119,11 @@
             numericGodina.TabIndex = 25;
             numericGodina.Value = new decimal(new int[] { 2026, 0, 0, 0 });
             // 
-            // numericMesec
-            // 
-            numericMesec.Location = new Point(354, 33);
-            numericMesec.Maximum = new decimal(new int[] { 12, 0, 0, 0 });
-            numericMesec.Name = "numericMesec";
-            numericMesec.Size = new Size(49, 27);
-            numericMesec.TabIndex = 24;
-            // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F);
-            label4.Location = new Point(428, 35);
+            label4.Location = new Point(512, 35);
             label4.Name = "label4";
             label4.Size = new Size(56, 20);
             label4.TabIndex = 23;
@@ -304,10 +295,19 @@
             btnZaboraviIzmene.UseVisualStyleBackColor = true;
             btnZaboraviIzmene.Click += btnZaboraviIzmene_Click;
             // 
+            // cmbMesec
+            // 
+            cmbMesec.FormattingEnabled = true;
+            cmbMesec.Location = new Point(354, 32);
+            cmbMesec.Name = "cmbMesec";
+            cmbMesec.Size = new Size(127, 28);
+            cmbMesec.TabIndex = 32;
+            // 
             // UCOsnovniPodaciEvidencijaRez
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(cmbMesec);
             Controls.Add(btnZaboraviIzmene);
             Controls.Add(label9);
             Controls.Add(numericSezonskiKoefCene);
@@ -315,7 +315,6 @@
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(numericGodina);
-            Controls.Add(numericMesec);
             Controls.Add(label4);
             Controls.Add(label5);
             Controls.Add(label3);
@@ -326,7 +325,6 @@
             ((System.ComponentModel.ISupportInitialize)numericSezonskiKoefCene).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericProcenatAvansa).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericGodina).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericMesec).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -341,7 +339,6 @@
         private Label label7;
         private Label label6;
         private NumericUpDown numericGodina;
-        private NumericUpDown numericMesec;
         private Label label4;
         private Label label5;
         private Label label3;
@@ -361,11 +358,12 @@
         private ComboBox cmbSmestajnaJedinica;
         private Button btnPromeniEvidencijaRez;
         private Button btnZaboraviIzmene;
+        private ComboBox cmbMesec;
 
         public NumericUpDown NumericSezonskiKoefCene { get => numericSezonskiKoefCene; set => numericSezonskiKoefCene = value; }
         public NumericUpDown NumericProcenatAvansa { get => numericProcenatAvansa; set => numericProcenatAvansa = value; }
         public NumericUpDown NumericGodina { get => numericGodina; set => numericGodina = value; }
-        public NumericUpDown NumericMesec { get => numericMesec; set => numericMesec = value; }
+        public ComboBox CmbMesec { get => cmbMesec; set => cmbMesec = value;  }
         public TextBox TxtMaxKapacitet { get => txtMaxKapacitet; set => txtMaxKapacitet = value; }
         public TextBox TxtMinKapacitet { get => txtMinKapacitet; set => txtMinKapacitet = value; }
         public TextBox TxtTipSmestaja { get => txtTipSmestaja; set => txtTipSmestaja = value; }

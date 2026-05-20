@@ -41,12 +41,12 @@ namespace Client.Forms
 
         private void prikaziEvidencijeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
+            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije(false);
         }
 
         private void FrmGlavna_Load(object sender, EventArgs e)
         {
-            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije();
+            Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije(false);
         }
 
         private void pretraziEvidencijeToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using Client.Forms;
 using Client.Session;
+using Client.UserControls;
 using Common.Communication;
 using Common.Domain;
 using Microsoft.IdentityModel.Tokens;
@@ -25,6 +26,8 @@ namespace Client.GuiController
         }
         internal void PrikaziSmestajneJedinice()
         {
+            if (!ProveriNesacuvaneIzmene())
+                return;
             frmGlavna.GlavnaPanel.Controls.Clear();
             Koordinator.Instance.InicijalizujUCPrikazSJ();    //INICIJALIZACIJA
             Koordinator.Instance.SmestajnaJedinicaUCController.PopuniPodatke(); //POPUNJAVAMO PODATKE
@@ -32,16 +35,26 @@ namespace Client.GuiController
         }
         internal void UbaciIzvorOcene()
         {
+            if (!ProveriNesacuvaneIzmene())
+                return;
             Koordinator.Instance.OtvoriFrmIzvorOcene();
         }
         internal void OdjaviVlasnik()
         {
+            if (!ProveriNesacuvaneIzmene())
+                return;
             Communication.Instance.OdjaviVlasnik(Koordinator.Instance.UlogovaniVlasnik);
             Koordinator.Instance.UlogovaniVlasnik = null;
         }
 
-        internal void PrikaziEvidencije()
+        internal void PrikaziEvidencije(bool sacuvano)
         {
+            if (!sacuvano)
+            {
+                if (!ProveriNesacuvaneIzmene())
+                    return;
+            }
+           
             frmGlavna.GlavnaPanel.Controls.Clear();
             Koordinator.Instance.InicijalizujUCPrikazEvidencija();
             Koordinator.Instance.PrikazEvidencijaRezController.PopuniPodatke();
@@ -50,6 +63,8 @@ namespace Client.GuiController
 
         internal void PretraziEvidencije()
         {
+            if (!ProveriNesacuvaneIzmene())
+                return;
             if (Koordinator.Instance.ListaEvidencijaRezervacija.IsNullOrEmpty())
             {
                 MessageBox.Show(frmGlavna, "Jos uvek nemate kreirane evidencije rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -70,6 +85,8 @@ namespace Client.GuiController
             //UcitajSmestajneJedinice(); //ucitano u konstruktoru 
             //UcitajKorisnike();
 
+            if (!ProveriNesacuvaneIzmene())
+                return;
             if (Koordinator.Instance.ListaSmestajnaJedinica.IsNullOrEmpty())
             {
                 MessageBox.Show(frmGlavna, "Morate dodati bar jednu smestajnu jedinicu kako biste napravili njenu mesecnu evidenciju.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -158,6 +175,23 @@ namespace Client.GuiController
             Koordinator.Instance.InicijalizujUCPromeniStavkaEvidencijeRez();
             Koordinator.Instance.PromeniStavkaEvidencijeRezController.PopuniPodatke();
             frmGlavna.GlavnaPanel.Controls.Add(Koordinator.Instance.UCPromeniStavkaEvidencijeRez);
+        }
+
+        private bool ProveriNesacuvaneIzmene() //ukoliko ne sacuva evidenciju u bazi dok su prikazane njene stavke
+        {
+            if (frmGlavna.GlavnaPanel.Controls.Count == 0)
+                return true;
+
+            Control trenutniUC = frmGlavna.GlavnaPanel.Controls[0];
+
+            if (trenutniUC is UCStavkeEvidencijaRez)
+            {
+                return Koordinator.Instance
+                    .StavkeEvidencijaRezUCController
+                    .ZaboraviIzmene();
+            }
+
+            return true;
         }
     }
 }

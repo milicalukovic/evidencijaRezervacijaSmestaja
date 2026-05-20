@@ -27,7 +27,7 @@ namespace Client.GuiController
 
             UCEvidencija.TxtSmestajnaJedinica.Text = izabrana.SmestajnaJedinica.Naziv;
             UCEvidencija.TxtMesec.Text = $"{(NazivMeseca)izabrana.Mesec.Month} {izabrana.Mesec.Year}.";
-            UCEvidencija.TxtUkupanIznos.Text = izabrana.UkupanIznos.ToString("N2");
+            UCEvidencija.TxtUkupanIznos.Text = izabrana.UkupanIznos.ToString("N2") + " €";
 
             UCEvidencija.TxtSmestajnaJedinica.ReadOnly = true;
             UCEvidencija.TxtMesec.ReadOnly = true;
@@ -43,6 +43,10 @@ namespace Client.GuiController
             UCEvidencija.DgvStavke.Columns.Clear();                     //reset
             UCEvidencija.DgvStavke.DataSource = null;
 
+            UCEvidencija.DgvStavke.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            UCEvidencija.DgvStavke.AllowUserToResizeColumns = true;
+            UCEvidencija.DgvStavke.RowHeadersWidth = 25;
+
             // da ne bi svaki put kacili isti event
             UCEvidencija.DgvStavke.CellFormatting -= FormatirajTabelu;
 
@@ -50,71 +54,71 @@ namespace Client.GuiController
             {
                 Name = "dolazak",
                 HeaderText = "Dolazak",
-                DataPropertyName = "DanDolaska",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
-                Width = 100
+                DataPropertyName = "Dolazak",
+                FillWeight = 95,
+                MinimumWidth = 95
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "odlazak",
                 HeaderText = "Odlazak",
-                DataPropertyName = "DanOdlaska",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
-                Width = 100
+                DataPropertyName = "Odlazak",
+                FillWeight = 95,
+                MinimumWidth = 95
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "ImePrezimeKorisnik",
                 HeaderText = "Gost",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
-                MinimumWidth = 190
+                FillWeight = 170,
+                MinimumWidth = 160
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Broj osoba",
                 DataPropertyName = "BrOsoba",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                MinimumWidth = 60,
+                FillWeight = 75,
+                MinimumWidth = 70
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "vrstaUsluge",
                 HeaderText = "Vrsta usluge",
                 DataPropertyName = "VrstaUsluge",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
-                MinimumWidth = 110
+                FillWeight = 160,
+                MinimumWidth = 150
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "iznosAvansa",
                 HeaderText = "Iznos avansa",
                 DataPropertyName = "IznosAvansa",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
-                Width = 115
+                FillWeight = 110,
+                MinimumWidth = 110
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "uplacenAvans",
                 HeaderText = "Avans uplacen",
                 DataPropertyName = "UplacenAvans",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                FillWeight = 90,
+                MinimumWidth = 90
             }); 
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "iznosRezervacije",
                 HeaderText = "Iznos rezervacije",
                 DataPropertyName = "IznosRezervacije",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
-                Width = 115
+                FillWeight = 140,
+                MinimumWidth = 135
             });
 
             var sortirane = Koordinator.Instance.Evidencija.StavkeEvidencije
-                            .OrderBy(s => s.DanDolaska)
-                            .ThenBy(s=> s.DanOdlaska)
+                            .OrderBy(s => s.Dolazak)
+                            .ThenBy(s=> s.Odlazak)
                             .ToList();
           
             UCEvidencija.DgvStavke.DataSource = sortirane;
-            UCEvidencija.DgvStavke.AutoResizeColumns();
 
             UCEvidencija.DgvStavke.CellFormatting += FormatirajTabelu; //za vrednosti u tabeli koje nisu direktno iz klase SJ (iz obj TipSmestaja)
 
@@ -152,19 +156,12 @@ namespace Client.GuiController
                     break;
 
                 case "dolazak":
-                    e.Value = stavka.DanDolaska.ToString() + "/"+ Koordinator.Instance.Evidencija.Mesec.ToString("MM/yyyy", CultureInfo.InvariantCulture); ;
+                    e.Value = stavka.Dolazak.ToString("dd.MM.yyyy");
                     e.FormattingApplied = true;
                     break;
 
                 case "odlazak":
-                    if (stavka.DanOdlaska == 1)
-                    {
-                        e.Value = 1 + "/" + Koordinator.Instance.Evidencija.Mesec.AddMonths(1).ToString("MM/yyyy", CultureInfo.InvariantCulture);
-                    }
-                    else
-                    {
-                        e.Value = stavka.DanOdlaska.ToString() + "/" + Koordinator.Instance.Evidencija.Mesec.ToString("MM/yyyy", CultureInfo.InvariantCulture); 
-                    }
+                    e.Value = stavka.Odlazak.ToString("dd.MM.yyyy");
                     e.FormattingApplied = true;
                     break;
 
@@ -180,8 +177,8 @@ namespace Client.GuiController
         internal void AzurirajTabelu()
         {
             var sortirane = Koordinator.Instance.Evidencija.StavkeEvidencije
-                        .OrderBy(s => s.DanDolaska)
-                        .ThenBy(s => s.DanOdlaska)
+                        .OrderBy(s => s.Dolazak)
+                        .ThenBy(s => s.Odlazak)
                         .ToList();
 
             UCEvidencija.DgvStavke.DataSource = null;

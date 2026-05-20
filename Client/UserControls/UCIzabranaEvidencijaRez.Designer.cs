@@ -96,10 +96,10 @@
             // 
             dgvStavke.BackgroundColor = SystemColors.Window;
             dgvStavke.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStavke.Location = new Point(30, 26);
+            dgvStavke.Location = new Point(15, 30);
             dgvStavke.Name = "dgvStavke";
-            dgvStavke.RowHeadersWidth = 51;
-            dgvStavke.Size = new Size(1070, 324);
+            dgvStavke.Size = new Size(1100, 310);
+            dgvStavke.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStavke.TabIndex = 6;
             dgvStavke.DataError += dgvStavke_DataError;
             // 

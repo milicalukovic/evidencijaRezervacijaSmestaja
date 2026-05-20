@@ -45,7 +45,7 @@
             dgvStavke.Location = new Point(51, 104);
             dgvStavke.Name = "dgvStavke";
             dgvStavke.RowHeadersWidth = 51;
-            dgvStavke.Size = new Size(1053, 331);
+            dgvStavke.Size = new Size(1045, 331);
             dgvStavke.TabIndex = 0;
             dgvStavke.CellClick += dgvStavke_CellClick;
             // 

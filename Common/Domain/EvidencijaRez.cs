@@ -2,11 +2,13 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,8 +42,11 @@ namespace Common.Domain
             //get => SmestajnaJedinica?.PovecanjeCenePoUsluzi ?? 0;
             //set { } 
         }
-        public decimal UkupanIznos => StavkeEvidencije?.Sum(s => s.IznosRezervacije) ?? 0;
-           // set { } ne ucitava se iz baze pa mu ne postavljamo novu vrednost u vratiSvi
+        public decimal UkupanIznos => StavkeEvidencije?
+                                        .Where(s =>               
+                                            s.StatusStavke != StatusStavke.OBRISANA)
+                                        .Sum(s => s.IznosRezervacije) ?? 0;
+        // set { } ne ucitava se iz baze pa mu ne postavljamo novu vrednost u vratiSvi
         public Vlasnik Vlasnik { get; set; } = new Vlasnik();
         public SmestajnaJedinica SmestajnaJedinica { get; set; } = new SmestajnaJedinica();
 

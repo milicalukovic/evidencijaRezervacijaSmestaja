@@ -4,6 +4,7 @@ using Client.Session;
 using Client.UserControls;
 using Common.Communication;
 using Common.Domain;
+using Common.Domain.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -124,7 +125,9 @@ namespace Client.GuiController
                     break;
 
                 case "brojRezervacija":
-                    e.Value = (evidencija.StavkeEvidencije?.Count ?? 0).ToString();
+                    e.Value = (evidencija.StavkeEvidencije?  
+                                    .Count(s =>
+                                        s.StatusStavke != StatusStavke.OBRISANA) ?? 0).ToString();
                     e.FormattingApplied = true;
                     break;
 

@@ -34,13 +34,13 @@
             label4 = new Label();
             label5 = new Label();
             btnPretraziEvidencijeRez = new Button();
-            numericMesec = new NumericUpDown();
             numericGodina = new NumericUpDown();
             label6 = new Label();
             txtSmestajNaziv = new TextBox();
             txtBrLicneKarte = new TextBox();
             label7 = new Label();
-            ((System.ComponentModel.ISupportInitialize)numericMesec).BeginInit();
+            cmbMesec = new ComboBox();
+            checkBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numericGodina).BeginInit();
             SuspendLayout();
             // 
@@ -58,7 +58,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label2.Location = new Point(396, 137);
+            label2.Location = new Point(433, 111);
             label2.Name = "label2";
             label2.Size = new Size(64, 25);
             label2.TabIndex = 1;
@@ -68,7 +68,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label3.Location = new Point(546, 137);
+            label3.Location = new Point(596, 111);
             label3.Name = "label3";
             label3.Size = new Size(70, 25);
             label3.TabIndex = 2;
@@ -105,21 +105,13 @@
             btnPretraziEvidencijeRez.UseVisualStyleBackColor = true;
             btnPretraziEvidencijeRez.Click += btnPretraziEvidencijeRez_Click;
             // 
-            // numericMesec
-            // 
-            numericMesec.Location = new Point(466, 139);
-            numericMesec.Maximum = new decimal(new int[] { 12, 0, 0, 0 });
-            numericMesec.Name = "numericMesec";
-            numericMesec.Size = new Size(49, 27);
-            numericMesec.TabIndex = 6;
-            // 
             // numericGodina
             // 
-            numericGodina.Location = new Point(622, 139);
+            numericGodina.Location = new Point(582, 139);
             numericGodina.Maximum = new decimal(new int[] { 2036, 0, 0, 0 });
             numericGodina.Minimum = new decimal(new int[] { 2002, 0, 0, 0 });
             numericGodina.Name = "numericGodina";
-            numericGodina.Size = new Size(61, 27);
+            numericGodina.Size = new Size(101, 27);
             numericGodina.TabIndex = 7;
             numericGodina.Value = new decimal(new int[] { 2026, 0, 0, 0 });
             // 
@@ -127,7 +119,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label6.Location = new Point(521, 137);
+            label6.Location = new Point(557, 137);
             label6.Name = "label6";
             label6.Size = new Size(19, 25);
             label6.TabIndex = 8;
@@ -153,9 +145,27 @@
             label7.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 238);
             label7.Location = new Point(118, 137);
             label7.Name = "label7";
-            label7.Size = new Size(155, 25);
+            label7.Size = new Size(208, 25);
             label7.TabIndex = 11;
-            label7.Text = "Period evidencije";
+            label7.Text = "Unesi period evidencije";
+            // 
+            // cmbMesec
+            // 
+            cmbMesec.FormattingEnabled = true;
+            cmbMesec.Location = new Point(396, 137);
+            cmbMesec.Name = "cmbMesec";
+            cmbMesec.Size = new Size(155, 28);
+            cmbMesec.TabIndex = 12;
+            // 
+            // checkBox
+            // 
+            checkBox.AutoSize = true;
+            checkBox.Location = new Point(94, 143);
+            checkBox.Name = "checkBox";
+            checkBox.Size = new Size(18, 17);
+            checkBox.TabIndex = 13;
+            checkBox.UseVisualStyleBackColor = true;
+            checkBox.CheckedChanged += checkBox_CheckedChanged;
             // 
             // FrmKriterijumPretrageEvidencijaRez
             // 
@@ -163,12 +173,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Tan;
             ClientSize = new Size(758, 449);
+            Controls.Add(checkBox);
+            Controls.Add(cmbMesec);
             Controls.Add(label7);
             Controls.Add(txtBrLicneKarte);
             Controls.Add(txtSmestajNaziv);
             Controls.Add(label6);
             Controls.Add(numericGodina);
-            Controls.Add(numericMesec);
             Controls.Add(btnPretraziEvidencijeRez);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -177,7 +188,6 @@
             Controls.Add(label1);
             Name = "FrmKriterijumPretrageEvidencijaRez";
             Text = "Kriterijumi pretrage";
-            ((System.ComponentModel.ISupportInitialize)numericMesec).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericGodina).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -191,14 +201,16 @@
         private Label label4;
         private Label label5;
         private Button btnPretraziEvidencijeRez;
-        private NumericUpDown numericMesec;
         private NumericUpDown numericGodina;
         private Label label6;
         private TextBox txtSmestajNaziv;
         private TextBox txtBrLicneKarte;
         private Label label7;
+        private ComboBox cmbMesec;
+        private CheckBox checkBox;
 
-        public NumericUpDown NumericMesec { get =>  numericMesec; set => numericMesec = value; }
+        public CheckBox CheckBox { get => checkBox; set => checkBox = value;  }
+        public ComboBox CmbMesec { get => cmbMesec; set => cmbMesec = value;  }
         public NumericUpDown NumericGodina { get => numericGodina; set => numericGodina = value; }
         public TextBox TxtSmestajNaziv { get => txtSmestajNaziv; set => txtSmestajNaziv = value; }
         public TextBox TxtBrLicneKarte { get => txtBrLicneKarte; set => txtBrLicneKarte = value; }

@@ -6,6 +6,7 @@ namespace Server
         public FrmServer()
         {
             InitializeComponent();
+            btnStop.Enabled = false;
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -21,7 +22,7 @@ namespace Server
             btnStart.Enabled = true;
             btnStop.Enabled = false;
             lblServer.Text = "Server je zaustavljen";
-            server.Stop();
+            server?.Stop();
         }
         private void FrmServer_FormClosed(object sender, FormClosedEventArgs e)
         {
