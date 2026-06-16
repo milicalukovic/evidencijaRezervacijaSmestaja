@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             label6 = new Label();
             label1 = new Label();
             label2 = new Label();
@@ -40,14 +39,9 @@
             btnPromeniEvidencijaRez = new Button();
             SuspendLayout();
             // 
-            // sqlCommand1
-            // 
-            sqlCommand1.CommandTimeout = 30;
-            sqlCommand1.EnableOptimizedParameterBinding = false;
-            // 
             // label6
             // 
-            label6.Location = new Point(2, 28);
+            label6.Location = new Point(56, 53);
             label6.Name = "label6";
             label6.Size = new Size(148, 24);
             label6.TabIndex = 5;
@@ -56,7 +50,7 @@
             // 
             // label1
             // 
-            label1.Location = new Point(2, 88);
+            label1.Location = new Point(56, 124);
             label1.Name = "label1";
             label1.Size = new Size(148, 24);
             label1.TabIndex = 6;
@@ -65,7 +59,7 @@
             // 
             // label2
             // 
-            label2.Location = new Point(262, 89);
+            label2.Location = new Point(465, 124);
             label2.Name = "label2";
             label2.Size = new Size(148, 24);
             label2.TabIndex = 7;
@@ -74,7 +68,7 @@
             // 
             // label3
             // 
-            label3.Location = new Point(262, 29);
+            label3.Location = new Point(465, 53);
             label3.Name = "label3";
             label3.Size = new Size(148, 24);
             label3.TabIndex = 8;
@@ -83,35 +77,35 @@
             // 
             // txtBrDana
             // 
-            txtBrDana.Location = new Point(156, 27);
+            txtBrDana.Location = new Point(235, 52);
             txtBrDana.Name = "txtBrDana";
             txtBrDana.Size = new Size(105, 27);
             txtBrDana.TabIndex = 9;
             // 
             // txtIznosAvansa
             // 
-            txtIznosAvansa.Location = new Point(156, 87);
+            txtIznosAvansa.Location = new Point(235, 123);
             txtIznosAvansa.Name = "txtIznosAvansa";
             txtIznosAvansa.Size = new Size(105, 27);
             txtIznosAvansa.TabIndex = 10;
             // 
             // txtIznosUsluge
             // 
-            txtIznosUsluge.Location = new Point(416, 28);
+            txtIznosUsluge.Location = new Point(691, 52);
             txtIznosUsluge.Name = "txtIznosUsluge";
             txtIznosUsluge.Size = new Size(300, 27);
             txtIznosUsluge.TabIndex = 11;
             // 
             // txtIznosRezervacije
             // 
-            txtIznosRezervacije.Location = new Point(416, 88);
+            txtIznosRezervacije.Location = new Point(691, 123);
             txtIznosRezervacije.Name = "txtIznosRezervacije";
             txtIznosRezervacije.Size = new Size(300, 27);
             txtIznosRezervacije.TabIndex = 12;
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(737, 52);
+            btnPromeniEvidencijaRez.Location = new Point(1142, 77);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(151, 35);
             btnPromeniEvidencijaRez.TabIndex = 13;
@@ -123,6 +117,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             Controls.Add(btnPromeniEvidencijaRez);
             Controls.Add(txtIznosRezervacije);
             Controls.Add(txtIznosUsluge);
@@ -133,14 +128,12 @@
             Controls.Add(label1);
             Controls.Add(label6);
             Name = "UCIznosiStavkeEvidencije";
-            Size = new Size(888, 165);
+            Size = new Size(1375, 192);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
         private Label label6;
         private Label label1;
         private Label label2;

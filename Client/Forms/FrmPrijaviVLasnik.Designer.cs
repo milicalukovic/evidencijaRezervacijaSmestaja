@@ -71,7 +71,7 @@ namespace Client
             txtKorisnickoIme.Name = "txtKorisnickoIme";
             txtKorisnickoIme.Size = new Size(155, 27);
             txtKorisnickoIme.TabIndex = 3;
-            txtKorisnickoIme.Text = "tasa@luk.com";
+            txtKorisnickoIme.Text = "tasa@gmail.com";
             // 
             // txtLozinka
             // 
@@ -93,6 +93,7 @@ namespace Client
             Controls.Add(lblKorisnickoIme);
             Controls.Add(btnPrijavi);
             Name = "FrmPrijaviVlasnik";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Prijava";
             Load += FrmPrijaviVlasnik_Load;
             ResumeLayout(false);

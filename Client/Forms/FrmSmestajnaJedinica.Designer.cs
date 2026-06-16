@@ -180,6 +180,7 @@
             Controls.Add(lblOsnovnaVrstaUsluge);
             Controls.Add(lblNaziv);
             Name = "FrmSmestajnaJedinica";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Smestajna jedinica";
             FormClosing += FrmSmestajnaJedinica_FormClosing;
             ((System.ComponentModel.ISupportInitialize)numericCenaPoOsobi).EndInit();

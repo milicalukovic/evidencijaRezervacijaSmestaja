@@ -14,43 +14,30 @@ using System.Threading.Tasks;
 
 namespace Common.Domain
 {
+
     public class EvidencijaRez : IDomainObj
     {
-        public long Id { get; set; }
+        public long Id { get; set; } 
         public Boolean Nova {  get; set; }
         public DateOnly Mesec { get;  set; } = new DateOnly();
         public decimal SezonskiKoeficijentCene {  get; set; } 
         public decimal ProcenatAvansa { get; set; }
 
-
         //evidencija čuva stanje u trenutku kreiranja, ne zavisi od budućih promena smeštaja
-        public decimal OsnovnaCenaPoOsobi
-        {
-            get; set;
-            //get => SmestajnaJedinica?.CenaPoOsobi ?? 0;
-            //set { } 
-        }
-        public VrstaUsluge OsnovnaVrstaUsluge
-        {
-            get; set;
-            //get => SmestajnaJedinica?.OsnovnaVrstaUsluge ?? VrstaUsluge.Nocenje;
-            //set { } 
-        }
-        public decimal PovecanjeCenePoUsluzi
-        {
-            get; set;
-            //get => SmestajnaJedinica?.PovecanjeCenePoUsluzi ?? 0;
-            //set { } 
-        }
+        public decimal OsnovnaCenaPoOsobi{ get; set; }
+        public VrstaUsluge OsnovnaVrstaUsluge { get; set; }
+        public decimal PovecanjeCenePoUsluzi { get; set; }
         public decimal UkupanIznos => StavkeEvidencije?
                                         .Where(s =>               
                                             s.StatusStavke != StatusStavke.OBRISANA)
                                         .Sum(s => s.IznosRezervacije) ?? 0;
-        // set { } ne ucitava se iz baze pa mu ne postavljamo novu vrednost u vratiSvi
+        public bool Validacija { get; set; } //za pretragu - proveru da li vec postoji
         public Vlasnik Vlasnik { get; set; } = new Vlasnik();
         public SmestajnaJedinica SmestajnaJedinica { get; set; } = new SmestajnaJedinica();
-
         public List<StavkaEvidencije> StavkeEvidencije { get; set; } = new List<StavkaEvidencije>();
+
+        //properties da bi bili vidljivi na serveru kada se objekat serijalizuje
+
 
 
         public string TableName => "EvidencijaRez";
@@ -61,8 +48,6 @@ namespace Common.Domain
             $"{(int)OsnovnaVrstaUsluge}, {PovecanjeCenePoUsluzi.ToString(CultureInfo.InvariantCulture)}, " +
             $" {Vlasnik.Id}, {SmestajnaJedinica.Id}";
         public string PrimaryKeyClause => $"id = {Id}";
-
-        public bool Validacija { get; set; }
         public string WhereClause { 
             get 
             {

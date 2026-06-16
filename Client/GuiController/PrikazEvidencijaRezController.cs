@@ -24,6 +24,7 @@ namespace Client.GuiController
         public PrikazEvidencijaRezController(UCPrikazEvidencijaRez UCPrikazEvidencijaRez)
         {
             this.UCPrikaz = UCPrikazEvidencijaRez;
+            UCPrikaz.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke()

@@ -21,6 +21,7 @@ namespace Client.GuiController
         public PromeniStavkaEvidencijeRezController(UCPromeniStavkaEvidencijeRez uCPromeniStavkaEvidencijeRez)
         {
             this.UCStavka = uCPromeniStavkaEvidencijeRez;
+            UCStavka.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke()
@@ -503,6 +504,7 @@ namespace Client.GuiController
             Koordinator.Instance.StavkaSledecegMeseca.BrOsoba = stavka.BrOsoba;
             Koordinator.Instance.StavkaSledecegMeseca.VrstaUsluge = stavka.VrstaUsluge;
             Koordinator.Instance.StavkaSledecegMeseca.UplacenAvans = stavka.UplacenAvans;
+
             Koordinator.Instance.StavkaSledecegMeseca.IzracunajIznose();
 
             //provera i u tekucem i u sledecem mesecu

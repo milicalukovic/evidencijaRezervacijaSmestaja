@@ -21,6 +21,7 @@ namespace Client.GuiController
         public SmestajnaJedinicaUCController(UCPrikazSmestajnaJedinica UCPrikaz) 
         {
             this.UCPrikaz = UCPrikaz;
+            UCPrikaz.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke()

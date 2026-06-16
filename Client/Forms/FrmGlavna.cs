@@ -58,5 +58,10 @@ namespace Client.Forms
         {
             Koordinator.Instance.GlavnaFrmController.KreirajEvidencijaRez();
         }
+
+        private void proveriToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Koordinator.Instance.GlavnaFrmController.ProveraRaspolozivosti();
+        }
     }
 }

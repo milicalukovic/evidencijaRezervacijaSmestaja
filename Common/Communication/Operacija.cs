@@ -11,7 +11,6 @@ namespace Common.Communication
         // Vlasnik
         PrijaviVlasnik,
         OdjaviVlasnik,
-        //VratiListuSviVlasnik,
 
         // Evidencija rezervacija
         KreirajEvidencijaRez,

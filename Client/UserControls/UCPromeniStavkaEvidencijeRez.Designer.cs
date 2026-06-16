@@ -59,21 +59,27 @@
             // 
             // panelIznosi
             // 
-            panelIznosi.Location = new Point(132, 350);
+            panelIznosi.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelIznosi.AutoSize = true;
+            panelIznosi.Location = new Point(145, 646);
             panelIznosi.Name = "panelIznosi";
-            panelIznosi.Size = new Size(888, 165);
+            panelIznosi.Size = new Size(1375, 192);
             panelIznosi.TabIndex = 7;
             // 
             // lblRezervacija
             // 
-            lblRezervacija.Location = new Point(293, 18);
+            lblRezervacija.Anchor = AnchorStyles.Top;
+            lblRezervacija.AutoSize = true;
+            lblRezervacija.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRezervacija.Location = new Point(628, 57);
             lblRezervacija.Name = "lblRezervacija";
-            lblRezervacija.Size = new Size(567, 25);
+            lblRezervacija.Size = new Size(108, 28);
             lblRezervacija.TabIndex = 8;
             lblRezervacija.Text = "Rezervacija";
             // 
             // groupBoxKorisnik
             // 
+            groupBoxKorisnik.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBoxKorisnik.Controls.Add(dtpDatumOdlaska);
             groupBoxKorisnik.Controls.Add(dtpDatumDolaska);
             groupBoxKorisnik.Controls.Add(groupBox1);
@@ -85,23 +91,23 @@
             groupBoxKorisnik.Controls.Add(label3);
             groupBoxKorisnik.Controls.Add(label1);
             groupBoxKorisnik.Controls.Add(label2);
-            groupBoxKorisnik.Location = new Point(18, 41);
+            groupBoxKorisnik.Location = new Point(88, 133);
             groupBoxKorisnik.Name = "groupBoxKorisnik";
-            groupBoxKorisnik.Size = new Size(1128, 303);
+            groupBoxKorisnik.Size = new Size(1621, 468);
             groupBoxKorisnik.TabIndex = 14;
             groupBoxKorisnik.TabStop = false;
             groupBoxKorisnik.Text = "Podaci o rezervaciji";
             // 
             // dtpDatumOdlaska
             // 
-            dtpDatumOdlaska.Location = new Point(633, 133);
+            dtpDatumOdlaska.Location = new Point(938, 174);
             dtpDatumOdlaska.Name = "dtpDatumOdlaska";
             dtpDatumOdlaska.Size = new Size(291, 27);
             dtpDatumOdlaska.TabIndex = 18;
             // 
             // dtpDatumDolaska
             // 
-            dtpDatumDolaska.Location = new Point(633, 82);
+            dtpDatumDolaska.Location = new Point(938, 123);
             dtpDatumDolaska.Name = "dtpDatumDolaska";
             dtpDatumDolaska.Size = new Size(291, 27);
             dtpDatumDolaska.TabIndex = 17;
@@ -117,16 +123,16 @@
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(txtKorisnik);
             groupBox1.Controls.Add(txtEmail);
-            groupBox1.Location = new Point(17, 54);
+            groupBox1.Location = new Point(57, 57);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(476, 226);
+            groupBox1.Size = new Size(635, 350);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "Podaci o gostu";
             // 
             // maskedTxtBrLicneKarte
             // 
-            maskedTxtBrLicneKarte.Location = new Point(192, 36);
+            maskedTxtBrLicneKarte.Location = new Point(275, 66);
             maskedTxtBrLicneKarte.Mask = "000000000";
             maskedTxtBrLicneKarte.Name = "maskedTxtBrLicneKarte";
             maskedTxtBrLicneKarte.Size = new Size(134, 27);
@@ -135,7 +141,7 @@
             // 
             // btnPretraziKorisnik
             // 
-            btnPretraziKorisnik.Location = new Point(352, 35);
+            btnPretraziKorisnik.Location = new Point(435, 65);
             btnPretraziKorisnik.Name = "btnPretraziKorisnik";
             btnPretraziKorisnik.Size = new Size(94, 29);
             btnPretraziKorisnik.TabIndex = 10;
@@ -146,7 +152,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(17, 39);
+            label5.Location = new Point(100, 69);
             label5.Name = "label5";
             label5.Size = new Size(148, 20);
             label5.TabIndex = 0;
@@ -154,14 +160,14 @@
             // 
             // txtBrTel
             // 
-            txtBrTel.Location = new Point(192, 185);
+            txtBrTel.Location = new Point(275, 263);
             txtBrTel.Name = "txtBrTel";
             txtBrTel.Size = new Size(254, 27);
             txtBrTel.TabIndex = 9;
             // 
             // label6
             // 
-            label6.Location = new Point(17, 93);
+            label6.Location = new Point(100, 142);
             label6.Name = "label6";
             label6.Size = new Size(148, 24);
             label6.TabIndex = 4;
@@ -170,7 +176,7 @@
             // 
             // label7
             // 
-            label7.Location = new Point(17, 138);
+            label7.Location = new Point(100, 207);
             label7.Name = "label7";
             label7.Size = new Size(148, 24);
             label7.TabIndex = 5;
@@ -179,7 +185,7 @@
             // 
             // label8
             // 
-            label8.Location = new Point(17, 186);
+            label8.Location = new Point(100, 264);
             label8.Name = "label8";
             label8.Size = new Size(148, 24);
             label8.TabIndex = 6;
@@ -188,21 +194,21 @@
             // 
             // txtKorisnik
             // 
-            txtKorisnik.Location = new Point(192, 92);
+            txtKorisnik.Location = new Point(275, 141);
             txtKorisnik.Name = "txtKorisnik";
             txtKorisnik.Size = new Size(254, 27);
             txtKorisnik.TabIndex = 7;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(192, 137);
+            txtEmail.Location = new Point(275, 206);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(254, 27);
             txtEmail.TabIndex = 8;
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(950, 231);
+            btnPromeniEvidencijaRez.Location = new Point(1367, 228);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(148, 42);
             btnPromeniEvidencijaRez.TabIndex = 7;
@@ -213,7 +219,7 @@
             // checkBoxUplacenAvans
             // 
             checkBoxUplacenAvans.AutoSize = true;
-            checkBoxUplacenAvans.Location = new Point(974, 54);
+            checkBoxUplacenAvans.Location = new Point(1381, 159);
             checkBoxUplacenAvans.Name = "checkBoxUplacenAvans";
             checkBoxUplacenAvans.Size = new Size(124, 24);
             checkBoxUplacenAvans.TabIndex = 8;
@@ -224,7 +230,7 @@
             // 
             numericBrOsoba.DecimalPlaces = 1;
             numericBrOsoba.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            numericBrOsoba.Location = new Point(633, 244);
+            numericBrOsoba.Location = new Point(938, 285);
             numericBrOsoba.Maximum = new decimal(new int[] { 99, 0, 0, 0 });
             numericBrOsoba.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericBrOsoba.Name = "numericBrOsoba";
@@ -235,7 +241,7 @@
             // cmbVrstaUsluge
             // 
             cmbVrstaUsluge.FormattingEnabled = true;
-            cmbVrstaUsluge.Location = new Point(633, 192);
+            cmbVrstaUsluge.Location = new Point(938, 233);
             cmbVrstaUsluge.Name = "cmbVrstaUsluge";
             cmbVrstaUsluge.Size = new Size(291, 28);
             cmbVrstaUsluge.TabIndex = 9;
@@ -243,7 +249,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(525, 195);
+            label4.Location = new Point(830, 236);
             label4.Name = "label4";
             label4.Size = new Size(88, 20);
             label4.TabIndex = 4;
@@ -252,16 +258,16 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(525, 246);
+            label3.Location = new Point(830, 287);
             label3.Name = "label3";
-            label3.Size = new Size(81, 20);
+            label3.Size = new Size(83, 20);
             label3.TabIndex = 3;
-            label3.Text = "Broj osoba";
+            label3.Text = "Broj usluga";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(525, 87);
+            label1.Location = new Point(830, 128);
             label1.Name = "label1";
             label1.Size = new Size(91, 20);
             label1.TabIndex = 1;
@@ -270,7 +276,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(525, 138);
+            label2.Location = new Point(830, 179);
             label2.Name = "label2";
             label2.Size = new Size(91, 20);
             label2.TabIndex = 2;
@@ -278,9 +284,9 @@
             // 
             // btnOdustani
             // 
-            btnOdustani.Location = new Point(1040, 475);
+            btnOdustani.Location = new Point(1611, 719);
             btnOdustani.Name = "btnOdustani";
-            btnOdustani.Size = new Size(94, 29);
+            btnOdustani.Size = new Size(98, 36);
             btnOdustani.TabIndex = 15;
             btnOdustani.Text = "Odustani";
             btnOdustani.UseVisualStyleBackColor = true;
@@ -290,18 +296,20 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             Controls.Add(btnOdustani);
             Controls.Add(groupBoxKorisnik);
             Controls.Add(lblRezervacija);
             Controls.Add(panelIznosi);
             Name = "UCPromeniStavkaEvidencijeRez";
-            Size = new Size(1164, 529);
+            Size = new Size(1800, 920);
             groupBoxKorisnik.ResumeLayout(false);
             groupBoxKorisnik.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericBrOsoba).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

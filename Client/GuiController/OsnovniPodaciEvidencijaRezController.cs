@@ -1,4 +1,5 @@
-﻿using Client.Model;
+﻿using Client.Forms;
+using Client.Model;
 using Client.Session;
 using Client.UserControls;
 using Common.Communication;
@@ -22,6 +23,7 @@ namespace Client.GuiController
         public OsnovniPodaciEvidencijaRezController(UCOsnovniPodaciEvidencijaRez UCOsnovniPodaciEvidencijaRez)
         {
             this.UCEvidencija = UCOsnovniPodaciEvidencijaRez;
+            UCEvidencija.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke(EvidencijaRez e)
@@ -42,7 +44,11 @@ namespace Client.GuiController
                 UCEvidencija.NumericGodina.Enabled = false;
                 UCEvidencija.CmbSmestajnaJedinica.Enabled = false;
 
-                UCEvidencija.CmbSmestajnaJedinica.SelectedItem = e.SmestajnaJedinica;
+               // UCEvidencija.CmbSmestajnaJedinica.SelectedItem = e.SmestajnaJedinica;
+                SmestajnaJedinica izabranaSJ = Koordinator.Instance.ListaSmestajnaJedinica
+                                        .FirstOrDefault(sj => sj.Id == e.SmestajnaJedinica.Id);
+
+                UCEvidencija.CmbSmestajnaJedinica.SelectedItem = izabranaSJ;
                 //ucita vrednosti u trenutku kreiranja evidencije
                 UCEvidencija.TxtOsnovnaVrstaUsluge.Text = e.OsnovnaVrstaUsluge.ToString();
                 UCEvidencija.TxtOsnovnaCenaPoOsobi.Text = e.OsnovnaCenaPoOsobi.ToString();
@@ -124,6 +130,20 @@ namespace Client.GuiController
                 izmenjena.ProcenatAvansa = (decimal)UCEvidencija.NumericProcenatAvansa.Value;
                 izmenjena.SezonskiKoeficijentCene = (decimal)UCEvidencija.NumericSezonskiKoefCene.Value;
 
+                Odgovor serverOdg = Communication.Instance.KreirajEvidencijaRez(izmenjena);
+                if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
+                {
+                    EvidencijaRez nova = serverOdg.Result as EvidencijaRez;
+                    Koordinator.Instance.Evidencija = nova;
+                    MessageBox.Show(UCEvidencija, "Sistem je kreirao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show(UCEvidencija, "Sistem ne moze da kreira  evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije(true);
+                    return;
+                }
             } else//izmena
             {
                 
@@ -198,44 +218,15 @@ namespace Client.GuiController
                 return false;
             }
 
-            try
-            {
-                // obrisi evidenciju iz baze ako je već kreirana
-                if (Koordinator.Instance.Evidencija.Nova)
-                {
+            
+             Koordinator.Instance.Evidencija = null;
+             Koordinator.Instance.Stavka = null;
+             Koordinator.Instance.IzmenjenaStavka = null;
+             Koordinator.Instance.StavkaSledecegMeseca = null;
+             Koordinator.Instance.EvidencijaSledecegMeseca = null;
 
-                    EvidencijaRez zaBrisanje = new EvidencijaRez
-                    {
-                        Id = Koordinator.Instance.Evidencija.Id,
-                        StavkeEvidencije = new List<StavkaEvidencije>()
-                    };
-
-                    Odgovor odg =
-                        Communication.Instance.ObrisiEvidencijaRez(zaBrisanje);
-
-                    if (odg.ExceptionMessage != null)
-                        throw new Exception(odg.ExceptionMessage);
-
-                }
-                Koordinator.Instance.Evidencija = null;
-                Koordinator.Instance.Stavka = null;
-                Koordinator.Instance.IzmenjenaStavka = null;
-                Koordinator.Instance.StavkaSledecegMeseca = null;
-                Koordinator.Instance.EvidencijaSledecegMeseca = null;
-
-                return true;
-
-                
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(
-                    "Sistem ne može da obriše evidenciju iz baze.",
-                    "Greška",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return false;
-            }
+             return true;
+            
         }
     }
     

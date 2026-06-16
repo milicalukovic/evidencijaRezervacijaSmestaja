@@ -70,7 +70,7 @@ namespace Client.GuiController
 
         }
 
-        private bool Validacija() //da li su popunjena polja + DODATI VALIDACIJU ZA PODATKE
+        private bool Validacija() //da li su popunjena polja 
         {
             if (string.IsNullOrEmpty(frmPrijaviVlasnik.TxtKorisnickoIme.Text.Trim()) ||
                string.IsNullOrEmpty(frmPrijaviVlasnik.TxtLozinka.Text.Trim()))

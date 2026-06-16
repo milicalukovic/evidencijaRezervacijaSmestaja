@@ -56,94 +56,80 @@ namespace Server
             so1.ExecuteTemplate();
             return so1.Result;
         }
-
         internal object VratiListuSviTipSmestaja(TipSmestaja tipSmestaja)
         {
             VratiListuSviTipSmestajaSO so = new VratiListuSviTipSmestajaSO(tipSmestaja);
             so.ExecuteTemplate();
             return so.ResultList;
         }
-
         internal object VratiListuSviSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
         {
             VratiListuSviSmestajnaJedinicaSO so = new VratiListuSviSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate();
             return so.ResultList;
         }
-
         internal object KreirajSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
         {
             KreirajSmestajnaJedinicaSO so = new KreirajSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate() ;
             return so.Result;
         }
-
         internal void PromeniSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
         {
             PromeniSmestajnaJedinicaSO so = new PromeniSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate() ;
         }
-
         internal object VratiListuSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
         {
             VratiListuSmestajnaJedinicaSO so = new VratiListuSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate() ;
             return so.ResultList;
         }
-
         internal object PretraziSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
         {
             PretraziSmestajnaJedinicaSO so = new PretraziSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate() ;
             return so.Result;
         }
-
         internal void ObrisiSmestajnaJedinica(SmestajnaJedinica smestajnaJedinica)
         {
             ObrisiSmestajnaJedinicaSO so = new ObrisiSmestajnaJedinicaSO(smestajnaJedinica);
             so.ExecuteTemplate() ;
         }
-
         internal object VratiListuEvidencijaRez(EvidencijaRez evidencijaRez)
         {
             VratiListuEvidencijaRezSO so = new VratiListuEvidencijaRezSO(evidencijaRez);
             so.ExecuteTemplate() ;
             return so.ResultList;
         }
-
         internal object PretraziEvidencijaRez(EvidencijaRez evidencijaRez)
         {
             PretraziEvidencijaRezSO so = new PretraziEvidencijaRezSO(evidencijaRez);
             so.ExecuteTemplate() ;
             return so.Result;
         }
-
         internal object KreirajEvidencijaRez(EvidencijaRez evidencijaRez)
         {
             KreirajEvidencijaRezSO so = new KreirajEvidencijaRezSO(evidencijaRez);
             so.ExecuteTemplate() ;
             return so.Result;
         }
-
         internal object VratiListuSviKorisnik(Korisnik korisnik)
         {
             VratiListuSviKorisnikSO so = new VratiListuSviKorisnikSO(korisnik);
             so.ExecuteTemplate() ;
             return so.ResultList;
         }
-
-        internal void ObrisiEvidencijaRez(EvidencijaRez evidencijaRez)
+        internal void UkloniEvidencijaRez(EvidencijaRez evidencijaRez)
         {
             UkloniEvidencijaRezSO so = new UkloniEvidencijaRezSO(evidencijaRez);
             so.ExecuteTemplate() ;
         }
-
         internal void PromeniEvidencijaRez(EvidencijaRez evidencijaRez)
         {
             PromeniEvidencijaRezSO so = new PromeniEvidencijaRezSO(evidencijaRez);
             so.ExecuteTemplate() ;
         }
-
         internal object DodajKorisnik(Korisnik korisnik)
         {
             DodajKorisnikSO so = new DodajKorisnikSO(korisnik);

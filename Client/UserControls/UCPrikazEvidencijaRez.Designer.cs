@@ -37,12 +37,13 @@
             // 
             // dgvEvidencije
             // 
+            dgvEvidencije.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvEvidencije.BackgroundColor = SystemColors.Window;
             dgvEvidencije.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEvidencije.Location = new Point(77, 93);
+            dgvEvidencije.Location = new Point(141, 127);
             dgvEvidencije.Name = "dgvEvidencije";
             dgvEvidencije.RowHeadersWidth = 51;
-            dgvEvidencije.Size = new Size(1018, 375);
+            dgvEvidencije.Size = new Size(886, 286);
             dgvEvidencije.TabIndex = 1;
             dgvEvidencije.CellClick += dgvEvidencije_CellClick;
             dgvEvidencije.DataError += dgvEvidencije_DataError;
@@ -51,7 +52,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label1.Location = new Point(77, 38);
+            label1.Location = new Point(77, 46);
             label1.Name = "label1";
             label1.Size = new Size(210, 25);
             label1.TabIndex = 2;
@@ -59,7 +60,8 @@
             // 
             // btnUnesiKriterijumPretrage
             // 
-            btnUnesiKriterijumPretrage.Location = new Point(663, 33);
+            btnUnesiKriterijumPretrage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnUnesiKriterijumPretrage.Location = new Point(663, 41);
             btnUnesiKriterijumPretrage.Name = "btnUnesiKriterijumPretrage";
             btnUnesiKriterijumPretrage.Size = new Size(180, 38);
             btnUnesiKriterijumPretrage.TabIndex = 3;
@@ -69,7 +71,8 @@
             // 
             // btnPrikaziSve
             // 
-            btnPrikaziSve.Location = new Point(887, 33);
+            btnPrikaziSve.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnPrikaziSve.Location = new Point(887, 41);
             btnPrikaziSve.Name = "btnPrikaziSve";
             btnPrikaziSve.Size = new Size(181, 38);
             btnPrikaziSve.TabIndex = 4;
@@ -81,6 +84,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.Tan;
             Controls.Add(btnPrikaziSve);
             Controls.Add(btnUnesiKriterijumPretrage);

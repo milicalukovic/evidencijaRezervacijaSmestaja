@@ -95,23 +95,9 @@ namespace Client.GuiController
             EvidencijaRez kreirana = new EvidencijaRez();
             kreirana.Vlasnik = Koordinator.Instance.UlogovaniVlasnik;
             kreirana.SmestajnaJedinica = Koordinator.Instance.ListaSmestajnaJedinica.FirstOrDefault();
-
-            Odgovor serverOdg = Communication.Instance.KreirajEvidencijaRez(kreirana);
-            if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
-            {
-                EvidencijaRez nova = serverOdg.Result as EvidencijaRez;
-                nova.Nova = true;
-                Koordinator.Instance.Evidencija = nova;
-                MessageBox.Show(frmGlavna, "Sistem je kreirao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                //Koordinator.Instance.OtvoriFrmPromeniEvidencijaRez(nova);
-                PromeniEvidencijaRez(nova);
-        
-    }
-            else
-            {
-                MessageBox.Show(frmGlavna, "Sistem ne moze da kreira  evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            kreirana.Nova = true;
+            Koordinator.Instance.Evidencija = kreirana;
+            PromeniEvidencijaRez(kreirana);
         }
 
         public void PromeniEvidencijaRez(EvidencijaRez e)
@@ -192,6 +178,14 @@ namespace Client.GuiController
             }
 
             return true;
+        }
+
+        internal void ProveraRaspolozivosti()
+        {
+            frmGlavna.GlavnaPanel.Controls.Clear();
+            Koordinator.Instance.InicijalizujUCProveraRaspolozivosti();
+            Koordinator.Instance.ProveraRaspolozivostiController.PopuniPodatke();
+            frmGlavna.GlavnaPanel.Controls.Add(Koordinator.Instance.UCProveraRaspolozivosti);
         }
     }
 }

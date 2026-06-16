@@ -187,6 +187,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FrmKriterijumPretrageEvidencijaRez";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Kriterijumi pretrage";
             ((System.ComponentModel.ISupportInitialize)numericGodina).EndInit();
             ResumeLayout(false);

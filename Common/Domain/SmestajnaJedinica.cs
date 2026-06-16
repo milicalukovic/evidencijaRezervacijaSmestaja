@@ -11,14 +11,20 @@ namespace Common.Domain
 {
     public class SmestajnaJedinica : IDomainObj
     {
-        public long Id { get; set; }  //properties da bi bili vidljivi na serveru kada se objekat serijalizuje
+        public long Id { get; set; }  
         public string Naziv {  get; set; }
         public VrstaUsluge OsnovnaVrstaUsluge { get; set;}
         public decimal CenaPoOsobi {  get; set; }
         public decimal PovecanjeCenePoUsluzi { get; set; }
         public String Vlasnik {  get; set; }
-
         public TipSmestaja Tip { get; set; } = new TipSmestaja();
+        //za vrati listu svi
+        public Boolean FilterPoUsluzi { get; set; }
+        public Boolean FilterPoTipu { get; set; }
+        //za izabranu sj
+        public Boolean PretraziSJ { get; set; }
+        //validacija pri dodavanju/izmeni
+        public Boolean ProveriNaziv { get; set; }
 
         public string TableName =>"SmestajnaJedinica";
         public string InsertColumns => "naziv, osnovnaVrstaUsluge, cenaPoOsobi, PovecanjeCenePoUsluzi, Vlasnik, idTip";
@@ -27,10 +33,7 @@ namespace Common.Domain
                              //format 30.5 jer je na formi 30,5
         public string PrimaryKeyClause => $"id = {Id}";
 
-        public Boolean FilterPoUsluzi { get; set; }
-        public Boolean FilterPoTipu { get; set; }
-        public Boolean PretraziSJ {  get; set; }
-        public Boolean ProveriNaziv { get; set; }
+        
         public string WhereClause {
             get
             {

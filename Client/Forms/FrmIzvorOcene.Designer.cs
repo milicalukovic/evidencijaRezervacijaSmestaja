@@ -72,6 +72,7 @@
             Controls.Add(btnUbaciIzvorOcene);
             Controls.Add(label1);
             Name = "FrmIzvorOcene";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Novi izvor ocene";
             ResumeLayout(false);
             PerformLayout();

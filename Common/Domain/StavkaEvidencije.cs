@@ -12,21 +12,19 @@ namespace Common.Domain
     public class StavkaEvidencije : IDomainObj
     {
         public EvidencijaRez Evidencija {  get; set; }
-        public long Rb {  get; set; } //postavljamo na serveru kada menjamo evidenciju u odnosu na trenutni br stavki
+        public long Rb {  get; set; } 
         public StatusStavke StatusStavke { get; set; }
         //pamti stvarni period rezervacije
         public DateOnly Dolazak { get; set; }
         public DateOnly Odlazak { get; set; }
         public Korisnik Korisnik { get; set; } = new Korisnik();
-        //broj dana koji pripada trenutnoj eviddenciji (do 1. narednog meseca)
+        //broj dana koji pripada trenutnoj evidenciji (do 1. narednog meseca)
         public int BrDana { get; set; }
         public decimal BrOsoba { get; set;}
         public VrstaUsluge VrstaUsluge { get; set; }
-
         public decimal IznosUsluge { get; set; }
         public decimal IznosRezervacije { get; set; }
         public decimal IznosAvansa { get; set; }
-        
         public Boolean UplacenAvans { get; set; }
 
         public string TableName => "StavkaEvidencije";

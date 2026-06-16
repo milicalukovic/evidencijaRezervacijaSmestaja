@@ -43,14 +43,14 @@
             // 
             // txtSmestajnaJedinica
             // 
-            txtSmestajnaJedinica.Location = new Point(201, 38);
+            txtSmestajnaJedinica.Location = new Point(256, 66);
             txtSmestajnaJedinica.Name = "txtSmestajnaJedinica";
             txtSmestajnaJedinica.Size = new Size(218, 27);
             txtSmestajnaJedinica.TabIndex = 0;
             // 
             // txtMesec
             // 
-            txtMesec.Location = new Point(201, 92);
+            txtMesec.Location = new Point(256, 120);
             txtMesec.Name = "txtMesec";
             txtMesec.Size = new Size(218, 27);
             txtMesec.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label1.Location = new Point(30, 41);
+            label1.Location = new Point(85, 69);
             label1.Name = "label1";
             label1.Size = new Size(138, 20);
             label1.TabIndex = 2;
@@ -69,7 +69,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label2.Location = new Point(30, 95);
+            label2.Location = new Point(85, 123);
             label2.Name = "label2";
             label2.Size = new Size(127, 20);
             label2.TabIndex = 3;
@@ -77,9 +77,10 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label3.Location = new Point(481, 68);
+            label3.Location = new Point(496, 95);
             label3.Name = "label3";
             label3.Size = new Size(182, 20);
             label3.TabIndex = 4;
@@ -87,25 +88,28 @@
             // 
             // txtUkupanIznos
             // 
-            txtUkupanIznos.Location = new Point(682, 65);
+            txtUkupanIznos.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtUkupanIznos.Location = new Point(694, 92);
             txtUkupanIznos.Name = "txtUkupanIznos";
             txtUkupanIznos.Size = new Size(218, 27);
             txtUkupanIznos.TabIndex = 5;
             // 
             // dgvStavke
             // 
+            dgvStavke.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStavke.BackgroundColor = SystemColors.Window;
             dgvStavke.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStavke.Location = new Point(15, 30);
+            dgvStavke.Location = new Point(60, 65);
             dgvStavke.Name = "dgvStavke";
-            dgvStavke.Size = new Size(1100, 310);
-            dgvStavke.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvStavke.RowHeadersWidth = 51;
+            dgvStavke.Size = new Size(941, 221);
             dgvStavke.TabIndex = 6;
             dgvStavke.DataError += dgvStavke_DataError;
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(1000, 84);
+            btnPromeniEvidencijaRez.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnPromeniEvidencijaRez.Location = new Point(970, 81);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(130, 48);
             btnPromeniEvidencijaRez.TabIndex = 8;
@@ -115,12 +119,14 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.AutoSize = true;
             groupBox1.BackColor = Color.Tan;
             groupBox1.Controls.Add(dgvStavke);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            groupBox1.Location = new Point(16, 145);
+            groupBox1.Location = new Point(47, 166);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1129, 367);
+            groupBox1.Size = new Size(1053, 336);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
             groupBox1.Text = "Rezervacije";
@@ -129,6 +135,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.Tan;
             Controls.Add(groupBox1);
             Controls.Add(btnPromeniEvidencijaRez);

@@ -19,6 +19,7 @@ namespace Client.GuiController
         public IzabranaEvidencijaRezController(UCIzabranaEvidencijaRez UCIzabranaEvidencijaRez)
         {
             this.UCEvidencija = UCIzabranaEvidencijaRez;
+            UCEvidencija.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke()

@@ -17,6 +17,7 @@ namespace Client.GuiController
         public IznosiStavkeEvidencijeController(UCIznosiStavkeEvidencije UCIznosiStavkeEvidencije)
         {
             this.UCStavke = UCIznosiStavkeEvidencije;
+            UCStavke.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke()

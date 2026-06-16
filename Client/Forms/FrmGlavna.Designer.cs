@@ -40,6 +40,8 @@
             vlasnikMenuItem = new ToolStripMenuItem();
             odjava = new ToolStripMenuItem();
             panel = new Panel();
+            raspoloziveJediniceToolStripMenuItem = new ToolStripMenuItem();
+            proveriToolStripMenuItem = new ToolStripMenuItem();
             menu.SuspendLayout();
             SuspendLayout();
             // 
@@ -47,7 +49,7 @@
             // 
             menu.BackColor = Color.Tan;
             menu.ImageScalingSize = new Size(20, 20);
-            menu.Items.AddRange(new ToolStripItem[] { mesecnaEvidencijaMenuItem, smestajnaJedinicaMenuItem, prosecnaOcenaMenuItem, vlasnikMenuItem });
+            menu.Items.AddRange(new ToolStripItem[] { mesecnaEvidencijaMenuItem, smestajnaJedinicaMenuItem, prosecnaOcenaMenuItem, vlasnikMenuItem, raspoloziveJediniceToolStripMenuItem });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
             menu.Size = new Size(1229, 28);
@@ -92,7 +94,7 @@
             // prikazSJMenuItem
             // 
             prikazSJMenuItem.Name = "prikazSJMenuItem";
-            prikazSJMenuItem.Size = new Size(224, 26);
+            prikazSJMenuItem.Size = new Size(161, 26);
             prikazSJMenuItem.Text = "prikazi sve";
             prikazSJMenuItem.Click += prikaziSJMenuItem_Click;
             // 
@@ -127,11 +129,26 @@
             // 
             // panel
             // 
+            panel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel.BackColor = Color.Tan;
-            panel.Location = new Point(31, 50);
+            panel.Location = new Point(31, 54);
             panel.Name = "panel";
             panel.Size = new Size(1164, 529);
             panel.TabIndex = 1;
+            // 
+            // raspoloziveJediniceToolStripMenuItem
+            // 
+            raspoloziveJediniceToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { proveriToolStripMenuItem });
+            raspoloziveJediniceToolStripMenuItem.Name = "raspoloziveJediniceToolStripMenuItem";
+            raspoloziveJediniceToolStripMenuItem.Size = new Size(159, 24);
+            raspoloziveJediniceToolStripMenuItem.Text = "Raspolozive jedinice";
+            // 
+            // proveriToolStripMenuItem
+            // 
+            proveriToolStripMenuItem.Name = "proveriToolStripMenuItem";
+            proveriToolStripMenuItem.Size = new Size(224, 26);
+            proveriToolStripMenuItem.Text = "proveri";
+            proveriToolStripMenuItem.Click += proveriToolStripMenuItem_Click;
             // 
             // FrmGlavna
             // 
@@ -143,6 +160,7 @@
             Controls.Add(menu);
             Name = "FrmGlavna";
             Text = "Klijentska forma";
+            WindowState = FormWindowState.Maximized;
             FormClosing += FrmGlavna_FormClosing;
             Load += FrmGlavna_Load;
             menu.ResumeLayout(false);
@@ -165,6 +183,8 @@
         private ToolStripMenuItem ubaciIzvorOcene;
         private Panel panel;
         private ToolStripMenuItem pretraziEvidencijeToolStripMenuItem1;
+        private ToolStripMenuItem raspoloziveJediniceToolStripMenuItem;
+        private ToolStripMenuItem proveriToolStripMenuItem;
 
         public Panel GlavnaPanel { get => panel; set => panel = value; }
     }

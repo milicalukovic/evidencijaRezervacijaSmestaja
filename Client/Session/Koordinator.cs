@@ -144,5 +144,22 @@ namespace Client.Session
             UCIznosiStavkeEvidencije = new UCIznosiStavkeEvidencije();
             IznosiStavkeEvidencijeController = new IznosiStavkeEvidencijeController(UCIznosiStavkeEvidencije);
         }
+
+        public UCProveraRaspolozivosti UCProveraRaspolozivosti { get; set; }
+        public ProveraRaspolozivostiController ProveraRaspolozivostiController { get; set; }
+        internal void InicijalizujUCProveraRaspolozivosti()
+        {
+            UCProveraRaspolozivosti = new UCProveraRaspolozivosti();
+            ProveraRaspolozivostiController = new ProveraRaspolozivostiController(UCProveraRaspolozivosti);
+        }
+
+        public UCMesecniKalendar UCMesecniKalendar { get; set; }
+        public MesecniKalendarController MesecniKalendarController { get; set; }
+
+        internal void InicijalizujUCMesecniKalendar()
+        {
+            UCMesecniKalendar = new UCMesecniKalendar();
+            MesecniKalendarController = new MesecniKalendarController(UCMesecniKalendar);
+        }
     }
 }

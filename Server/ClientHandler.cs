@@ -111,7 +111,7 @@ namespace Server
                         serverOdg.Result = Controller.Instance.VratiListuSviKorisnik(serializer.ReadType<Korisnik>(klZahtev.Argument));
                         break;
                     case Operation.ObrisiEvidencijaRez:
-                        Controller.Instance.ObrisiEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
+                        Controller.Instance.UkloniEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));
                         break;
                     case Operation.PromeniEvidencijaRez:
                         Controller.Instance.PromeniEvidencijaRez(serializer.ReadType<EvidencijaRez>(klZahtev.Argument));

@@ -37,20 +37,22 @@
             // 
             // dgvSmestajnaJedinica
             // 
+            dgvSmestajnaJedinica.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvSmestajnaJedinica.BackgroundColor = SystemColors.Control;
             dgvSmestajnaJedinica.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSmestajnaJedinica.Location = new Point(54, 234);
+            dgvSmestajnaJedinica.Location = new Point(112, 250);
             dgvSmestajnaJedinica.Name = "dgvSmestajnaJedinica";
             dgvSmestajnaJedinica.RowHeadersWidth = 51;
-            dgvSmestajnaJedinica.Size = new Size(1051, 217);
+            dgvSmestajnaJedinica.Size = new Size(928, 139);
             dgvSmestajnaJedinica.TabIndex = 0;
             dgvSmestajnaJedinica.CellClick += dgvSmestajnaJedinica_CellClick;
             // 
             // btnKreirajSJ
             // 
-            btnKreirajSJ.Location = new Point(963, 467);
+            btnKreirajSJ.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnKreirajSJ.Location = new Point(945, 426);
             btnKreirajSJ.Name = "btnKreirajSJ";
-            btnKreirajSJ.Size = new Size(132, 40);
+            btnKreirajSJ.Size = new Size(138, 58);
             btnKreirajSJ.TabIndex = 2;
             btnKreirajSJ.Text = "dodaj novu";
             btnKreirajSJ.UseVisualStyleBackColor = true;
@@ -59,7 +61,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(206, 79);
+            checkBox1.Location = new Point(274, 79);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(170, 24);
             checkBox1.TabIndex = 4;
@@ -70,7 +72,7 @@
             // checkBox2
             // 
             checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(553, 79);
+            checkBox2.Location = new Point(754, 79);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(114, 24);
             checkBox2.TabIndex = 5;
@@ -81,7 +83,7 @@
             // cmbSmestajnaJedinica
             // 
             cmbSmestajnaJedinica.FormattingEnabled = true;
-            cmbSmestajnaJedinica.Location = new Point(169, 125);
+            cmbSmestajnaJedinica.Location = new Point(237, 125);
             cmbSmestajnaJedinica.Name = "cmbSmestajnaJedinica";
             cmbSmestajnaJedinica.Size = new Size(243, 28);
             cmbSmestajnaJedinica.TabIndex = 6;
@@ -89,16 +91,17 @@
             // cmbTipSmestaja
             // 
             cmbTipSmestaja.FormattingEnabled = true;
-            cmbTipSmestaja.Location = new Point(484, 125);
+            cmbTipSmestaja.Location = new Point(685, 125);
             cmbTipSmestaja.Name = "cmbTipSmestaja";
             cmbTipSmestaja.Size = new Size(243, 28);
             cmbTipSmestaja.TabIndex = 7;
             // 
             // btnFilltrirajPrikazSJ
             // 
-            btnFilltrirajPrikazSJ.Location = new Point(834, 183);
+            btnFilltrirajPrikazSJ.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnFilltrirajPrikazSJ.Location = new Point(731, 187);
             btnFilltrirajPrikazSJ.Name = "btnFilltrirajPrikazSJ";
-            btnFilltrirajPrikazSJ.Size = new Size(94, 29);
+            btnFilltrirajPrikazSJ.Size = new Size(96, 36);
             btnFilltrirajPrikazSJ.TabIndex = 8;
             btnFilltrirajPrikazSJ.Text = "filter";
             btnFilltrirajPrikazSJ.UseVisualStyleBackColor = true;
@@ -106,9 +109,10 @@
             // 
             // btnVratiPrikaz
             // 
-            btnVratiPrikaz.Location = new Point(963, 183);
+            btnVratiPrikaz.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnVratiPrikaz.Location = new Point(966, 187);
             btnVratiPrikaz.Name = "btnVratiPrikaz";
-            btnVratiPrikaz.Size = new Size(94, 29);
+            btnVratiPrikaz.Size = new Size(92, 36);
             btnVratiPrikaz.TabIndex = 9;
             btnVratiPrikaz.Text = "restart";
             btnVratiPrikaz.UseVisualStyleBackColor = true;
@@ -118,7 +122,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            label1.Location = new Point(54, 29);
+            label1.Location = new Point(80, 36);
             label1.Name = "label1";
             label1.Size = new Size(193, 20);
             label1.TabIndex = 10;
@@ -136,9 +140,10 @@
             // 
             // btnPretraziSJ
             // 
-            btnPretraziSJ.Location = new Point(751, 467);
+            btnPretraziSJ.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnPretraziSJ.Location = new Point(722, 426);
             btnPretraziSJ.Name = "btnPretraziSJ";
-            btnPretraziSJ.Size = new Size(133, 40);
+            btnPretraziSJ.Size = new Size(146, 58);
             btnPretraziSJ.TabIndex = 12;
             btnPretraziSJ.Text = "ucitaj izabranu";
             btnPretraziSJ.UseVisualStyleBackColor = true;

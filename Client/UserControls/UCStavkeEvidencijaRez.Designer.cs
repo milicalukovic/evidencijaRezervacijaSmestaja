@@ -39,21 +39,23 @@
             // 
             // dgvStavke
             // 
+            dgvStavke.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStavke.BackgroundColor = SystemColors.Window;
             dgvStavke.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvStavke.GridColor = Color.Tan;
-            dgvStavke.Location = new Point(51, 104);
+            dgvStavke.Location = new Point(133, 131);
             dgvStavke.Name = "dgvStavke";
             dgvStavke.RowHeadersWidth = 51;
-            dgvStavke.Size = new Size(1045, 331);
+            dgvStavke.Size = new Size(937, 246);
             dgvStavke.TabIndex = 0;
             dgvStavke.CellClick += dgvStavke_CellClick;
             // 
             // btnDodajStavka
             // 
-            btnDodajStavka.Location = new Point(665, 458);
+            btnDodajStavka.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnDodajStavka.Location = new Point(475, 438);
             btnDodajStavka.Name = "btnDodajStavka";
-            btnDodajStavka.Size = new Size(108, 53);
+            btnDodajStavka.Size = new Size(171, 53);
             btnDodajStavka.TabIndex = 1;
             btnDodajStavka.Text = "Dodaj rezervaciju";
             btnDodajStavka.UseVisualStyleBackColor = true;
@@ -61,9 +63,10 @@
             // 
             // btnIzmeniStavka
             // 
-            btnIzmeniStavka.Location = new Point(831, 458);
+            btnIzmeniStavka.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnIzmeniStavka.Location = new Point(733, 438);
             btnIzmeniStavka.Name = "btnIzmeniStavka";
-            btnIzmeniStavka.Size = new Size(109, 53);
+            btnIzmeniStavka.Size = new Size(173, 53);
             btnIzmeniStavka.TabIndex = 2;
             btnIzmeniStavka.Text = "Izmeni rezervaciju";
             btnIzmeniStavka.UseVisualStyleBackColor = true;
@@ -71,9 +74,10 @@
             // 
             // btnObrisiStavka
             // 
-            btnObrisiStavka.Location = new Point(982, 458);
+            btnObrisiStavka.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnObrisiStavka.Location = new Point(988, 438);
             btnObrisiStavka.Name = "btnObrisiStavka";
-            btnObrisiStavka.Size = new Size(105, 53);
+            btnObrisiStavka.Size = new Size(154, 53);
             btnObrisiStavka.TabIndex = 3;
             btnObrisiStavka.Text = "Obrisi rezervaciju";
             btnObrisiStavka.UseVisualStyleBackColor = true;
@@ -82,17 +86,18 @@
             // lblRezervacije
             // 
             lblRezervacije.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            lblRezervacije.Location = new Point(22, 13);
+            lblRezervacije.Location = new Point(59, 50);
             lblRezervacije.Name = "lblRezervacije";
-            lblRezervacije.Size = new Size(781, 74);
+            lblRezervacije.Size = new Size(972, 39);
             lblRezervacije.TabIndex = 4;
             lblRezervacije.Text = "Rezervacije";
             // 
             // btnPromeniEvidencijaRez
             // 
-            btnPromeniEvidencijaRez.Location = new Point(1026, 25);
+            btnPromeniEvidencijaRez.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnPromeniEvidencijaRez.Location = new Point(970, 41);
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
-            btnPromeniEvidencijaRez.Size = new Size(105, 53);
+            btnPromeniEvidencijaRez.Size = new Size(172, 53);
             btnPromeniEvidencijaRez.TabIndex = 5;
             btnPromeniEvidencijaRez.Text = "Sacuvaj evidenciju";
             btnPromeniEvidencijaRez.UseVisualStyleBackColor = true;
@@ -102,6 +107,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             Controls.Add(btnPromeniEvidencijaRez);
             Controls.Add(lblRezervacije);
             Controls.Add(btnObrisiStavka);
@@ -109,7 +115,7 @@
             Controls.Add(btnDodajStavka);
             Controls.Add(dgvStavke);
             Name = "UCStavkeEvidencijaRez";
-            Size = new Size(1164, 529);
+            Size = new Size(1219, 529);
             ((System.ComponentModel.ISupportInitialize)dgvStavke).EndInit();
             ResumeLayout(false);
         }

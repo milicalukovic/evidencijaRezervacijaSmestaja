@@ -21,12 +21,13 @@ namespace Client.GuiController
         public StavkeEvidencijaRezUCController(UCStavkeEvidencijaRez UCStavkeEvidencijaRez)
         {
             this.UCEvidencija = UCStavkeEvidencijaRez;
+            UCEvidencija.Dock = DockStyle.Fill;
         }
 
         internal void PopuniPodatke()
         {
             UCEvidencija.LblRezervacije.Text = $"Rezervacije {Koordinator.Instance.Evidencija.SmestajnaJedinica.Naziv}" +
-                $" \n za period evidencije {(NazivMeseca)Koordinator.Instance.Evidencija.Mesec.Month} {Koordinator.Instance.Evidencija.Mesec.Year}. ";
+                $" za period evidencije {(NazivMeseca)Koordinator.Instance.Evidencija.Mesec.Month} {Koordinator.Instance.Evidencija.Mesec.Year}. ";
 
             PopuniTabelu();
         }
@@ -44,14 +45,14 @@ namespace Client.GuiController
             {
                 Name = "dolazak",
                 HeaderText = "Dolazak",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
                 Width = 90
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "odlazak",
                 HeaderText = "Odlazak",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
                 Width = 90
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
