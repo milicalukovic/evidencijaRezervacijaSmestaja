@@ -1,6 +1,8 @@
 ﻿using Client.Model;
 using Client.Session;
 using Client.UserControls;
+using Common.Domain;
+using Common.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace Client.GuiController
     public class MesecniKalendarController
     {
         private UCMesecniKalendar UC;
-
+        private ToolTip tooltip = new ToolTip();
         public MesecniKalendarController(UCMesecniKalendar ucKalendar)
         {
             this.UC = ucKalendar;
@@ -20,14 +22,14 @@ namespace Client.GuiController
             UC.Height = 270;
             UC.Margin = new Padding(15);
         }
-        public void InicijalizujKalendar(int month, int year, List<DateOnly> busyDates)
+        public void InicijalizujKalendar(int mesec, int godina, Dictionary<DateOnly, InfoRaspolozivosti> raspolozivostPoDatumu)
         {
             UC.TblKalendar.Controls.Clear();
 
             string[] naziviDana =
             {
                 "pon", "uto", "sre",
-                "cet", "pet", "sub", "ned"
+                "čet", "pet", "sub", "ned"
             };
 
             for (int i = 0; i < 7; i++)
@@ -48,69 +50,107 @@ namespace Client.GuiController
                 UC.TblKalendar.Controls.Add(lblDan, i, 0);
             }
 
+            DateTime prviDan = new DateTime(godina, mesec, 1);
+            int indeksPrvogDanaMeseca = ((int)prviDan.DayOfWeek + 6) % 7; //jer je 0 nedelja, 1 ponedeljak; pretvorice 0 = pon
+            int daniUMesecu = DateTime.DaysInMonth(godina, mesec);
 
-            if (busyDates == null)
-            {
-                busyDates = new List<DateOnly>();
-            }
+            UC.LblMesec.Text = $"{(NazivMeseca)mesec} {godina}. ";
 
-            DateTime firstDay = new DateTime(year, month, 1);
-            int startDayIndex = ((int)firstDay.DayOfWeek + 6) % 7; //jer je 0 nedelja, 1 ponedeljak; pretvorice 0 = pon
-            int daysInMonth = DateTime.DaysInMonth(year, month);
+            int brojDana = 1;
 
-            UC.LblMesec.Text = $"{(NazivMeseca)month} {year}. ";
-
-            int dayCounter = 1;
 
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    int cellIndex = i * 7 + j;
+                    int indeksCelije = i * 7 + j;
 
-                    Label lblDay = new Label();
-                    lblDay.AutoSize = false;
-                    lblDay.Dock = DockStyle.Fill;
+                    Label lblDan = new Label();
+                    lblDan.AutoSize = false;
+                    lblDan.Dock = DockStyle.Fill;
 
-                    lblDay.TextAlign =
+                    lblDan.TextAlign =
                         ContentAlignment.MiddleCenter;
 
-                    lblDay.Font =
+                    lblDan.Font =
                         new Font(
                             "Segoe UI",
                             10,
                             FontStyle.Regular);
 
-                    lblDay.Margin = new Padding(0);
+                    lblDan.Margin = new Padding(0);
 
 
-                    // prazne ćelije pre početka meseca
-                    if (cellIndex < startDayIndex || dayCounter > daysInMonth)
+                    // prazne ćelije pre početka meseca i posle kraja
+                    if (indeksCelije < indeksPrvogDanaMeseca || brojDana > daniUMesecu)
                     {
-                        lblDay.Text = "";
-                        lblDay.BackColor = Color.White;
+                        lblDan.Text = "";
+                        lblDan.BackColor = Color.White;
                     }
                     else
                     {
-                        DateOnly currentDate = new DateOnly(year, month, dayCounter);
-                        lblDay.Text = dayCounter.ToString();
+                        DateOnly trenutniDatum = new DateOnly(godina, mesec, brojDana);
+                        lblDan.Text = brojDana.ToString();
 
                         // PROVERA ZAUZETOSTI
-                        if (busyDates.Contains(currentDate))
+                        if (raspolozivostPoDatumu.ContainsKey(trenutniDatum))
                         {
-                            lblDay.BackColor = Color.LightCoral; // zauzeto
+                            InfoRaspolozivosti info =
+                                raspolozivostPoDatumu[trenutniDatum];
+
+                            switch (info.Status) 
+                            { 
+                                case StatusRaspolozivosti.PotpunoZauzeto:
+                                    lblDan.BackColor = Color.LightCoral;
+                                    tooltip.SetToolTip(lblDan, "Sve odgovarajuće smeštajne jedinice su zauzete.");
+                                    break;
+
+                                case StatusRaspolozivosti.DelimicnoZauzeto:
+                                    lblDan.BackColor = Color.Khaki;
+                                    tooltip.SetToolTip(lblDan, KreirajKomentar(info));
+                                    break;
+
+                                case StatusRaspolozivosti.Slobodno:
+
+                                    lblDan.BackColor = Color.White;
+                                    tooltip.SetToolTip(lblDan,KreirajKomentar(info));
+                                    break;
+                            }
                         }
                         else
                         {
-                            lblDay.BackColor = Color.White; // slobodno
+                            lblDan.BackColor = Color.White;
                         }
 
-                        dayCounter++;
+                        brojDana++;
                     }
 
-                    UC.TblKalendar.Controls.Add(lblDay, j, i+1);
+                    UC.TblKalendar.Controls.Add(lblDan, j, i+1);
                 }
             }
+        }
+
+        private string KreirajKomentar(InfoRaspolozivosti info)
+        {
+            String komentar = "Raspoložive smeštajne jedinice:";
+
+            foreach (var infoJedinica in info.SlobodneJedinice)
+            {
+                VrstaUsluge usluga;
+                if ((int)info.IzabranaUsluga != 1)
+                {
+                    usluga = info.IzabranaUsluga;
+                }
+                else
+                {
+                    usluga = infoJedinica.SmestajnaJedinica.OsnovnaVrstaUsluge;
+                }
+                komentar +=
+                    $"\n{infoJedinica.SmestajnaJedinica} ({usluga})" +
+                    $" - {infoJedinica.IznosUsluge:N2} €";
+            }
+
+            return komentar;
         }
     }
 }

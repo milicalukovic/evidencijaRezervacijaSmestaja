@@ -8,8 +8,8 @@ namespace Common.Domain.Enums
 {
     public enum VrstaUsluge
     {
-        Nocenje = 1,
-        Nocenje_sa_doruckom = 2,
+        Noćenje = 1,
+        Noćenje_sa_doručkom = 2,
         Polupansion = 3,
         Pun_pansion = 4,
         ALL_INCLUSIVE = 5,

@@ -41,6 +41,9 @@ namespace Client.UserControls
             Koordinator.Instance.PromeniStavkaEvidencijeRezController.Odustani();
         }
 
-        
+        private void checkBoxZatvoreno_CheckedChanged(object sender, EventArgs e)
+        {
+            Koordinator.Instance.PromeniStavkaEvidencijeRezController.ZatvorenoCheckBox();
+        }
     }
 }

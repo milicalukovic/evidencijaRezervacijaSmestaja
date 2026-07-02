@@ -122,7 +122,7 @@ namespace Client.GuiController
             }
             //osvezi tabelu
             Koordinator.Instance.StavkeEvidencijaRezUCController.AzurirajTabelu();
-            MessageBox.Show(UCStavke, "Sacuvana rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(UCStavke, "Sačuvana rezervacija.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Koordinator.Instance.PromeniStavkaEvidencijeRezController.OsveziVrednosti();
             Koordinator.Instance.GlavnaFrmController.StavkeEvidencijeRez();
         }

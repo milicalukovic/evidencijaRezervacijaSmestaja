@@ -36,18 +36,18 @@ namespace Client.GuiController
             if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
             {
                 IzvorOcene novi = serverOdg.Result as IzvorOcene;
-                MessageBox.Show(Frm, "Sistem je zapamtio izvor ocene " + novi.ToString() + ".", "USPESNO",
+                MessageBox.Show(Frm, "Sistem je zapamtio izvor ocene " + novi.ToString() + ".", "USPEŠNO",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
                 if (serverOdg.ExceptionMessage.Contains("unique"))
                 {
-                    MessageBox.Show(Frm, "Sistem ne moze da zapamti izvor ocene. Izvor ocene vec postoji.", "GRESKA",
+                    MessageBox.Show(Frm, "Sistem ne može da zapamti izvor ocene. Izvor ocene već postoji.", "GREŠKA",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else
                 {
-                    MessageBox.Show(Frm, "Sistem ne moze da zapamti izvor ocene.", "GRESKA",
+                    MessageBox.Show(Frm, "Sistem ne može da zapamti izvor ocene.", "GREŠKA",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -58,7 +58,7 @@ namespace Client.GuiController
         {
             if (string.IsNullOrEmpty(Frm.TxtNaziv.Text.Trim()))
             {
-                MessageBox.Show(Frm, "Morate uneti naziv izvora ocene.", "GRESKA",
+                MessageBox.Show(Frm, "Morate uneti naziv izvora ocene.", "GREŠKA",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

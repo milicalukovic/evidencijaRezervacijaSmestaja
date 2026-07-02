@@ -1,5 +1,6 @@
 ﻿using Common.Domain;
 using Common.Domain.Enums;
+using Server.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,15 @@ namespace Server.SystemOperation.EvidencijaRezSO
         }
         protected override void ExecuteConcreteOperation()
         {
+            // učitaj trenutne stavke iz baze pre primene promena
+            var kriterijum = new StavkaEvidencije
+            {
+                Evidencija = new EvidencijaRez { Id = e.Id }
+            };
+
+            var stariObj = repository.GetAllByCondition(kriterijum);
+            List<StavkaEvidencije> stareStavke = stariObj?.Cast<StavkaEvidencije>().ToList() ?? new List<StavkaEvidencije>();
+
             repository.Update(e);
 
             foreach (StavkaEvidencije stavka in e.StavkeEvidencije)
@@ -38,6 +48,16 @@ namespace Server.SystemOperation.EvidencijaRezSO
                     repository.Update(stavka);
                 }
                 Debug.WriteLine(stavka.StatusStavke +" "+ stavka.Korisnik.Ime);
+            }
+            try
+            {
+                NotifikacijaService servis = new NotifikacijaService();
+                // prosledi stare stavke da servis može da detektuje promene poput uplate avansa
+                servis.ObradiPromene(e, stareStavke);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Greška pri slanju mejla: {ex.Message}");
             }
         }
     }

@@ -72,7 +72,8 @@ namespace Client.GuiController
             UCEvidencija.CmbSmestajnaJedinica.Visible = true;
 
             //smestajna jedinica
-            
+
+            UCEvidencija.CmbSmestajnaJedinica.DropDownStyle = ComboBoxStyle.DropDownList;
             UCEvidencija.TxtOsnovnaVrstaUsluge.ReadOnly = true;
             UCEvidencija.TxtOsnovnaCenaPoOsobi.ReadOnly = true;
             UCEvidencija.TxtPovecanjeCenePoUsluzi.ReadOnly = true;
@@ -100,7 +101,7 @@ namespace Client.GuiController
         {
 
             UCEvidencija.CmbMesec.DataSource = Enum.GetValues(typeof(NazivMeseca));
-
+            UCEvidencija.CmbMesec.DropDownStyle = ComboBoxStyle.DropDownList;
             UCEvidencija.CmbMesec.Format += (s, ev) =>
             {
                 ev.Value = ev.ListItem.ToString();
@@ -135,33 +136,58 @@ namespace Client.GuiController
                 {
                     EvidencijaRez nova = serverOdg.Result as EvidencijaRez;
                     Koordinator.Instance.Evidencija = nova;
-                    MessageBox.Show(UCEvidencija, "Sistem je kreirao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(UCEvidencija, "Sistem je kreirao evidenciju rezervacija.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
                 else
                 {
-                    MessageBox.Show(UCEvidencija, "Sistem ne moze da kreira  evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(UCEvidencija, "Sistem ne može da kreira  evidenciju rezervacija.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Koordinator.Instance.GlavnaFrmController.PrikaziEvidencije(true);
                     return;
                 }
-            } else//izmena
+            }
+            else //izmena
             {
-                
-                izmenjena.ProcenatAvansa = (decimal)UCEvidencija.NumericProcenatAvansa.Value;
-                izmenjena.SezonskiKoeficijentCene = (decimal)UCEvidencija.NumericSezonskiKoefCene.Value;
+                //samo postojece 
+                // samo označi postojeće stavke kao izmenjene kada se relevantne osnovne vrednosti zaista promene
+                decimal oldProcenat = izmenjena.ProcenatAvansa;
+                decimal oldSezonski = izmenjena.SezonskiKoeficijentCene;
 
-                //azurira iznose postojecih stavki
-                foreach (StavkaEvidencije s in izmenjena.StavkeEvidencije)
+                decimal newProcenat = (decimal)UCEvidencija.NumericProcenatAvansa.Value;
+                decimal newSezonski = (decimal)UCEvidencija.NumericSezonskiKoefCene.Value;
+
+                izmenjena.ProcenatAvansa = newProcenat;
+                izmenjena.SezonskiKoeficijentCene = newSezonski;
+
+                // Prioritet: ako se promenio procenat avansa, ažuriraj IznosAvansa za stavke koje nisu uplaćene
+                if (oldProcenat != newProcenat)
                 {
-                    s.Evidencija = izmenjena;
-                    s.IzracunajIznose();
-
-                    if (s.StatusStavke != StatusStavke.DODATA)
+                    // Procenat avansa promenjen -> ažuriraj samo iznos avansa za stavke
+                    foreach (StavkaEvidencije s in izmenjena.StavkeEvidencije)
                     {
-                        s.StatusStavke = StatusStavke.IZMENJENA; //ako je vec postojala u bazi mora se izmeniti
+                        s.Evidencija = izmenjena;
+
+                        // preskoči lokalno dodate stavke (one će kasnije biti ubačene sa ispravnim vrednostima)
+                        if (s.StatusStavke == StatusStavke.DODATA)
+                            continue;
+
+                        if (!s.UplacenAvans)
+                        {
+                            decimal oldIznosAv = s.IznosAvansa;
+                            decimal newIznosAv = s.IznosRezervacije * izmenjena.ProcenatAvansa;
+
+                            if (newIznosAv != oldIznosAv)
+                            {
+                                s.IznosAvansa = newIznosAv;
+                                s.StatusStavke = StatusStavke.IZMENJENA;
+                            }
+                        }
                     }
                 }
-
+                else if (oldSezonski != newSezonski)
+                {
+                    // Sezonski koef je promenjen, ali procenat avansa nije -> NE menjaj iznose postojećih stavki (zadrži istorijske vrednosti)
+                }
             }
             //otvori stavke
             //Koordinator.Instance.PromeniEvidencijaRezFrmController.StavkeEvidencijeRez();
@@ -173,7 +199,7 @@ namespace Client.GuiController
                 UCEvidencija.NumericProcenatAvansa.Value == 0
                 )
             {
-                MessageBox.Show(UCEvidencija, "Morate popuniti sve podatke.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCEvidencija, "Morate popuniti sve podatke.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             //ako vec postoji evidencija za tu smestajnu jedinicu, mesec i vlasnika
@@ -197,7 +223,7 @@ namespace Client.GuiController
 
                 if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
                 {
-                    MessageBox.Show(UCEvidencija, "Vec postoji evidencija rezervacija smestajne jedinice za izabrani period. Pokusaj ponovo!", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(UCEvidencija, "Već postoji evidencija rezervacija smeštajne jedinice za izabrani period. Pokušaj ponovo!", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
             }
@@ -207,7 +233,7 @@ namespace Client.GuiController
         internal bool ZaboraviIzmene()
         {
             DialogResult rezultat = MessageBox.Show(
-                    "Niste sacuvali izmene. \nDa li zelite da zatvorite formu?",
+                    "Niste sačuvali izmene. \nDa li želite da zatvorite formu?",
                     "Upozorenje",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);

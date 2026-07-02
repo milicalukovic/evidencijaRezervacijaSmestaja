@@ -14,10 +14,13 @@ namespace Common.Domain
         public string Prezime { get; set; }
         public string KorisnickoIme { get; set; }
         public string Lozinka { get; set; }
+        public string BrojRacuna { get; set; }
+        public string PrimalacUplate { get; set; }
 
         public string TableName => "Vlasnik";
-        public string InsertColumns => "ime, prezime, korisnickoIme, lozinka";
-        public string InsertValues => $"'{Ime}', '{Prezime}', '{KorisnickoIme}', '{Lozinka}'";
+        public string InsertColumns => "ime, prezime, korisnickoIme, lozinka, brojRacuna, primalacUplate";
+
+        public string InsertValues => $"'{Ime}', '{Prezime}', '{KorisnickoIme}', '{Lozinka}', '{BrojRacuna}', '{PrimalacUplate}'";
         public string PrimaryKeyClause => "";
         public string WhereClause { get => $" korisnickoIme = '{KorisnickoIme}' AND lozinka = '{Lozinka}'"; set { } }
         public string UpdateSetClause => "";
@@ -35,6 +38,8 @@ namespace Common.Domain
                     Prezime = reader["prezime"].ToString().Trim(),
                     KorisnickoIme = reader["korisnickoIme"].ToString().Trim(),
                     Lozinka = reader["lozinka"].ToString().Trim(),
+                    BrojRacuna = reader["brojRacuna"].ToString().Trim(),
+                    PrimalacUplate = reader["primalacUplate"].ToString().Trim(),
                 };
                 vlasnici.Add(vl);
             }

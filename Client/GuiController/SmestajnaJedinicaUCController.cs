@@ -30,6 +30,8 @@ namespace Client.GuiController
 
             UCPrikaz.CmbTipSmestaja.Visible = false;
             UCPrikaz.CmbSmestajnaJedinica.Visible = false;
+            UCPrikaz.CmbTipSmestaja.DropDownStyle = ComboBoxStyle.DropDownList;
+            UCPrikaz.CmbSmestajnaJedinica.DropDownStyle = ComboBoxStyle.DropDownList;
             PopuniTabelu(); //pravi kolone i postavlja DataSource
         }
 
@@ -62,13 +64,13 @@ namespace Client.GuiController
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "povecanjeCene",
-                HeaderText = "Povecanje cene po usluzi",
+                HeaderText = "Povećanje cene po usluzi",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "tipNaziv",
-                HeaderText = "Tip smestaja",
+                HeaderText = "Tip smeštaja",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
             });
             UCPrikaz.DgvSmestajnaJedinica.Columns.Add(new DataGridViewTextBoxColumn
@@ -186,13 +188,13 @@ namespace Client.GuiController
             {
                 SmestajnaJedinica nova = serverOdg.Result as SmestajnaJedinica;
                 Koordinator.Instance.KreiranaSJ = nova;
-                MessageBox.Show(UCPrikaz, "Sistem je kreirao smestajnu jedinicu.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(UCPrikaz, "Sistem je kreirao smeštajnu jedinicu.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Koordinator.Instance.ModeKreirajSJ = true;
                 Koordinator.Instance.OtvoriFrmSmestajnaJedinica();
             }
             else
             {
-                MessageBox.Show(UCPrikaz, "Sistem ne moze da kreira smestajnu jedinicu.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCPrikaz, "Sistem ne može da kreira smeštajnu jedinicu.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -224,7 +226,7 @@ namespace Client.GuiController
                     List<SmestajnaJedinica> lista = (List<SmestajnaJedinica>)serverOdg.Result;
                     if (!lista.IsNullOrEmpty())
                     {
-                        MessageBox.Show(UCPrikaz, "Sistem je nasao smestajne jedinice po zadatim kriterijumima.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(UCPrikaz, "Sistem je nasao smeštajne jedinice po zadatim kriterijumima.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         UCPrikaz.DgvSmestajnaJedinica.DataSource = null;
                         UCPrikaz.DgvSmestajnaJedinica.DataSource = lista;
                         return;
@@ -236,7 +238,7 @@ namespace Client.GuiController
                     }
                 }
             }
-            MessageBox.Show(UCPrikaz, "Sistem ne moze da nadje smestajne jedinice po zadatim kriterijumima.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(UCPrikaz, "Sistem ne može da nadje smeštajne jedinice po zadatim kriterijumima.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //ako je vec bila filtrirana a nije restartovana pre ovog kriterijuma
             UCPrikaz.CbSmestajnaJedinica.Checked = false;
             UCPrikaz.CbTipSmestaja.Checked = false;
@@ -258,7 +260,7 @@ namespace Client.GuiController
         {
             if(Koordinator.Instance.IzabranaSJ == null)
             {
-                MessageBox.Show(UCPrikaz, "Morate izabrati smestajnu jedinicu.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCPrikaz, "Morate izabrati smestajnu jedinicu.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Koordinator.Instance.IzabranaSJ.PretraziSJ = true;
@@ -266,12 +268,12 @@ namespace Client.GuiController
 
             if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
             {
-                MessageBox.Show(UCPrikaz, "Sistem je nasao smestajnu jedinicu.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(UCPrikaz, "Sistem je nasao smeštajnu jedinicu.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Koordinator.Instance.OtvoriFrmSmestajnaJedinica();
             }
             else
             {
-                MessageBox.Show(UCPrikaz, "Sistem ne moze da nadje smestajnu jedinicu.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCPrikaz, "Sistem ne može da nadje smeštajnu jedinicu.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Koordinator.Instance.IzabranaSJ.PretraziSJ = false;
         }

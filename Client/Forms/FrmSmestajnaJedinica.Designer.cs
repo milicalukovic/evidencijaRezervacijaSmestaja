@@ -78,7 +78,7 @@
             lblProcenatPovecanjaPoUsluzi.Name = "lblProcenatPovecanjaPoUsluzi";
             lblProcenatPovecanjaPoUsluzi.Size = new Size(146, 46);
             lblProcenatPovecanjaPoUsluzi.TabIndex = 3;
-            lblProcenatPovecanjaPoUsluzi.Text = "povecanje cene po nivou usluge";
+            lblProcenatPovecanjaPoUsluzi.Text = "povećanje cene po nivou usluge";
             lblProcenatPovecanjaPoUsluzi.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblTip
@@ -88,7 +88,7 @@
             lblTip.Name = "lblTip";
             lblTip.Size = new Size(89, 20);
             lblTip.TabIndex = 4;
-            lblTip.Text = "tip smestaja";
+            lblTip.Text = "tip smeštaja";
             // 
             // cmbTip
             // 
@@ -119,7 +119,7 @@
             btnKreirajSJ.Name = "btnKreirajSJ";
             btnKreirajSJ.Size = new Size(100, 40);
             btnKreirajSJ.TabIndex = 10;
-            btnKreirajSJ.Text = "sacuvaj";
+            btnKreirajSJ.Text = "sačuvaj";
             btnKreirajSJ.UseVisualStyleBackColor = true;
             btnKreirajSJ.Click += btnKreirajSJ_Click;
             // 
@@ -157,7 +157,7 @@
             btnObrisiSJ.Name = "btnObrisiSJ";
             btnObrisiSJ.Size = new Size(94, 40);
             btnObrisiSJ.TabIndex = 14;
-            btnObrisiSJ.Text = "obrisi";
+            btnObrisiSJ.Text = "obriši";
             btnObrisiSJ.UseVisualStyleBackColor = true;
             btnObrisiSJ.Click += btnObrisiSJ_Click;
             // 
@@ -181,7 +181,7 @@
             Controls.Add(lblNaziv);
             Name = "FrmSmestajnaJedinica";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Smestajna jedinica";
+            Text = "Smeštajna jedinica";
             FormClosing += FrmSmestajnaJedinica_FormClosing;
             ((System.ComponentModel.ISupportInitialize)numericCenaPoOsobi).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericPovecanjeCenePoUsluzi).EndInit();

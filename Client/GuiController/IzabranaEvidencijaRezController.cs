@@ -76,18 +76,19 @@ namespace Client.GuiController
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Broj osoba",
-                DataPropertyName = "BrOsoba",
-                FillWeight = 75,
-                MinimumWidth = 70
-            });
-            UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
-            {
                 Name = "vrstaUsluge",
                 HeaderText = "Vrsta usluge",
                 DataPropertyName = "VrstaUsluge",
                 FillWeight = 160,
                 MinimumWidth = 150
+            });
+            UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "brojOsoba",
+                HeaderText = "Broj usluga",
+                DataPropertyName = "BrOsoba",
+                FillWeight = 75,
+                MinimumWidth = 70
             });
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -100,7 +101,7 @@ namespace Client.GuiController
             UCEvidencija.DgvStavke.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "uplacenAvans",
-                HeaderText = "Avans uplacen",
+                HeaderText = "Avans uplaćen",
                 DataPropertyName = "UplacenAvans",
                 FillWeight = 90,
                 MinimumWidth = 90
@@ -134,6 +135,27 @@ namespace Client.GuiController
 
             string columnName = UCEvidencija.DgvStavke.Columns[e.ColumnIndex].Name;
 
+            bool zatvoreno = stavka.Korisnik?.Id == 60005;
+
+            if (zatvoreno)
+            {
+                switch (columnName)
+                {
+                    case "ImePrezimeKorisnik":
+                        e.Value = "Zatvoreno";
+                        e.FormattingApplied = true;
+                        return;
+
+                    case "brojOsoba":
+                    case "vrstaUsluge":
+                    case "iznosAvansa":
+                    case "uplacenAvans":
+                    case "iznosRezervacije":
+                        e.Value = "/";
+                        e.FormattingApplied = true;
+                        return;
+                }
+            }
             switch (columnName)
             {
                 case "ImePrezimeKorisnik":

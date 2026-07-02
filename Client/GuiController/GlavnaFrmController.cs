@@ -67,7 +67,7 @@ namespace Client.GuiController
                 return;
             if (Koordinator.Instance.ListaEvidencijaRezervacija.IsNullOrEmpty())
             {
-                MessageBox.Show(frmGlavna, "Jos uvek nemate kreirane evidencije rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(frmGlavna, "Još uvek nemate kreirane evidencije rezervacija.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Koordinator.Instance.OtvoriFrmKriterijumPretrageEvidencijaRez();
@@ -89,7 +89,7 @@ namespace Client.GuiController
                 return;
             if (Koordinator.Instance.ListaSmestajnaJedinica.IsNullOrEmpty())
             {
-                MessageBox.Show(frmGlavna, "Morate dodati bar jednu smestajnu jedinicu kako biste napravili njenu mesecnu evidenciju.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(frmGlavna, "Morate dodati bar jednu smeštajnu jedinicu kako biste napravili njenu mesečnu evidenciju.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             EvidencijaRez kreirana = new EvidencijaRez();

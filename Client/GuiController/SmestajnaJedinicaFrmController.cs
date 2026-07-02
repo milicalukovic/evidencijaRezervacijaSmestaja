@@ -47,6 +47,7 @@ namespace Client.GuiController
         private void UcitajVrstaUsluge()
         {
             Frm.CmbOsnovnaVrstaUsluge.DataSource = Enum.GetValues(typeof(VrstaUsluge));
+            Frm.CmbOsnovnaVrstaUsluge.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void UcitajTipSmestaja()
@@ -55,6 +56,7 @@ namespace Client.GuiController
             Frm.CmbTip.DataSource = lista;
             Frm.CmbTip.DisplayMember = "Naziv"; //sta se prikazuje korisniku
             Frm.CmbTip.ValueMember = "Id";      //sta je vrednost - kada se ucitava izabrana
+            Frm.CmbTip.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         internal void PromeniSmestajnaJedinica()
@@ -83,7 +85,7 @@ namespace Client.GuiController
             Odgovor serverOdg = Communication.Instance.PromeniSmestajnaJedinica(nova);
             if (serverOdg.ExceptionMessage != null)
             {
-                MessageBox.Show(Frm, "Sistem ne moze da zapamti smestajnu jedinicu.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Frm, "Sistem ne može da zapamti smeštajnu jedinicu.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (Koordinator.Instance.ModeKreirajSJ) //ako je kreirana a nije uspesno zapamcena obrisi je
                 {
                     ObrisiSmestajnaJedinica();
@@ -92,7 +94,7 @@ namespace Client.GuiController
             else
             {
                 Koordinator.Instance.SmestajnaJedinicaUCController.AzurirajTabelu();  //DODAJ JE U TABELU UC PRIKAZ
-                MessageBox.Show(Frm, "Sistem je zapamtio smestajnu jedinicu.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Frm, "Sistem je zapamtio smeštajnu jedinicu.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             //osvezi podatke
             Koordinator.Instance.IzabranaSJ = null;
@@ -106,7 +108,7 @@ namespace Client.GuiController
         {
             if(Frm.TxtNaziv.Text.Trim().IsNullOrEmpty() || (decimal)Frm.NumericCenaPoOsobi.Value == 0)
             {
-                MessageBox.Show(Frm, "Morate popuniti sva polja.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Frm, "Morate popuniti sva polja.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             //ako se dodaje nova ili azurira naziv postojece proveri da li obj sa unetim nazivom za tog vlasnika vec postoji
@@ -125,7 +127,7 @@ namespace Client.GuiController
 
                 if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
                 {
-                    MessageBox.Show(Frm, "Vec postoji sacuvana smestajna jedinica sa tim nazivom. Pokusaj ponovo!", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(Frm, "Već postoji sacuvana smeštajna jedinica sa tim nazivom. Pokušaj ponovo!", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
 
@@ -149,12 +151,12 @@ namespace Client.GuiController
 
                 if (serverOdg.ExceptionMessage != null)
                 {
-                    MessageBox.Show(Frm, "Sistem ne moze da obrise smestajnu jedinicu.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Frm, "Sistem ne može da obrise smeštajnu jedinicu.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
                     Koordinator.Instance.SmestajnaJedinicaUCController.AzurirajTabelu();  //OBRISI JE IZ TABELE UC PRIKAZ
-                    MessageBox.Show(Frm, "Sistem je obrisao smestajnu jedinicu.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(Frm, "Sistem je obrisao smeštajnu jedinicu.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 //osvezi
                 Koordinator.Instance.IzabranaSJ = null;

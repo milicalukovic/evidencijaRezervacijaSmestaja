@@ -44,7 +44,7 @@ namespace Server
                 ulogovani.Add(so.Result);
                 return so.Result;
             }
-            throw new Exception("Korisnicno ime i sifra nisu ispravni!");
+            throw new Exception("Korisničko ime i šifra nisu ispravni!");
         }
         internal void OdjaviVlasnik(Vlasnik vlasnik)
         {

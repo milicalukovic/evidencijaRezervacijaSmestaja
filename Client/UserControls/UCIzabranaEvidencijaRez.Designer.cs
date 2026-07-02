@@ -63,7 +63,7 @@
             label1.Name = "label1";
             label1.Size = new Size(138, 20);
             label1.TabIndex = 2;
-            label1.Text = "Smestajna jedinica";
+            label1.Text = "Smeštajna jedinica";
             // 
             // label2
             // 

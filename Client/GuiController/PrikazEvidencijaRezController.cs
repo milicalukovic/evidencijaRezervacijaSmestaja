@@ -51,7 +51,7 @@ namespace Client.GuiController
             UCPrikaz.DgvEvidencije.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "nazivSmestaj",
-                HeaderText = "Smestajna jedinica",
+                HeaderText = "Smeštajna jedinica",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, //zauzme tacno mesta koliko joj je potrebno
             });
             UCPrikaz.DgvEvidencije.Columns.Add(new DataGridViewTextBoxColumn
@@ -126,9 +126,11 @@ namespace Client.GuiController
                     break;
 
                 case "brojRezervacija":
+                // ne računaj obrisane ili zatvorene stavke u broju rezervacija
                     e.Value = (evidencija.StavkeEvidencije?  
                                     .Count(s =>
-                                        s.StatusStavke != StatusStavke.OBRISANA) ?? 0).ToString();
+                                        s.StatusStavke != StatusStavke.OBRISANA
+                                        && s?.Korisnik?.Id != 60005) ?? 0).ToString();
                     e.FormattingApplied = true;
                     break;
 
@@ -171,7 +173,7 @@ namespace Client.GuiController
         {
             if (Koordinator.Instance.ListaEvidencijaRezervacija.IsNullOrEmpty())
             {
-                MessageBox.Show(UCPrikaz, "Jos uvek nemate kreirane evidencije rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCPrikaz, "Još uvek nemate kreirane evidencije rezervacija.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Koordinator.Instance.OtvoriFrmKriterijumPretrageEvidencijaRez();
@@ -186,14 +188,14 @@ namespace Client.GuiController
 
             UCPrikaz.DgvEvidencije.DataSource = sortirane;
             //UCPrikaz.DgvEvidencije.DataSource = lista;
-            MessageBox.Show(UCPrikaz, "Sistem je nasao evidencije rezervacija po zadatim kriterijumima.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(UCPrikaz, "Sistem je našao evidencije rezervacija po zadatim kriterijumima.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         internal void PretraziEvidencijaRez(int rowIndex) //postavi kao izabranu
         {
             if (rowIndex < 0)
             {
-                MessageBox.Show(UCPrikaz, "Morate izabrati evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCPrikaz, "Morate izabrati evidenciju rezervacija.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else
@@ -208,13 +210,13 @@ namespace Client.GuiController
                     Odgovor serverOdg = Communication.Instance.PretraziEvidencijaRez(izabrana);
                     if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
                     {
-                        MessageBox.Show(UCPrikaz, "Sistem je nasao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(UCPrikaz, "Sistem je našao evidenciju rezervacija.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         Koordinator.Instance.GlavnaFrmController.IzabranaEvidencijaRez();
                     }
                     else
                     {
-                        MessageBox.Show(UCPrikaz, "Sistem ne moze da nadje evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(UCPrikaz, "Sistem ne može da nadje evidenciju rezervacija.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Koordinator.Instance.Evidencija = null;
                     }
                 }

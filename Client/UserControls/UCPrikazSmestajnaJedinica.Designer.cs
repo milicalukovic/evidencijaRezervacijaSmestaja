@@ -76,7 +76,7 @@
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(114, 24);
             checkBox2.TabIndex = 5;
-            checkBox2.Text = "Tip smestaja";
+            checkBox2.Text = "Tip smeštaja";
             checkBox2.UseVisualStyleBackColor = true;
             checkBox2.CheckedChanged += checkBox2_CheckedChanged;
             // 
@@ -136,7 +136,7 @@
             label2.Name = "label2";
             label2.Size = new Size(212, 25);
             label2.TabIndex = 11;
-            label2.Text = "Vase smestajne jedinice";
+            label2.Text = "Vaše smeštajne jedinice";
             // 
             // btnPretraziSJ
             // 
@@ -145,7 +145,7 @@
             btnPretraziSJ.Name = "btnPretraziSJ";
             btnPretraziSJ.Size = new Size(146, 58);
             btnPretraziSJ.TabIndex = 12;
-            btnPretraziSJ.Text = "ucitaj izabranu";
+            btnPretraziSJ.Text = "učitaj izabranu";
             btnPretraziSJ.UseVisualStyleBackColor = true;
             btnPretraziSJ.Click += btnPretraziSJ_Click;
             // 

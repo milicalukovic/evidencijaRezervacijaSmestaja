@@ -35,6 +35,7 @@ namespace Client.GuiController
             UCStavka.TxtBrTel.ReadOnly = true;
             UCStavka.TxtEmail.ReadOnly = true;
 
+            // checkbox 'Zatvori' prikazuj samo prilikom dodavanja nove stavke
             if (Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka)) //popuni podatke izabrane
             {
                 StavkaEvidencije izabrana = Koordinator.Instance.Stavka;
@@ -45,23 +46,42 @@ namespace Client.GuiController
 
                 UCStavka.NumericBrOsoba.Value = izabrana.BrOsoba;
                 UCStavka.CmbVrstaUsluge.SelectedItem = izabrana.VrstaUsluge;
-                UCStavka.MaskedTxtBrLicneKarte.Text = izabrana.Korisnik.BrLicneKarte;
+                UCStavka.TxtBrLicnogDokumenta.Text = izabrana.Korisnik.BrLicnogDokumenta;
                 UCStavka.TxtKorisnik.Text = $"{izabrana.Korisnik.Ime} {izabrana.Korisnik.Prezime}";
                 UCStavka.TxtEmail.Text = izabrana.Korisnik.Email;
                 UCStavka.TxtBrTel.Text = izabrana.Korisnik.BrTel;
                 UCStavka.CheckBoxUplacenAvans.Checked = izabrana.UplacenAvans;
 
                 //ne moze da menja korisnika
-                UCStavka.MaskedTxtBrLicneKarte.ReadOnly = true;
+                UCStavka.TxtBrLicnogDokumenta.ReadOnly = true;
                 UCStavka.BtnPretraziKorisnik.Visible = false;
+
+                UCStavka.CheckBoxZatvoreno.Visible = false;
+                UCStavka.CheckBoxZatvoreno.Checked = false;
             }
             else
             {
                 UCStavka.BtnZapamtiPodatke.Enabled = false;
+                UCStavka.CheckBoxZatvoreno.Visible = true;
+                UCStavka.CheckBoxZatvoreno.Checked = false;
             }
             UCStavka.Show();
         }
+        internal void ZatvorenoCheckBox()
+        {
+            bool zatvoreno = UCStavka.CheckBoxZatvoreno.Checked;
 
+            // onemogući unos podataka o gostu i opcije uplate/usluge kada je zatvoreno
+            UCStavka.TxtBrLicnogDokumenta.Enabled = !zatvoreno;
+            UCStavka.BtnPretraziKorisnik.Enabled = !zatvoreno;
+
+            UCStavka.CheckBoxUplacenAvans.Enabled = !zatvoreno;
+            UCStavka.CmbVrstaUsluge.Enabled = !zatvoreno;
+            UCStavka.NumericBrOsoba.Enabled = !zatvoreno;
+
+            // dozvoli čuvanje ako je zatvoreno
+            UCStavka.BtnZapamtiPodatke.Enabled = zatvoreno;
+        }
         private void PodesiDateTimePickere()
         {
             DateOnly mesecEvidencije = Koordinator.Instance.Evidencija.Mesec;
@@ -99,37 +119,37 @@ namespace Client.GuiController
 
             UCStavka.CmbVrstaUsluge.DataSource = dozvoljeneUsluge;
             UCStavka.CmbVrstaUsluge.Visible = true;
-
+            UCStavka.CmbVrstaUsluge.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         internal void PretraziKorisnik()
         {
-            if (!UCStavka.MaskedTxtBrLicneKarte.MaskCompleted)
+            if (string.IsNullOrWhiteSpace(UCStavka.TxtBrLicnogDokumenta.Text))
             {
-                MessageBox.Show("Morate uneti svih 9 cifara broja licne karte!",
-                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Morate uneti broj ličnog dokumenta!",
+                    "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             bool pronadjen = false;
             foreach (Korisnik k in Koordinator.Instance.ListaKorisnik)
             {
-                if (k.BrLicneKarte.Equals(UCStavka.MaskedTxtBrLicneKarte.Text))
+                if (k.BrLicnogDokumenta.Equals(UCStavka.TxtBrLicnogDokumenta.Text))
                 {
                     Koordinator.Instance.Korisnik = k;
                     UCStavka.TxtKorisnik.Text = $"{k.Ime} {k.Prezime}";
                     UCStavka.TxtEmail.Text = k.Email;
                     UCStavka.TxtBrTel.Text = k.BrTel;
-                    MessageBox.Show(UCStavka, "Sistem je nasao korisnika.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(UCStavka, "Sistem je našao korisnika.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     pronadjen = true;
                     UCStavka.BtnZapamtiPodatke.Enabled = true;
                     UCStavka.BtnPretraziKorisnik.Enabled = false;
-                    UCStavka.MaskedTxtBrLicneKarte.Enabled = false;
+                    UCStavka.TxtBrLicnogDokumenta.Enabled = false;
                     break;
                 }
             }
             if (!pronadjen)
             {
-                DialogResult rezultat = MessageBox.Show(UCStavka, "Sistem nije nasao korisnika.\nDa li zelite da kreirate novog korisnika?", "GRESKA", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult rezultat = MessageBox.Show(UCStavka, "Sistem nije našao korisnika.\nDa li želite da kreirate novog korisnika?", "GREŠKA", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (rezultat == DialogResult.No)
                 {
                     return;
@@ -153,7 +173,7 @@ namespace Client.GuiController
             {
                 Ime = UCStavka.TxtKorisnik.Text.Split(' ')[0],
                 Prezime = UCStavka.TxtKorisnik.Text.Split(' ')[1],
-                BrLicneKarte = UCStavka.MaskedTxtBrLicneKarte.Text,
+                BrLicnogDokumenta = UCStavka.TxtBrLicnogDokumenta.Text,
                 BrTel = string.IsNullOrWhiteSpace(UCStavka.TxtBrTel.Text)
                         ? null
                         : UCStavka.TxtBrTel.Text.Trim(),
@@ -168,7 +188,7 @@ namespace Client.GuiController
             {
                 MessageBox.Show(
                         "Sistem ne može da kreira korisnika.",
-                        "Greška",
+                        "GREŠKA",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 return;
@@ -176,8 +196,8 @@ namespace Client.GuiController
             else
             {
                 MessageBox.Show(
-                        "Sistem je dodao korisnika. Mozete uneti ostale podatke o rezervaciji! ",
-                        "USPESNO",
+                        "Sistem je dodao korisnika. Možete uneti ostale podatke o rezervaciji! ",
+                        "USPEŠNO",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 noviKorisnik = serverOdg.Result as Korisnik;
@@ -188,16 +208,16 @@ namespace Client.GuiController
                 UCStavka.TxtBrTel.ReadOnly = true;
                 UCStavka.TxtEmail.ReadOnly = true;
                 UCStavka.BtnPretraziKorisnik.Enabled = false;
-                UCStavka.MaskedTxtBrLicneKarte.Enabled = false;
+                UCStavka.TxtBrLicnogDokumenta.Enabled = false;
                 UCStavka.BtnZapamtiPodatke.Enabled = true;
             }
         }
 
         private bool ValidacijaKorisnika()
         {
-            if (!UCStavka.MaskedTxtBrLicneKarte.MaskCompleted)
+            if (string.IsNullOrWhiteSpace(UCStavka.TxtBrLicnogDokumenta.Text))
             {
-                MessageBox.Show(UCStavka, "Morate uneti ispravan broj licne karte!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCStavka, "Morate uneti ispravan broj ličnog dokumenta!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             var delovi = UCStavka.TxtKorisnik.Text
@@ -206,7 +226,7 @@ namespace Client.GuiController
 
             if (delovi.Length < 2)
             {
-                MessageBox.Show(UCStavka, "Morate uneti ime i prezime gosta!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(UCStavka, "Morate uneti ime i prezime gosta!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (!string.IsNullOrEmpty(UCStavka.TxtEmail.Text.Trim()))
@@ -214,7 +234,7 @@ namespace Client.GuiController
                 bool validEmail = MailAddress.TryCreate(UCStavka.TxtEmail.Text.Trim(), out _);
                 if (!validEmail)
                 {
-                    MessageBox.Show(UCStavka, "Email mora sadrzati @ i tacku!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(UCStavka, "Email mora sadrzati @ i tacku!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -234,7 +254,7 @@ namespace Client.GuiController
                 //Koordinator.Instance.Stavka = new StavkaEvidencije
                 stavka = new StavkaEvidencije
                 {
-                    Rb = Koordinator.Instance.Evidencija.StavkeEvidencije.Count,
+                    Rb = Koordinator.Instance.Evidencija.StavkeEvidencije.Any()? Koordinator.Instance.Evidencija.StavkeEvidencije.Max(x => x.Rb) + 1: 0,
                     Evidencija = Koordinator.Instance.Evidencija,
                     Korisnik = Koordinator.Instance.Korisnik,
 
@@ -267,6 +287,18 @@ namespace Client.GuiController
                 };
 
             }
+            // ako je korisnik označio stavku kao zatvoreno, postavi poseban status i admin korisnika
+            if (UCStavka.CheckBoxZatvoreno.Checked && !Koordinator.Instance.Stavka.Equals(Koordinator.Instance.IzmenjenaStavka))
+            {
+                stavka.StatusStavke = StatusStavke.ZATVORENA;
+                // dodeli postojećeg admin korisnika id = 6005
+                stavka.Korisnik = Koordinator.Instance.ListaKorisnik.FirstOrDefault(k => k.Id == 60005);
+                stavka.UplacenAvans = false;
+                // obezbedi da izbor usluge i broj osoba ne utiču na iznose
+                stavka.BrOsoba = 0;
+                stavka.VrstaUsluge = Koordinator.Instance.Evidencija.OsnovnaVrstaUsluge;
+            }
+
             if (!Validacija(stavka))
                 return; //OSVEZII SVE VREDNOSTI STAVKI
 
@@ -296,18 +328,21 @@ namespace Client.GuiController
         private bool Validacija(StavkaEvidencije stavka)
         {
 
-            //KAPACITET
-            if ((decimal)UCStavka.NumericBrOsoba.Value < Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MinKapacitet)
+            //KAPACITET - preskoči proveru kapaciteta za zatvorene stavke
+            if (stavka.StatusStavke != StatusStavke.ZATVORENA)
             {
-                MessageBox.Show(UCStavka, "Minimalan kapacitet za izabrani tip smestaja je " + Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MinKapacitet.ToString(),
-                    "UPOZORENJE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if ((decimal)UCStavka.NumericBrOsoba.Value > Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MaxKapacitet)
-            {
-                MessageBox.Show(UCStavka, "Maksimalan kapacitet za izabrani tip smestaja je " + Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MaxKapacitet.ToString(),
-                    "UPOZORENJE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                if ((decimal)UCStavka.NumericBrOsoba.Value < Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MinKapacitet)
+                {
+                    MessageBox.Show(UCStavka, "Minimalan kapacitet za izabrani tip smeštaja je " + Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MinKapacitet.ToString(),
+                        "UPOZORENJE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+                if ((decimal)UCStavka.NumericBrOsoba.Value > Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MaxKapacitet)
+                {
+                    MessageBox.Show(UCStavka, "Maksimalan kapacitet za izabrani tip smeštaja je " + Koordinator.Instance.Evidencija.SmestajnaJedinica.Tip.MaxKapacitet.ToString(),
+                        "UPOZORENJE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
             }
 
             //DATUMI
@@ -348,7 +383,7 @@ namespace Client.GuiController
                 }
                 else
                 {
-                    DialogResult rezultat = MessageBox.Show(UCStavka, "Evidencija smestajne jedinice za naredni mesec ne postoji. Morate je kreirati da biste uneli navedeni period boravka za rezervaciju.\nDa li zelite da kreirate tu evidenciju rezervacija?", "GRESKA", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    DialogResult rezultat = MessageBox.Show(UCStavka, "Evidencija smeštajne jedinice za naredni mesec ne postoji. Morate je kreirati da biste uneli navedeni period boravka za rezervaciju.\nDa li želite da kreirate tu evidenciju rezervacija?", "GREŠKA", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (rezultat == DialogResult.No)
                     {
                         return false;
@@ -374,13 +409,13 @@ namespace Client.GuiController
                         {
                             sledeca = odg.Result as EvidencijaRez;
                             Koordinator.Instance.EvidencijaSledecegMeseca = sledeca;
-                            MessageBox.Show(UCStavka, "Sistem je kreirao evidenciju rezervacija.", "USPESNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(UCStavka, "Sistem je kreirao evidenciju rezervacija.", "USPEŠNO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             sledeca.Nova = true;
                             return DodajUObeEvidencije(stavka);
                         }
                         else
                         {
-                            MessageBox.Show(UCStavka, "Sistem ne moze da kreira  evidenciju rezervacija.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(UCStavka, "Sistem ne može da kreira  evidenciju rezervacija.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Debug.WriteLine(odg.ExceptionMessage);
                             return false;
                         }
@@ -431,8 +466,8 @@ namespace Client.GuiController
                         bool istaStavka =
                             s.Dolazak == Koordinator.Instance.IzmenjenaStavka.Dolazak
                             && s.Odlazak == Koordinator.Instance.IzmenjenaStavka.Odlazak
-                            && s.Korisnik.BrLicneKarte ==
-                                Koordinator.Instance.IzmenjenaStavka.Korisnik.BrLicneKarte;
+                            && s.Korisnik.BrLicnogDokumenta ==
+                                Koordinator.Instance.IzmenjenaStavka.Korisnik.BrLicnogDokumenta;
 
                         if (istaStavka)
                         {
@@ -463,13 +498,13 @@ namespace Client.GuiController
                 {
                     if (s.Dolazak == Koordinator.Instance.IzmenjenaStavka.Dolazak
                             && s.Odlazak == Koordinator.Instance.IzmenjenaStavka.Odlazak
-                            && s.Korisnik.BrLicneKarte == Koordinator.Instance.IzmenjenaStavka.Korisnik.BrLicneKarte)
+                            && s.Korisnik.BrLicnogDokumenta == Koordinator.Instance.IzmenjenaStavka.Korisnik.BrLicnogDokumenta)
                     {
                         Koordinator.Instance.StavkaSledecegMeseca = s;
                         break;
                     }
                 }
-                if (Koordinator.Instance.StavkaSledecegMeseca.StatusStavke != StatusStavke.DODATA) //ako je lokalno dodata i jos nije sacuvana u bazi
+                if (Koordinator.Instance.StavkaSledecegMeseca?.StatusStavke != StatusStavke.DODATA) //ako je lokalno dodata i jos nije sacuvana u bazi
                 {
                     Koordinator.Instance.StavkaSledecegMeseca.StatusStavke =
                         StatusStavke.IZMENJENA;
@@ -544,16 +579,29 @@ namespace Client.GuiController
                     noviOdlazak > postojeca.Dolazak;   //novi kraj je posle početka stare rezervacije
                                                        //samo ako su oba true => true
 
+                bool zatvoreno = postojeca?.Korisnik?.Id == 60005;
+
                 if (preklapaSe)
                 {
-                    MessageBox.Show(
+                    if (zatvoreno)
+                    {
+                        MessageBox.Show(
+                            UCStavka,
+                            $"Izabrana smeštajna jedinica je zatvorena u periodu {postojeca.Dolazak:dd.MM.yyyy} - {postojeca.Odlazak:dd.MM.yyyy.}",
+                            "UPOZORENJE",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
                         UCStavka,
                         $"Termin se preklapa sa postojećom rezervacijom " +
-                        $"({postojeca.Dolazak:dd.MM.yyyy.} - {postojeca.Odlazak:dd.MM.yyyy.}).",
+                        $"({postojeca.Dolazak:dd.MM.yyyy} - {postojeca.Odlazak:dd.MM.yyyy.})",
                         "UPOZORENJE",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
-
+                    }
                     return false;
                 }
             }

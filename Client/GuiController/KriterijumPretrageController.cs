@@ -35,7 +35,7 @@ namespace Client.GuiController
         {
 
             Frm.CmbMesec.DataSource = Enum.GetValues(typeof(NazivMeseca));
-
+            Frm.CmbMesec.DropDownStyle = ComboBoxStyle.DropDownList;
             Frm.CmbMesec.Format += (s, ev) =>
             {
                 ev.Value = ev.ListItem.ToString();
@@ -66,16 +66,15 @@ namespace Client.GuiController
                 evidencija.SmestajnaJedinica = new SmestajnaJedinica();
                 evidencija.SmestajnaJedinica.Naziv = Frm.TxtSmestajNaziv.Text.Trim();
             }
-            if (!Frm.TxtBrLicneKarte.Text.Trim().IsNullOrEmpty())
+            if (!Frm.TxtBrLicnogDokumenta.Text.Trim().IsNullOrEmpty())
             {
                 Odgovor serverOdg = Communication.Instance.VratiListuSviKorisnik(new Korisnik());
                 if (serverOdg.ExceptionMessage == null && serverOdg.Result != null)
                 {
                     Koordinator.Instance.ListaKorisnik = (List<Korisnik>)serverOdg.Result;
                 }
-
                 Korisnik trazeniKorisnik = Koordinator.Instance.ListaKorisnik
-                                          ?.FirstOrDefault(k => k.BrLicneKarte == Frm.TxtBrLicneKarte.Text.Trim());
+                                          ?.FirstOrDefault(k => k.BrLicnogDokumenta == Frm.TxtBrLicnogDokumenta.Text.Trim());
 
                 if (trazeniKorisnik != null)
                 {
@@ -84,14 +83,14 @@ namespace Client.GuiController
                             Korisnik = new Korisnik
                             {
                                 Id = trazeniKorisnik.Id,
-                                BrLicneKarte = trazeniKorisnik.BrLicneKarte
+                                BrLicnogDokumenta = trazeniKorisnik.BrLicnogDokumenta
                             }
                             // NE postavljati Evidencija = evidencija da ne bi doslo do cikline reference
                         });
                 }
                 else
                 {
-                    MessageBox.Show(Frm, "Sistem ne moze da nadje korisnika po zadatom kriterijumu. Proverite uneti broj licne karte!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Frm, "Sistem ne može da nadje korisnika po zadatom kriterijumu. Proverite uneti broj ličnog dokumenta!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -127,7 +126,7 @@ namespace Client.GuiController
                     
                 }
             }
-            MessageBox.Show(Frm, "Sistem ne moze da nadje evidencije rezervacija po zadatim kriterijumima.", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(Frm, "Sistem ne može da nadje evidencije rezervacija po zadatim kriterijumima.", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Frm.Close();
 
         }

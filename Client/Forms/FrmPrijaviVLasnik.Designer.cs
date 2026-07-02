@@ -50,16 +50,16 @@ namespace Client
             // lblKorisnickoIme
             // 
             lblKorisnickoIme.AutoSize = true;
-            lblKorisnickoIme.Location = new Point(119, 81);
+            lblKorisnickoIme.Location = new Point(88, 81);
             lblKorisnickoIme.Name = "lblKorisnickoIme";
             lblKorisnickoIme.Size = new Size(106, 20);
             lblKorisnickoIme.TabIndex = 1;
-            lblKorisnickoIme.Text = "Korisnicko ime";
+            lblKorisnickoIme.Text = "Korisničko ime";
             // 
             // lblLozinka
             // 
             lblLozinka.AutoSize = true;
-            lblLozinka.Location = new Point(119, 133);
+            lblLozinka.Location = new Point(106, 133);
             lblLozinka.Name = "lblLozinka";
             lblLozinka.Size = new Size(59, 20);
             lblLozinka.TabIndex = 2;
@@ -67,17 +67,17 @@ namespace Client
             // 
             // txtKorisnickoIme
             // 
-            txtKorisnickoIme.Location = new Point(257, 81);
+            txtKorisnickoIme.Location = new Point(245, 81);
             txtKorisnickoIme.Name = "txtKorisnickoIme";
-            txtKorisnickoIme.Size = new Size(155, 27);
+            txtKorisnickoIme.Size = new Size(231, 27);
             txtKorisnickoIme.TabIndex = 3;
-            txtKorisnickoIme.Text = "tasa@gmail.com";
+            txtKorisnickoIme.Text = "lukovictamara13@gmail.com";
             // 
             // txtLozinka
             // 
-            txtLozinka.Location = new Point(257, 133);
+            txtLozinka.Location = new Point(245, 133);
             txtLozinka.Name = "txtLozinka";
-            txtLozinka.Size = new Size(155, 27);
+            txtLozinka.Size = new Size(231, 27);
             txtLozinka.TabIndex = 4;
             txtLozinka.Text = "tasa";
             txtLozinka.UseSystemPasswordChar = true;

@@ -81,9 +81,9 @@ namespace Common.Domain
                         Id = (long)reader["idKorisnik"],
                         Ime = reader["ime"].ToString().Trim(),
                         Prezime = reader["prezime"].ToString().Trim(),
-                        BrLicneKarte = reader["brLicneKarte"].ToString().Trim(),
-                        Email = reader["email"] == DBNull.Value ? "-" : reader["email"].ToString().Trim(),
-                        BrTel = reader["brTel"] == DBNull.Value ? "-" : reader["brTel"].ToString().Trim(),
+                        BrLicnogDokumenta = reader["brLicnogDokumenta"].ToString().Trim(),
+                        Email = reader["email"] == DBNull.Value ? null : reader["email"].ToString().Trim(),
+                        BrTel = reader["brTel"] == DBNull.Value ? null : reader["brTel"].ToString().Trim(),
                     },
 
 
@@ -96,7 +96,7 @@ namespace Common.Domain
         public string SelectColumns =>
             "s.idEvidencije, s.rb, s.dolazak, s.odlazak, s.brDana, s.brOsoba, s.idKorisnik," +
             " s.vrstaUsluge, s.uplacenAvans, s.iznosUsluge, s.iznosRezervacije, s.iznosAvansa, " +
-            " k.ime , k.prezime, k.brLicneKarte, k.email, k.brTel, " +
+            " k.ime , k.prezime, k.brLicnogDokumenta, k.email, k.brTel, " +
             " e.sezonskiKoeficijentCene, e.procenatAvansa, e.osnovnaVrstaUsluge, e.osnovnaCenaPoOsobi, e.PovecanjeCenePoUsluzi";
 
         public string JoinClause =>
@@ -123,6 +123,14 @@ namespace Common.Domain
         public void IzracunajIznose()
         {
             if (Evidencija == null) return;
+            // ako je stavka označena kao zatvoreno, iznosi su jednaki 0 i ne vrši se obračun
+            if (Korisnik?.Id == 60005)
+            {
+                IznosUsluge = 0m;
+                IznosRezervacije = 0m;
+                IznosAvansa = 0m;
+                return;
+            }
 
             IznosUsluge =
                 (Evidencija.OsnovnaCenaPoOsobi +

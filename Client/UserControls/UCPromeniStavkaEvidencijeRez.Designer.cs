@@ -31,10 +31,11 @@
             panelIznosi = new Panel();
             lblRezervacija = new Label();
             groupBoxKorisnik = new GroupBox();
+            checkBoxZatvoreno = new CheckBox();
             dtpDatumOdlaska = new DateTimePicker();
             dtpDatumDolaska = new DateTimePicker();
             groupBox1 = new GroupBox();
-            maskedTxtBrLicneKarte = new MaskedTextBox();
+            txtBrLicnogDokumenta = new TextBox();
             btnPretraziKorisnik = new Button();
             label5 = new Label();
             txtBrTel = new TextBox();
@@ -80,6 +81,7 @@
             // groupBoxKorisnik
             // 
             groupBoxKorisnik.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBoxKorisnik.Controls.Add(checkBoxZatvoreno);
             groupBoxKorisnik.Controls.Add(dtpDatumOdlaska);
             groupBoxKorisnik.Controls.Add(dtpDatumDolaska);
             groupBoxKorisnik.Controls.Add(groupBox1);
@@ -98,6 +100,17 @@
             groupBoxKorisnik.TabStop = false;
             groupBoxKorisnik.Text = "Podaci o rezervaciji";
             // 
+            // checkBoxZatvoreno
+            // 
+            checkBoxZatvoreno.AutoSize = true;
+            checkBoxZatvoreno.Location = new Point(204, 40);
+            checkBoxZatvoreno.Name = "checkBoxZatvoreno";
+            checkBoxZatvoreno.Size = new Size(78, 24);
+            checkBoxZatvoreno.TabIndex = 19;
+            checkBoxZatvoreno.Text = "Zatvori";
+            checkBoxZatvoreno.UseVisualStyleBackColor = true;
+            checkBoxZatvoreno.CheckedChanged += checkBoxZatvoreno_CheckedChanged;
+            // 
             // dtpDatumOdlaska
             // 
             dtpDatumOdlaska.Location = new Point(938, 174);
@@ -114,7 +127,7 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(maskedTxtBrLicneKarte);
+            groupBox1.Controls.Add(txtBrLicnogDokumenta);
             groupBox1.Controls.Add(btnPretraziKorisnik);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(txtBrTel);
@@ -123,51 +136,49 @@
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(txtKorisnik);
             groupBox1.Controls.Add(txtEmail);
-            groupBox1.Location = new Point(57, 57);
+            groupBox1.Location = new Point(57, 86);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(635, 350);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "Podaci o gostu";
             // 
-            // maskedTxtBrLicneKarte
+            // txtBrLicnogDokumenta
             // 
-            maskedTxtBrLicneKarte.Location = new Point(275, 66);
-            maskedTxtBrLicneKarte.Mask = "000000000";
-            maskedTxtBrLicneKarte.Name = "maskedTxtBrLicneKarte";
-            maskedTxtBrLicneKarte.Size = new Size(134, 27);
-            maskedTxtBrLicneKarte.TabIndex = 2;
-            maskedTxtBrLicneKarte.TextAlign = HorizontalAlignment.Center;
+            txtBrLicnogDokumenta.Location = new Point(275, 106);
+            txtBrLicnogDokumenta.Name = "txtBrLicnogDokumenta";
+            txtBrLicnogDokumenta.Size = new Size(254, 27);
+            txtBrLicnogDokumenta.TabIndex = 2;
             // 
             // btnPretraziKorisnik
             // 
-            btnPretraziKorisnik.Location = new Point(435, 65);
+            btnPretraziKorisnik.Location = new Point(510, 42);
             btnPretraziKorisnik.Name = "btnPretraziKorisnik";
             btnPretraziKorisnik.Size = new Size(94, 29);
             btnPretraziKorisnik.TabIndex = 10;
-            btnPretraziKorisnik.Text = "Pretrazi";
+            btnPretraziKorisnik.Text = "Pretraži";
             btnPretraziKorisnik.UseVisualStyleBackColor = true;
             btnPretraziKorisnik.Click += btnPretraziKorisnik_Click;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(100, 69);
+            label5.Location = new Point(48, 109);
             label5.Name = "label5";
-            label5.Size = new Size(148, 20);
+            label5.Size = new Size(200, 20);
             label5.TabIndex = 0;
-            label5.Text = "Unesi broj licne karte";
+            label5.Text = "Unesi broj ličnog dokumenta";
             // 
             // txtBrTel
             // 
-            txtBrTel.Location = new Point(275, 263);
+            txtBrTel.Location = new Point(275, 287);
             txtBrTel.Name = "txtBrTel";
             txtBrTel.Size = new Size(254, 27);
             txtBrTel.TabIndex = 9;
             // 
             // label6
             // 
-            label6.Location = new Point(100, 142);
+            label6.Location = new Point(77, 169);
             label6.Name = "label6";
             label6.Size = new Size(148, 24);
             label6.TabIndex = 4;
@@ -176,7 +187,7 @@
             // 
             // label7
             // 
-            label7.Location = new Point(100, 207);
+            label7.Location = new Point(77, 231);
             label7.Name = "label7";
             label7.Size = new Size(148, 24);
             label7.TabIndex = 5;
@@ -185,7 +196,7 @@
             // 
             // label8
             // 
-            label8.Location = new Point(100, 264);
+            label8.Location = new Point(77, 288);
             label8.Name = "label8";
             label8.Size = new Size(148, 24);
             label8.TabIndex = 6;
@@ -194,14 +205,14 @@
             // 
             // txtKorisnik
             // 
-            txtKorisnik.Location = new Point(275, 141);
+            txtKorisnik.Location = new Point(275, 168);
             txtKorisnik.Name = "txtKorisnik";
             txtKorisnik.Size = new Size(254, 27);
             txtKorisnik.TabIndex = 7;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(275, 206);
+            txtEmail.Location = new Point(275, 230);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(254, 27);
             txtEmail.TabIndex = 8;
@@ -223,7 +234,7 @@
             checkBoxUplacenAvans.Name = "checkBoxUplacenAvans";
             checkBoxUplacenAvans.Size = new Size(124, 24);
             checkBoxUplacenAvans.TabIndex = 8;
-            checkBoxUplacenAvans.Text = "uplacen avans";
+            checkBoxUplacenAvans.Text = "uplaćen avans";
             checkBoxUplacenAvans.UseVisualStyleBackColor = true;
             // 
             // numericBrOsoba
@@ -232,7 +243,6 @@
             numericBrOsoba.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
             numericBrOsoba.Location = new Point(938, 285);
             numericBrOsoba.Maximum = new decimal(new int[] { 99, 0, 0, 0 });
-            numericBrOsoba.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericBrOsoba.Name = "numericBrOsoba";
             numericBrOsoba.Size = new Size(61, 27);
             numericBrOsoba.TabIndex = 10;
@@ -318,7 +328,7 @@
         private Label lblRezervacija;
         private GroupBox groupBoxKorisnik;
         private GroupBox groupBox1;
-        private MaskedTextBox maskedTxtBrLicneKarte;
+        private TextBox txtBrLicnogDokumenta;
         private Button btnPretraziKorisnik;
         private Label label5;
         private TextBox txtBrTel;
@@ -338,13 +348,15 @@
         private Button btnOdustani;
         private DateTimePicker dtpDatumOdlaska;
         private DateTimePicker dtpDatumDolaska;
+        private CheckBox checkBoxZatvoreno;
 
         public Label LblRezervacija { get => lblRezervacija; set => lblRezervacija = value; }
         public Panel PanelIznosi { get => panelIznosi; set => panelIznosi = value; }
+        public CheckBox CheckBoxZatvoreno { get => checkBoxZatvoreno; set => checkBoxZatvoreno = value; }
         public CheckBox CheckBoxUplacenAvans { get => checkBoxUplacenAvans; set => checkBoxUplacenAvans = value; }
         public ComboBox CmbVrstaUsluge { get => cmbVrstaUsluge; set => cmbVrstaUsluge = value; }
         public NumericUpDown NumericBrOsoba { get => numericBrOsoba; set => numericBrOsoba = value; }
-        public MaskedTextBox MaskedTxtBrLicneKarte { get => maskedTxtBrLicneKarte; set => maskedTxtBrLicneKarte = value; }
+        public TextBox TxtBrLicnogDokumenta { get => txtBrLicnogDokumenta; set => txtBrLicnogDokumenta = value; }
         public TextBox TxtKorisnik { get => txtKorisnik; set => txtKorisnik = value; }
         public TextBox TxtEmail { get => txtEmail; set => txtEmail = value; }
         public TextBox TxtBrTel { get => txtBrTel; set => txtBrTel = value; }

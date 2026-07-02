@@ -56,7 +56,7 @@
             label1.Name = "label1";
             label1.Size = new Size(210, 25);
             label1.TabIndex = 2;
-            label1.Text = "Vase mesecne evidecije";
+            label1.Text = "Vaše mesečne evidecije";
             // 
             // btnUnesiKriterijumPretrage
             // 
@@ -65,7 +65,7 @@
             btnUnesiKriterijumPretrage.Name = "btnUnesiKriterijumPretrage";
             btnUnesiKriterijumPretrage.Size = new Size(180, 38);
             btnUnesiKriterijumPretrage.TabIndex = 3;
-            btnUnesiKriterijumPretrage.Text = "Pretrazi evidencije";
+            btnUnesiKriterijumPretrage.Text = "Pretraži evidencije";
             btnUnesiKriterijumPretrage.UseVisualStyleBackColor = true;
             btnUnesiKriterijumPretrage.Click += btnUnesiKriterijumPretrage_Click;
             // 

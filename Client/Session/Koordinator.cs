@@ -153,13 +153,13 @@ namespace Client.Session
             ProveraRaspolozivostiController = new ProveraRaspolozivostiController(UCProveraRaspolozivosti);
         }
 
-        public UCMesecniKalendar UCMesecniKalendar { get; set; }
-        public MesecniKalendarController MesecniKalendarController { get; set; }
+        //public UCMesecniKalendar UCMesecniKalendar { get; set; }
+        //public MesecniKalendarController MesecniKalendarController { get; set; }
 
-        internal void InicijalizujUCMesecniKalendar()
-        {
-            UCMesecniKalendar = new UCMesecniKalendar();
-            MesecniKalendarController = new MesecniKalendarController(UCMesecniKalendar);
-        }
+        //internal void InicijalizujUCMesecniKalendar()
+        //{
+        //    UCMesecniKalendar = new UCMesecniKalendar();
+        //    MesecniKalendarController = new MesecniKalendarController(UCMesecniKalendar);
+        //}
     }
 }

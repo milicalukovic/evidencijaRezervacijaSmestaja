@@ -79,7 +79,7 @@
             btnObrisiStavka.Name = "btnObrisiStavka";
             btnObrisiStavka.Size = new Size(154, 53);
             btnObrisiStavka.TabIndex = 3;
-            btnObrisiStavka.Text = "Obrisi rezervaciju";
+            btnObrisiStavka.Text = "Obriši rezervaciju";
             btnObrisiStavka.UseVisualStyleBackColor = true;
             btnObrisiStavka.Click += btnObrisiStavka_Click;
             // 
@@ -99,7 +99,7 @@
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(172, 53);
             btnPromeniEvidencijaRez.TabIndex = 5;
-            btnPromeniEvidencijaRez.Text = "Sacuvaj evidenciju";
+            btnPromeniEvidencijaRez.Text = "Sačuvaj evidenciju";
             btnPromeniEvidencijaRez.UseVisualStyleBackColor = true;
             btnPromeniEvidencijaRez.Click += btnPromeniEvidencijaRez_Click;
             // 

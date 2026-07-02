@@ -112,6 +112,16 @@ namespace Common.Domain
             return Naziv;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is SmestajnaJedinica jedinica &&
+                   Id == jedinica.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id);
+        }
     }
     
 }

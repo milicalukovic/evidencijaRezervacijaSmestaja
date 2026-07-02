@@ -11,6 +11,7 @@ namespace Common.Domain.Enums
             BEZ,
             DODATA,
             IZMENJENA,
-            OBRISANA
+            OBRISANA,
+            ZATVORENA
     }
 }

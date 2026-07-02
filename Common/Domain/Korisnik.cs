@@ -12,13 +12,14 @@ namespace Common.Domain
         public long Id { get; set; }
         public string Ime { get; set; }
         public string Prezime { get; set; }
-        public string BrLicneKarte { get; set; }
+        public string BrLicnogDokumenta { get; set; }
         public string Email { get; set; }
         public string BrTel { get; set; }
 
         public string TableName => "Korisnik";
-        public string InsertColumns => "ime, prezime, brLicneKarte, email, brTel";
-        public string InsertValues => $"'{Ime}', '{Prezime}', '{BrLicneKarte}', '{Email}', '{BrTel}'";
+        public string InsertColumns => "ime, prezime, brLicnogDokumenta, email, brTel";
+        // InsertColumns name updated to brLicnogDokumenta to match DB column rename
+        public string InsertValues => $"'{Ime}', '{Prezime}', '{BrLicnogDokumenta}', '{Email}', '{BrTel}'";
         public string PrimaryKeyClause => $"id = {Id}";
         public string WhereClause { get;  set ; }
         public string UpdateSetClause => "";
@@ -35,9 +36,9 @@ namespace Common.Domain
                     Id = (long)reader["id"],
                     Ime = reader["ime"].ToString().Trim(),
                     Prezime = reader["prezime"].ToString().Trim(),
-                    BrLicneKarte = reader["brLicneKarte"].ToString().Trim(),
-                    Email = reader["email"] == DBNull.Value ? "-": reader["email"].ToString().Trim(),
-                    BrTel = reader["brTel"] == DBNull.Value ? "-" : reader["brTel"].ToString().Trim(),
+                    BrLicnogDokumenta = reader["brLicnogDokumenta"].ToString().Trim(),
+                    Email = reader["email"] == DBNull.Value ? null : reader["email"].ToString().Trim(),
+                    BrTel = reader["brTel"] == DBNull.Value ? null : reader["brTel"].ToString().Trim(),
                 };
                 korisnici.Add(korisnik);
             }

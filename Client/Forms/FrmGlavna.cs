@@ -63,5 +63,6 @@ namespace Client.Forms
         {
             Koordinator.Instance.GlavnaFrmController.ProveraRaspolozivosti();
         }
+
     }
 }

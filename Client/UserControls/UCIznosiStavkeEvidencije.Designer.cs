@@ -109,7 +109,7 @@
             btnPromeniEvidencijaRez.Name = "btnPromeniEvidencijaRez";
             btnPromeniEvidencijaRez.Size = new Size(151, 35);
             btnPromeniEvidencijaRez.TabIndex = 13;
-            btnPromeniEvidencijaRez.Text = "Sacuvaj rezervaciju";
+            btnPromeniEvidencijaRez.Text = "Sačuvaj rezervaciju";
             btnPromeniEvidencijaRez.UseVisualStyleBackColor = true;
             btnPromeniEvidencijaRez.Click += btnPromeniEvidencijaRez_Click;
             // 

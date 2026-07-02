@@ -169,7 +169,7 @@
             groupBox1.Size = new Size(1306, 371);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Smestajna jedinica";
+            groupBox1.Text = "Smeštajna jedinica";
             // 
             // txtMaxKapacitet
             // 
@@ -247,7 +247,7 @@
             lblTip.Name = "lblTip";
             lblTip.Size = new Size(89, 20);
             lblTip.TabIndex = 7;
-            lblTip.Text = "tip smestaja";
+            lblTip.Text = "tip smeštaja";
             // 
             // lblProcenatPovecanjaPoUsluzi
             // 
@@ -257,7 +257,7 @@
             lblProcenatPovecanjaPoUsluzi.Name = "lblProcenatPovecanjaPoUsluzi";
             lblProcenatPovecanjaPoUsluzi.Size = new Size(221, 20);
             lblProcenatPovecanjaPoUsluzi.TabIndex = 6;
-            lblProcenatPovecanjaPoUsluzi.Text = "povecanje cene po nivou usluge";
+            lblProcenatPovecanjaPoUsluzi.Text = "povećanje cene po nivou usluge";
             lblProcenatPovecanjaPoUsluzi.TextAlign = ContentAlignment.TopCenter;
             // 
             // lblCenaPoOsobi

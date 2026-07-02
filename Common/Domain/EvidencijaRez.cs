@@ -32,6 +32,7 @@ namespace Common.Domain
                                             s.StatusStavke != StatusStavke.OBRISANA)
                                         .Sum(s => s.IznosRezervacije) ?? 0;
         public bool Validacija { get; set; } //za pretragu - proveru da li vec postoji
+        public DateOnly OdMeseca { get; set; }
         public Vlasnik Vlasnik { get; set; } = new Vlasnik();
         public SmestajnaJedinica SmestajnaJedinica { get; set; } = new SmestajnaJedinica();
         public List<StavkaEvidencije> StavkeEvidencije { get; set; } = new List<StavkaEvidencije>();
@@ -72,10 +73,17 @@ namespace Common.Domain
                 {
                     var stavka = StavkeEvidencije.First();
 
-                    if (stavka.Korisnik != null && !string.IsNullOrEmpty(stavka.Korisnik.BrLicneKarte))
+                    if (stavka.Korisnik != null && !string.IsNullOrEmpty(stavka.Korisnik.BrLicnogDokumenta))
                     {
-                        uslovi += $" AND k.brLicneKarte = '{stavka.Korisnik.BrLicneKarte}' ";
+                        uslovi += $" AND k.brLicnogDokumenta = '{stavka.Korisnik.BrLicnogDokumenta}' ";
                     }
+                }
+                //provera raspolozivosti
+                if (OdMeseca != default)
+                {
+                    uslovi +=
+                        $" AND e.mesec >= '{OdMeseca:yyyy-MM-dd}' " +
+                        $" AND e.mesec <= '{OdMeseca.AddMonths(12):yyyy-MM-dd}' ";
                 }
                 //izabrana 
                 if (Id != 0) 
@@ -118,6 +126,8 @@ namespace Common.Domain
                         Prezime = reader["prezime"].ToString().Trim(),
                         KorisnickoIme = reader["korisnickoIme"].ToString().Trim(),
                         Lozinka = reader["lozinka"].ToString().Trim(),
+                        BrojRacuna = reader["brojRacuna"] != DBNull.Value ? reader["brojRacuna"].ToString().Trim() : string.Empty,
+                        PrimalacUplate = reader["primalacUplate"] != DBNull.Value ? reader["primalacUplate"].ToString().Trim() : string.Empty,
                     },
                     SmestajnaJedinica = new SmestajnaJedinica
                     {
@@ -147,7 +157,7 @@ namespace Common.Domain
         public string SelectColumns =>
             " distinct e.id AS idEvidencije, e.mesec, e.sezonskiKoeficijentCene, e.procenatAvansa, " +
             "e.osnovnaCenaPoOsobi, e.osnovnaVrstaUsluge, e.povecanjeCenePoUsluzi, " +
-            "v.id AS idVlasnik, v.ime AS ime, v.prezime AS prezime, v.korisnickoIme AS korisnickoIme, v.lozinka AS lozinka, " +
+            "v.id AS idVlasnik, v.ime AS ime, v.prezime AS prezime, v.korisnickoIme AS korisnickoIme, v.lozinka AS lozinka, v.brojRacuna AS brojRacuna, v.primalacUplate AS primalacUplate, " +
             "sj.id AS idSmestajnaJedinica, sj.naziv AS smestajNaziv, sj.cenaPoOsobi AS smestajCenaPoOsobi, sj.osnovnaVrstaUsluge AS smestajOsnovnaVrstaUsluge, " +
             "sj.povecanjeCenePoUsluzi AS smestajPovecanjeCenePoUsluzi, ts.id AS idTip, ts.naziv AS nazivTip, ts.minKapacitet AS minKapacitet, ts.maxKapacitet AS maxKapacitet";
 

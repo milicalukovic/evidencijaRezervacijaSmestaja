@@ -37,7 +37,7 @@
             numericGodina = new NumericUpDown();
             label6 = new Label();
             txtSmestajNaziv = new TextBox();
-            txtBrLicneKarte = new TextBox();
+            txtBrLicnogDokumenta = new TextBox();
             label7 = new Label();
             cmbMesec = new ComboBox();
             checkBox = new CheckBox();
@@ -82,7 +82,7 @@
             label4.Name = "label4";
             label4.Size = new Size(216, 25);
             label4.TabIndex = 3;
-            label4.Text = "Naziv smestajne jedinice";
+            label4.Text = "Naziv smeštajne jedinice";
             // 
             // label5
             // 
@@ -90,9 +90,9 @@
             label5.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 238);
             label5.Location = new Point(118, 267);
             label5.Name = "label5";
-            label5.Size = new Size(241, 25);
+            label5.Size = new Size(342, 25);
             label5.TabIndex = 4;
-            label5.Text = "Licna karta korisnika usluge";
+            label5.Text = "Broj ličnog dokumenta korisnika usluge";
             // 
             // btnPretraziEvidencijeRez
             // 
@@ -101,7 +101,7 @@
             btnPretraziEvidencijeRez.Name = "btnPretraziEvidencijeRez";
             btnPretraziEvidencijeRez.Size = new Size(161, 61);
             btnPretraziEvidencijeRez.TabIndex = 5;
-            btnPretraziEvidencijeRez.Text = "pretrazi evidencije";
+            btnPretraziEvidencijeRez.Text = "pretraži evidencije";
             btnPretraziEvidencijeRez.UseVisualStyleBackColor = true;
             btnPretraziEvidencijeRez.Click += btnPretraziEvidencijeRez_Click;
             // 
@@ -132,12 +132,12 @@
             txtSmestajNaziv.Size = new Size(287, 27);
             txtSmestajNaziv.TabIndex = 9;
             // 
-            // txtBrLicneKarte
+            // txtBrLicnogDokumenta
             // 
-            txtBrLicneKarte.Location = new Point(396, 265);
-            txtBrLicneKarte.Name = "txtBrLicneKarte";
-            txtBrLicneKarte.Size = new Size(287, 27);
-            txtBrLicneKarte.TabIndex = 10;
+            txtBrLicnogDokumenta.Location = new Point(396, 265);
+            txtBrLicnogDokumenta.Name = "txtBrLicnogDokumenta";
+            txtBrLicnogDokumenta.Size = new Size(287, 27);
+            txtBrLicnogDokumenta.TabIndex = 10;
             // 
             // label7
             // 
@@ -176,7 +176,7 @@
             Controls.Add(checkBox);
             Controls.Add(cmbMesec);
             Controls.Add(label7);
-            Controls.Add(txtBrLicneKarte);
+            Controls.Add(txtBrLicnogDokumenta);
             Controls.Add(txtSmestajNaziv);
             Controls.Add(label6);
             Controls.Add(numericGodina);
@@ -205,7 +205,7 @@
         private NumericUpDown numericGodina;
         private Label label6;
         private TextBox txtSmestajNaziv;
-        private TextBox txtBrLicneKarte;
+        private TextBox txtBrLicnogDokumenta;
         private Label label7;
         private ComboBox cmbMesec;
         private CheckBox checkBox;
@@ -214,6 +214,6 @@
         public ComboBox CmbMesec { get => cmbMesec; set => cmbMesec = value;  }
         public NumericUpDown NumericGodina { get => numericGodina; set => numericGodina = value; }
         public TextBox TxtSmestajNaziv { get => txtSmestajNaziv; set => txtSmestajNaziv = value; }
-        public TextBox TxtBrLicneKarte { get => txtBrLicneKarte; set => txtBrLicneKarte = value; }
+        public TextBox TxtBrLicnogDokumenta { get => txtBrLicnogDokumenta; set => txtBrLicnogDokumenta = value; }
     }
 }

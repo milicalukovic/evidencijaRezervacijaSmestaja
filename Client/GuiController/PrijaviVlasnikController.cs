@@ -40,7 +40,7 @@ namespace Client.GuiController
                 {
 
                     Koordinator.Instance.UlogovaniVlasnik = (Vlasnik)response.Result;
-                    MessageBox.Show(frmPrijaviVlasnik, "Korisnicko ime i sifra su ispravni!", "USPESNA PRIJAVA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(frmPrijaviVlasnik, "Korisničko ime i šifra su ispravni!", "USPEŠNA PRIJAVA", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     frmPrijaviVlasnik.DialogResult = DialogResult.OK;
                     frmPrijaviVlasnik.Close();
@@ -49,20 +49,20 @@ namespace Client.GuiController
                 }
                 else //nema zaposlenog u bazi, desila se neka greska
                 {
-                    MessageBox.Show(frmPrijaviVlasnik, response.ExceptionMessage, "GRESKA",
+                    MessageBox.Show(frmPrijaviVlasnik, response.ExceptionMessage, "GREŠKA",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (SocketException e)
             {
 
-                MessageBox.Show(frmPrijaviVlasnik, "Nije moguce uspostaviti konekciju sa serverom: " + e.Message,
+                MessageBox.Show(frmPrijaviVlasnik, "Nije moguće uspostaviti konekciju sa serverom: " + e.Message,
                                          "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
 
-                MessageBox.Show(frmPrijaviVlasnik, "Ne moze da se otvori glavna forma i meni!",
+                MessageBox.Show(frmPrijaviVlasnik, "Ne može da se otvori glavna forma i meni!",
                                             "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
@@ -75,14 +75,14 @@ namespace Client.GuiController
             if (string.IsNullOrEmpty(frmPrijaviVlasnik.TxtKorisnickoIme.Text.Trim()) ||
                string.IsNullOrEmpty(frmPrijaviVlasnik.TxtLozinka.Text.Trim()))
             {
-                MessageBox.Show(frmPrijaviVlasnik, "Popunite sva polja!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(frmPrijaviVlasnik, "Popunite sva polja!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             bool validEmail = MailAddress.TryCreate(frmPrijaviVlasnik.TxtKorisnickoIme.Text.Trim(), out _);
             if (!validEmail)
             {
-                MessageBox.Show(frmPrijaviVlasnik, "Korisničko ime nije validno!", "GRESKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(frmPrijaviVlasnik, "Korisničko ime nije validno!", "GREŠKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 frmPrijaviVlasnik.TxtKorisnickoIme.BackColor = Color.Red;
                 return false;
             }
