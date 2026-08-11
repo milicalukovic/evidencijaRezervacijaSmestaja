@@ -30,28 +30,28 @@ namespace Server
             Debug.WriteLine("Server pokrenut");
             socket.Listen(); //osluskujemo mrezu
 
-            Thread nitServera = new Thread(AcceptClient);
+            Thread nitServera = new Thread(AcceptClients);
             nitServera.Start();
         }
 
         private object _lock = new object(); //sinhronizacija niti, ako je jedna nit obrade zahteva usla u removeClient nijedna druga nit nece uci dok ona ne zavrsi
 
-        private void AcceptClient() //prihvatamo klijente 
+        private void AcceptClients() //prihvatamo klijente 
         {
             try
             {
                 while (true)
                 {
-                    Socket klijentskiSoket = socket.Accept(); // klijent poslao zahtev
+                    Socket klijentskiSoket = socket.Accept();                                               // klijent poslao zahtev
                     Debug.WriteLine("Klijent se povezao!");
-                    ClientHandler handler = new ClientHandler(klijentskiSoket, this); //prosledjujemo Client Handleru konkretnog klijenta koji se povezao i pokazivac na servera
+                    ClientHandler handler = new ClientHandler(klijentskiSoket, this);                                    //prosledjujemo Client Handleru konkretnog klijenta koji se povezao i pokazivac na servera
                     lock (_lock)
                     {
                         handlers.Add(handler);
                     }
 
 
-                    //napraviti nit za svakog handlera da se zahtevi obradjuju na posebnim nitima
+                                                                                                                             //napraviti nit za svakog handlera da se zahtevi obradjuju na posebnim nitima
                     Thread obradaZahteva = new Thread(handler.HandleRequest);
                     obradaZahteva.Start();
                 }

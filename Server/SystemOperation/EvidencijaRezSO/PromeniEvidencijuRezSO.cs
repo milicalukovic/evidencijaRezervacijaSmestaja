@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.EvidencijaRezSO
 {
-    internal class PromeniEvidencijaRezSO : SystemOperationBase
+    internal class PromeniEvidencijuRezSO : SystemOperationBase
     {
         private EvidencijaRez e;
-        public PromeniEvidencijaRezSO (EvidencijaRez e)
+        public PromeniEvidencijuRezSO (EvidencijaRez e)
         {
             this.e = e;
         }

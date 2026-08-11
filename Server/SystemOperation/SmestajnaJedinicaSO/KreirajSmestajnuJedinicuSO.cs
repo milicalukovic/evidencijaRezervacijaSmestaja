@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.SmestajnaJedinicaSO
 {
-    internal class PromeniSmestajnaJedinicaSO : SystemOperationBase
+    public class KreirajSmestajnuJedinicuSO : SystemOperationBase
     {
         private SmestajnaJedinica sj;
-        public PromeniSmestajnaJedinicaSO(SmestajnaJedinica sj)
+        public SmestajnaJedinica Result { get; set; }
+        public KreirajSmestajnuJedinicuSO(SmestajnaJedinica sj) 
         {
-            this.sj = sj; 
+            this.sj = sj;
         }
-
         protected override void ExecuteConcreteOperation()
         {
-            repository.Update(sj);
+            long id = repository.InsertIntoOutput(sj);
+            Result = sj;
+            Result.Id = id;
         }
     }
 }

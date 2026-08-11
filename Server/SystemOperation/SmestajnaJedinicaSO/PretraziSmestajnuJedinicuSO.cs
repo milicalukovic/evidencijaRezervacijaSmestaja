@@ -1,5 +1,4 @@
 ﻿using Common.Domain;
-using Server.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +7,18 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.SmestajnaJedinicaSO
 {
-    internal class ObrisiSmestajnaJedinicaSO : SystemOperationBase
+    internal class PretraziSmestajnuJedinicuSO : SystemOperationBase
     {
         private SmestajnaJedinica sj;
-        public ObrisiSmestajnaJedinicaSO(SmestajnaJedinica sj)
+        public SmestajnaJedinica Result;
+        public PretraziSmestajnuJedinicuSO(SmestajnaJedinica sj)
         {
             this.sj = sj;
         }
-
         protected override void ExecuteConcreteOperation()
         {
-            repository.Delete(sj);
+            List<SmestajnaJedinica> lista = repository.GetAllByCondition(sj).Cast<SmestajnaJedinica>().ToList();
+            Result = lista.FirstOrDefault();
         }
     }
 }

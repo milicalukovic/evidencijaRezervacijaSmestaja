@@ -1,5 +1,4 @@
 ﻿using Common.Domain;
-using Server.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +7,19 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.EvidencijaRezSO
 {
-    internal class UkloniEvidencijaRezSO : SystemOperationBase
+    internal class KreirajEvidencijuRezSO : SystemOperationBase
     {
         private EvidencijaRez e;
-        public UkloniEvidencijaRezSO(EvidencijaRez e)
+        public EvidencijaRez Result { get; set; }
+        public KreirajEvidencijuRezSO(EvidencijaRez e)
         {
             this.e = e;
         }
-
         protected override void ExecuteConcreteOperation()
         {
-            repository.Delete(e);
+            long id = repository.InsertIntoOutput(e);
+            Result = e;
+            Result.Id = id;
         }
     }
 }

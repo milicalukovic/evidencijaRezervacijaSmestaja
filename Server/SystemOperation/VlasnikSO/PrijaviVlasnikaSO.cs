@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.VlasnikSO
 {
-    public class PrijaviVlasnikSO : SystemOperationBase
+    public class PrijaviVlasnikaSO : SystemOperationBase
     {
         private readonly Vlasnik vl;
         public Vlasnik Result { get; set; }
-        public PrijaviVlasnikSO(Vlasnik vl) 
+        public PrijaviVlasnikaSO(Vlasnik vl) 
         { 
             this.vl = vl;
         }

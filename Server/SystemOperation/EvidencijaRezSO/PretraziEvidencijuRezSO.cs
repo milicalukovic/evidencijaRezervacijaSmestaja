@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.EvidencijaRezSO
 {
-    internal class PretraziEvidencijaRezSO : SystemOperationBase
+    internal class PretraziEvidencijuRezSO : SystemOperationBase
     {
         private EvidencijaRez e;
         public EvidencijaRez Result { get; set; }
-        public PretraziEvidencijaRezSO(EvidencijaRez e)
+        public PretraziEvidencijuRezSO(EvidencijaRez e)
         {
             this.e = e;
         }

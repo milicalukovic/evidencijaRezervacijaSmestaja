@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Server.SystemOperation.KorisnikSO
 {
-    internal class DodajKorisnikSO : SystemOperationBase
+    internal class DodajKorisnikaSO : SystemOperationBase
     {
         private Korisnik k;
         public Korisnik Result { get; set; }
-        public DodajKorisnikSO(Korisnik k)
+        public DodajKorisnikaSO(Korisnik k)
         {
             this.k = k;
         }
